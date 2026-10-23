@@ -1,6 +1,6 @@
 # Старт за 10 минут
 
-Онлайн: презентация — <https://pirajoke.github.io/abbas-ai-fastfood/>, инструкция — <https://pirajoke.github.io/abbas-ai-fastfood/instructions.html>, навыки — <https://github.com/pirajoke/abbas-ai-fastfood/tree/gh-pages/skills>.
+Онлайн: презентация — <https://claude.ai/artifact/Qr8XyLpiryfV4ceeuHmqEV>, инструкция — <https://claude.ai/artifact/V7NdBba3UNB4zZNjYxQk7e>, навыки — <https://github.com/pirajoke/abbas-ai-fastfood/tree/gh-pages/skills>.
 
 Это самый короткий путь: от «никогда не пользовался AI» до первого полезного результата для заведения. Подробности — в `GUIDE.md`.
 

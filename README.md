@@ -12,8 +12,8 @@
 
 | Что | Ссылка |
 |---|---|
-| Презентация | <https://pirajoke.github.io/abbas-ai-fastfood/> |
-| Пошаговая инструкция | <https://pirajoke.github.io/abbas-ai-fastfood/instructions.html> |
+| Презентация | <https://claude.ai/artifact/Qr8XyLpiryfV4ceeuHmqEV> |
+| Пошаговая инструкция | <https://claude.ai/artifact/V7NdBba3UNB4zZNjYxQk7e> |
 | Репозиторий | <https://github.com/pirajoke/abbas-ai-fastfood> |
 | Навыки (skills) | <https://github.com/pirajoke/abbas-ai-fastfood/tree/gh-pages/skills> |
 | Всё для нейросети одним файлом | <https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/for-gemini/AI_KIT_ABBAS.md> |
