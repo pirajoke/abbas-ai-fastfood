@@ -113,6 +113,8 @@ b,strong{font-weight:600;color:var(--fg)}
 .rail li span{display:block;font:600 13px/1 var(--f-display);letter-spacing:.15em;text-transform:uppercase;color:var(--fg-3);margin-bottom:8px}
 .rail li span::before{content:"0" counter(rail) "  ";color:var(--em)}
 .rail li b{display:block;font:500 18px/1.3 var(--f-body);color:var(--fg)}
+.rail li b a{color:inherit;text-decoration:underline;text-decoration-color:var(--em);text-underline-offset:4px;text-decoration-thickness:2px}
+.rail li b a:hover{color:var(--em)}
 .rail li.chk{border-top-color:var(--amber)}
 .rail li.chk span{color:var(--amber)}
 .paper .rail li.chk{border-top-color:#B9811A}
@@ -324,6 +326,7 @@ html:not(.reflow) .s-limits .h1{font-size:84px}
 .steps{margin-top:38px;counter-reset:st}
 .steps li{display:grid;grid-template-columns:52px 1fr;gap:18px;padding:15px 0;border-bottom:1px solid var(--ln);counter-increment:st}
 .steps li::before{content:counter(st);width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--em);font:700 18px/1 var(--f-display)}
+.steps a.inl{color:var(--em);text-underline-offset:3px}
 .steps strong{display:block;font:650 23px/1.15 var(--f-display);letter-spacing:-.01em}
 .steps span{display:block;margin-top:4px;font-size:18px;line-height:1.4;color:var(--fg-2)}
 .s-file .check-note{margin-top:26px}
@@ -345,6 +348,8 @@ html:not(.reflow) .s-limits .h1{font-size:84px}
 .how li .ic{width:22px;height:22px;color:var(--em);margin-top:2px}
 .s-grill .left .btn{margin-top:26px;align-self:flex-start}
 .credit{margin-top:auto;font-size:15px;line-height:1.45;color:var(--fg-3)}
+.credit a{color:var(--fg-2);text-underline-offset:3px}
+.credit a:first-child{color:var(--em);font-weight:600;font-size:17px}
 .chat{display:flex;flex-direction:column;overflow:hidden}
 .chat-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 28px;border-bottom:1px solid var(--line)}
 .chat-head .t{display:flex;align-items:center;gap:12px;font:600 18px/1 var(--f-display);color:var(--text)}
@@ -382,7 +387,10 @@ html:not(.reflow) .s-limits .h1{font-size:84px}
 .s-skills .head{grid-column:1 / -1}
 html:not(.reflow) .sk-h{font-size:66px;white-space:nowrap}
 .sk-list{border-top:1px solid var(--ln);align-self:start}
-.sk-item{width:100%;display:grid;grid-template-columns:44px 1fr 22px;gap:14px;align-items:center;padding:12px 0 12px 4px;border:0;border-bottom:1px solid var(--ln);background:none;color:var(--fg-2);text-align:left;cursor:pointer;transition:color .2s,padding .25s}
+.sk-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;border-bottom:1px solid var(--ln)}
+.sk-gh{padding:8px 12px;border-radius:999px;border:1px solid var(--ln-2);font:600 14px/1 var(--f-display);color:var(--fg-2);text-decoration:none;white-space:nowrap}
+.sk-gh:hover{border-color:var(--em);color:var(--em)}
+.sk-item{width:100%;display:grid;grid-template-columns:44px 1fr 22px;gap:14px;align-items:center;padding:12px 0 12px 4px;border:0;background:none;color:var(--fg-2);text-align:left;cursor:pointer;transition:color .2s,padding .25s}
 .sk-item .n{font:700 16px/1 var(--f-display);color:var(--fg-3)}
 .sk-item strong{display:block;font:650 24px/1.1 var(--f-display);letter-spacing:-.01em;color:inherit}
 .sk-item span{display:block;margin-top:4px;font-size:16px;color:var(--fg-3)}
@@ -749,6 +757,7 @@ body.idle{cursor:none}
   html.reflow .gr-trail li{grid-template-columns:1fr;gap:2px;font-size:13px}
   html.reflow .sk-item strong{font-size:18px}
   html.reflow .sk-item span{font-size:13px}
+  html.reflow .sk-gh{font-size:11px;padding:6px 9px}
   html.reflow .anat{padding:20px}
   html.reflow .anat-top h3{font-size:24px}
   html.reflow .anat-top{flex-direction:column}
@@ -1157,7 +1166,7 @@ body.idle{cursor:none}
       <ol class="steps a" style="--d:2">
         <li><div><strong>Скопируйте шаблон</strong><span>Кнопка справа или файл BUSINESS_CONTEXT_TEMPLATE.md</span></div></li>
         <li><div><strong>Заполните, что знаете</strong><span>Пишите простыми словами. «Не знаю» — тоже честный ответ.</span></div></li>
-        <li><div><strong>Или пусть AI спросит</strong><span>Навык Business Context Builder проведёт интервью и заполнит файл.</span></div></li>
+        <li><div><strong>Или пусть AI спросит</strong><span>Навык <a class="inl" href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/business-context-builder/SKILL.md" target="_blank" rel="noopener">Business Context Builder ↗</a> проведёт интервью и заполнит файл.</span></div></li>
         <li><div><strong>Сохраните в Google Drive</strong><span>Папка 00_Контекст. Обновляйте раз в месяц.</span></div></li>
         <li><div><strong>Подключайте к работе</strong><span>Прикрепляйте к чату или добавьте в Gem как «Знания».</span></div></li>
       </ol>
@@ -1204,7 +1213,7 @@ body.idle{cursor:none}
         <li><svg class="ic"><use href="#i-target"/></svg><span><b>Итог:</b> одна приоритетная задача и одна метрика. Решаете вы.</span></li>
       </ul>
       <button class="btn primary a" style="--d:3" data-copy="tpl-grill"><svg class="ic"><use href="#i-copy"/></svg><span>Скопировать промпт grill-me</span></button>
-      <p class="credit a" style="--d:4">Адаптация навыка grill-me / grilling из github.com/mattpocock/skills (MIT).</p>
+      <p class="credit a" style="--d:4"><a href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/grill-me/SKILL.md" target="_blank" rel="noopener">Навык grill-me на GitHub ↗</a> · адаптация из <a href="https://github.com/mattpocock/skills" target="_blank" rel="noopener">mattpocock/skills</a> (MIT)</p>
     </div>
     <div class="device chat a" style="--d:2" data-demo="grill">
       <div class="chat-head"><span class="t"><svg class="ic"><use href="#i-chat"/></svg>Gemini · интервью grill-me</span><span class="rounds-ind"><span class="label" id="grLabel" style="margin-right:10px">Раунд 1 из 3</span><i class="on"></i><i></i><i></i></span></div>
@@ -1255,12 +1264,12 @@ body.idle{cursor:none}
   <div class="frame">
     <header class="head a"><p class="kicker">Skills · навыки</p><h2 class="h1 sk-h">Навык — инструкция, которую <em>не нужно повторять</em></h2></header>
     <div class="sk-list a" style="--d:1" data-demo="skills" role="tablist" aria-label="Навыки">
-      <button class="sk-item on" data-sk="0" role="tab" aria-selected="true"><span class="n">01</span><span><strong>Grill-me</strong><span>интервью перед решением</span></span><svg class="ic"><use href="#i-arrow-r"/></svg></button>
-      <button class="sk-item" data-sk="1" role="tab" aria-selected="false"><span class="n">02</span><span><strong>Business Context Builder</strong><span>профиль заведения</span></span><svg class="ic"><use href="#i-arrow-r"/></svg></button>
-      <button class="sk-item" data-sk="2" role="tab" aria-selected="false"><span class="n">03</span><span><strong>Menu Economics Analyst</strong><span>меню, цены, маржа</span></span><svg class="ic"><use href="#i-arrow-r"/></svg></button>
-      <button class="sk-item" data-sk="3" role="tab" aria-selected="false"><span class="n">04</span><span><strong>Content &amp; Marketing</strong><span>контент и акции</span></span><svg class="ic"><use href="#i-arrow-r"/></svg></button>
-      <button class="sk-item" data-sk="4" role="tab" aria-selected="false"><span class="n">05</span><span><strong>Customer Feedback Analyst</strong><span>отзывы и сервис</span></span><svg class="ic"><use href="#i-arrow-r"/></svg></button>
-      <button class="sk-item" data-sk="5" role="tab" aria-selected="false"><span class="n">06</span><span><strong>Daily Operations Manager</strong><span>сводка смены</span></span><svg class="ic"><use href="#i-arrow-r"/></svg></button>
+      <div class="sk-row"><button class="sk-item on" data-sk="0" role="tab" aria-selected="true"><span class="n">01</span><span><strong>Grill-me</strong><span>интервью перед решением</span></span><svg class="ic"><use href="#i-arrow-r"/></svg></button><a class="sk-gh" href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/grill-me/SKILL.md" target="_blank" rel="noopener" aria-label="Grill-me на GitHub">GitHub ↗</a></div>
+      <div class="sk-row"><button class="sk-item" data-sk="1" role="tab" aria-selected="false"><span class="n">02</span><span><strong>Business Context Builder</strong><span>профиль заведения</span></span><svg class="ic"><use href="#i-arrow-r"/></svg></button><a class="sk-gh" href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/business-context-builder/SKILL.md" target="_blank" rel="noopener" aria-label="Business Context Builder на GitHub">GitHub ↗</a></div>
+      <div class="sk-row"><button class="sk-item" data-sk="2" role="tab" aria-selected="false"><span class="n">03</span><span><strong>Menu Economics Analyst</strong><span>меню, цены, маржа</span></span><svg class="ic"><use href="#i-arrow-r"/></svg></button><a class="sk-gh" href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/menu-economics-analyst/SKILL.md" target="_blank" rel="noopener" aria-label="Menu Economics Analyst на GitHub">GitHub ↗</a></div>
+      <div class="sk-row"><button class="sk-item" data-sk="3" role="tab" aria-selected="false"><span class="n">04</span><span><strong>Content &amp; Marketing</strong><span>контент и акции</span></span><svg class="ic"><use href="#i-arrow-r"/></svg></button><a class="sk-gh" href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/content-marketing-assistant/SKILL.md" target="_blank" rel="noopener" aria-label="Content &amp; Marketing на GitHub">GitHub ↗</a></div>
+      <div class="sk-row"><button class="sk-item" data-sk="4" role="tab" aria-selected="false"><span class="n">05</span><span><strong>Customer Feedback Analyst</strong><span>отзывы и сервис</span></span><svg class="ic"><use href="#i-arrow-r"/></svg></button><a class="sk-gh" href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/customer-feedback-analyst/SKILL.md" target="_blank" rel="noopener" aria-label="Customer Feedback Analyst на GitHub">GitHub ↗</a></div>
+      <div class="sk-row"><button class="sk-item" data-sk="5" role="tab" aria-selected="false"><span class="n">06</span><span><strong>Daily Operations Manager</strong><span>сводка смены</span></span><svg class="ic"><use href="#i-arrow-r"/></svg></button><a class="sk-gh" href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/daily-operations-manager/SKILL.md" target="_blank" rel="noopener" aria-label="Daily Operations Manager на GitHub">GitHub ↗</a></div>
     </div>
     <div class="device anat a" style="--d:2" role="tabpanel" aria-live="polite">
       <div class="anat-top"><div><h3 id="skName">Grill-me</h3><a class="path" id="skPath" href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/grill-me/SKILL.md" target="_blank" rel="noopener">github.com/…/skills/grill-me/SKILL.md</a></div><a class="tag acc gh-tag" id="skGh" href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/grill-me/SKILL.md" target="_blank" rel="noopener">Открыть на GitHub ↗</a></div>
@@ -1307,7 +1316,7 @@ body.idle{cursor:none}
     <ol class="rail a" style="--d:3">
       <li><span>Контекст</span><b>меню, техкарты, продажи</b></li>
       <li><span>AI</span><b>Gemini, сильная модель</b></li>
-      <li><span>Навык</span><b>Menu Economics Analyst</b></li>
+      <li><span>Навык</span><b><a href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/menu-economics-analyst/SKILL.md" target="_blank" rel="noopener">Menu Economics Analyst ↗</a></b></li>
       <li><span>Действие</span><b>таблица маржи и гипотезы</b></li>
       <li class="chk"><span>Проверка</span><b>себестоимость, цены</b></li>
       <li><span>Сохранение</span><b>Drive / 01_Меню_и_цены</b></li>
@@ -1341,7 +1350,7 @@ body.idle{cursor:none}
     <ol class="rail a" style="--d:3">
       <li><span>Контекст</span><b>гости, тон, бюджет, поводы</b></li>
       <li><span>AI</span><b>Gemini + картинки</b></li>
-      <li><span>Навык</span><b>Content &amp; Marketing</b></li>
+      <li><span>Навык</span><b><a href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/content-marketing-assistant/SKILL.md" target="_blank" rel="noopener">Content &amp; Marketing ↗</a></b></li>
       <li><span>Действие</span><b>план и тексты постов</b></li>
       <li class="chk"><span>Проверка</span><b>цены, условия, факты</b></li>
       <li><span>Сохранение</span><b>Drive / 02_Маркетинг</b></li>
@@ -1384,7 +1393,7 @@ body.idle{cursor:none}
     <ol class="rail a" style="--d:3">
       <li><span>Контекст</span><b>отзывы без имён и телефонов</b></li>
       <li><span>AI</span><b>Gemini</b></li>
-      <li><span>Навык</span><b>Customer Feedback Analyst</b></li>
+      <li><span>Навык</span><b><a href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/customer-feedback-analyst/SKILL.md" target="_blank" rel="noopener">Customer Feedback Analyst ↗</a></b></li>
       <li><span>Действие</span><b>темы, причины, ответы</b></li>
       <li class="chk"><span>Проверка</span><b>тон, обещания, факты</b></li>
       <li><span>Сохранение</span><b>Drive / 03_Отзывы</b></li>
@@ -1423,7 +1432,7 @@ body.idle{cursor:none}
     <ol class="rail a" style="--d:4">
       <li><span>Контекст</span><b>заметки + отчёт кассы</b></li>
       <li><span>AI</span><b>Gemini или Gem «Сводка»</b></li>
-      <li><span>Навык</span><b>Daily Operations Manager</b></li>
+      <li><span>Навык</span><b><a href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/daily-operations-manager/SKILL.md" target="_blank" rel="noopener">Daily Operations Manager ↗</a></b></li>
       <li><span>Действие</span><b>сводка к 09:00</b></li>
       <li class="chk"><span>Проверка</span><b>цифры по кассе, закупки</b></li>
       <li><span>Сохранение</span><b>Drive / 04_Операции/Сводки</b></li>
