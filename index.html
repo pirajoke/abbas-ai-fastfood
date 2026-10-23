@@ -1,0 +1,2108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI для фастфуд-бизнеса — воркшоп</title>
+<meta name="description" content="Интерактивный воркшоп: от первого промпта в Gemini до собственного AI-помощника для фастфуд-заведения.">
+<meta name="color-scheme" content="dark">
+<style>
+/* ───────── Шрифты (локальные, кириллица + латиница, OFL) ───────── */
+@font-face{font-family:"Inter Tight";font-style:normal;font-weight:500 800;font-display:swap;src:url(assets/fonts/InterTight-cyrillic.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Inter Tight";font-style:normal;font-weight:500 800;font-display:swap;src:url(assets/fonts/InterTight-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Inter";font-style:normal;font-weight:400 600;font-display:swap;src:url(assets/fonts/Inter-cyrillic.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Inter";font-style:normal;font-weight:400 600;font-display:swap;src:url(assets/fonts/Inter-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:400 500;font-display:swap;src:url(assets/fonts/JetBrainsMono-cyrillic.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:400 500;font-display:swap;src:url(assets/fonts/JetBrainsMono-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Source Serif 4";font-style:italic;font-weight:400;font-display:swap;src:url(assets/fonts/SourceSerif4-italic-cyrillic.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Source Serif 4";font-style:italic;font-weight:400;font-display:swap;src:url(assets/fonts/SourceSerif4-italic-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+/* ───────── Дизайн-система ───────── */
+:root{
+  --ink:#0F0F0E; --ink-2:#161614; --ink-3:#1D1D1B; --ink-4:#262623;
+  --line:rgba(244,240,232,.10); --line-2:rgba(244,240,232,.20);
+  --paper:#F2EEE6; --paper-2:#E7E1D5; --paper-line:rgba(20,20,18,.12); --paper-line-2:rgba(20,20,18,.24);
+  --text:#F4F0E8; --muted:#A39E95; --dim:#75716A;
+  --text-ink:#151513; --muted-ink:#57534C; --dim-ink:#8A857C;
+  --accent:#FF4F1F; --accent-ink:#C8330A; --accent-soft:rgba(255,79,31,.13);
+  --amber:#F2B33D; --amber-soft:rgba(242,179,61,.13); --green:#4CC38A; --green-soft:rgba(76,195,138,.12);
+  --f-display:"Inter Tight","SF Pro Display",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --f-body:"Inter","SF Pro Text",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --f-serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+  --fs-hero:176px; --fs-h1:96px; --fs-h2:66px; --fs-h3:34px; --fs-lead:30px; --fs-body:24px; --fs-small:20px; --fs-micro:15px; --fs-code:19px;
+  --px:128px; --pt:124px; --pb:84px;
+  --r-l:24px; --r-m:16px; --r-s:10px;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#0A0A09;color:var(--text);font-family:var(--f-body);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+body{overflow:hidden}
+button{font-family:inherit}
+p,h1,h2,h3,h4,ul,ol,dl,dd,figure{margin:0;padding:0}
+ul,ol{list-style:none}
+.ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* сцена 16:9 */
+.viewport{position:fixed;inset:0;overflow:hidden;background:#0A0A09}
+.deck{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform:translate(-50%,-50%) scale(var(--scale,.5));transform-origin:50% 50%;overflow:hidden;background:var(--ink)}
+.slide{
+  --bg:var(--ink); --fg:var(--text); --fg-2:var(--muted); --fg-3:var(--dim);
+  --ln:var(--line); --ln-2:var(--line-2); --em:var(--accent); --panel:var(--ink-2); --panel-2:var(--ink-3);
+  position:absolute;inset:0;background:var(--bg);color:var(--fg);
+  opacity:0;visibility:hidden;transition:opacity .55s var(--ease),visibility 0s linear .55s;
+}
+.slide.paper{--bg:var(--paper);--fg:var(--text-ink);--fg-2:var(--muted-ink);--fg-3:var(--dim-ink);--ln:var(--paper-line);--ln-2:var(--paper-line-2);--em:var(--accent-ink);--panel:#FAF8F3;--panel-2:#F5F1E9}
+.slide.is-active{opacity:1;visibility:visible;transition:opacity .55s var(--ease),visibility 0s}
+.frame{position:absolute;left:var(--px);right:var(--px);top:var(--pt);bottom:var(--pb)}
+.chrome{position:absolute;left:var(--px);right:var(--px);top:48px;display:flex;align-items:center;gap:28px;font:600 14px/1 var(--f-display);letter-spacing:.16em;text-transform:uppercase;color:var(--fg-3)}
+.chrome .brand{display:flex;align-items:center;gap:12px;color:var(--fg-2)}
+.chrome .brand i{width:11px;height:11px;border-radius:3px;background:var(--em)}
+.chrome .mod{margin-left:auto}
+.chrome .num{color:var(--fg);font-variant-numeric:tabular-nums}
+.chrome .num em{font-style:normal;color:var(--fg-3)}
+
+/* типографика */
+.kicker{display:flex;align-items:center;gap:14px;font:600 var(--fs-micro)/1 var(--f-display);letter-spacing:.17em;text-transform:uppercase;color:var(--em);margin-bottom:26px}
+.kicker::before{content:"";width:30px;height:2px;background:currentColor;flex:none}
+.h1{font:700 var(--fs-h1)/.97 var(--f-display);letter-spacing:-.037em;color:var(--fg)}
+.h2{font:700 var(--fs-h2)/1 var(--f-display);letter-spacing:-.032em;color:var(--fg)}
+.h3{font:650 var(--fs-h3)/1.1 var(--f-display);letter-spacing:-.02em;color:var(--fg)}
+em,.em{font-style:normal;color:var(--em)}
+.serif{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
+.lead{font-size:var(--fs-lead);line-height:1.38;color:var(--fg-2);max-width:30em}
+.body{font-size:var(--fs-body);line-height:1.5;color:var(--fg-2)}
+.small{font-size:var(--fs-small);line-height:1.45;color:var(--fg-2)}
+.label{font:600 var(--fs-micro)/1.2 var(--f-display);letter-spacing:.15em;text-transform:uppercase;color:var(--fg-3)}
+.mono{font-family:var(--f-mono)}
+b,strong{font-weight:600;color:var(--fg)}
+
+/* общие компоненты */
+.btn{appearance:none;-webkit-appearance:none;display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;border:1px solid var(--ln-2);background:transparent;color:var(--fg);font:600 18px/1 var(--f-display);letter-spacing:.01em;cursor:pointer;white-space:nowrap;transition:background .2s,border-color .2s,color .2s,transform .2s}
+.btn:hover{border-color:var(--fg-2)}
+.btn:active{transform:translateY(1px)}
+.btn .ic{width:19px;height:19px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#170A05}
+.btn.primary:hover{background:#FF6A3F;border-color:#FF6A3F}
+.btn.copied{border-color:var(--green);color:var(--green)}
+.btn.primary.copied{background:var(--green);border-color:var(--green);color:#06140D}
+.btn:focus-visible,.hot:focus-visible,.toggle-row:focus-visible,.sk-item:focus-visible,.wk-day:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+.tag{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;border:1px solid var(--ln-2);font:600 14px/1 var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--fg-2);white-space:nowrap}
+.tag.edu{border-color:rgba(242,179,61,.55);color:var(--amber)}
+.paper .tag.edu{border-color:#B9811A;color:#8C5E08}
+.tag.acc{border-color:var(--em);color:var(--em)}
+.panel{background:var(--panel);border:1px solid var(--ln);border-radius:var(--r-l)}
+.device{--fg:var(--text);--fg-2:var(--muted);--fg-3:var(--dim);--ln:var(--line);--ln-2:var(--line-2);--em:var(--accent);--panel:var(--ink-3);--panel-2:var(--ink-4);
+  background:#141412;color:var(--text);border:1px solid rgba(255,255,255,.08);border-radius:28px}
+.paper .device{box-shadow:0 40px 90px -30px rgba(40,30,15,.45)}
+.check-note{display:flex;gap:14px;align-items:flex-start;padding:16px 20px;border-radius:var(--r-m);background:var(--amber-soft);border:1px solid rgba(242,179,61,.32);font-size:19px;line-height:1.42;color:var(--fg)}
+.paper .check-note{background:rgba(242,179,61,.16);border-color:rgba(185,129,26,.4)}
+.check-note .ic{width:24px;height:24px;color:var(--amber);margin-top:1px}
+.paper .check-note .ic{color:#9A6A0C}
+.check-note b{color:inherit}
+.code{font:400 var(--fs-code)/1.6 var(--f-mono);color:#E9E3D8;white-space:pre-wrap;word-break:break-word}
+.code .ph{color:var(--amber)}
+.code .k{color:#FF8A66}
+.code .c{color:#7E7A72}
+.divider{height:1px;background:var(--ln)}
+
+/* рельс цикла (на практических слайдах) */
+.rail{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;counter-reset:rail}
+.rail li{position:relative;padding-top:16px;border-top:2px solid var(--ln-2);counter-increment:rail}
+.rail li span{display:block;font:600 13px/1 var(--f-display);letter-spacing:.15em;text-transform:uppercase;color:var(--fg-3);margin-bottom:8px}
+.rail li span::before{content:"0" counter(rail) "  ";color:var(--em)}
+.rail li b{display:block;font:500 18px/1.3 var(--f-body);color:var(--fg)}
+.rail li.chk{border-top-color:var(--amber)}
+.rail li.chk span{color:var(--amber)}
+.paper .rail li.chk{border-top-color:#B9811A}
+.paper .rail li.chk span{color:#8C5E08}
+
+/* анимация появления */
+html.js .slide .a{opacity:0}
+html.js .slide.is-active .a{animation:rise .8s var(--ease) both;animation-delay:calc(var(--d,0) * 90ms + 140ms)}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+
+/* ───────── 01 Титул ───────── */
+.s-title::before{content:"";position:absolute;left:var(--px);right:var(--px);top:0;bottom:0;background:repeating-linear-gradient(90deg,rgba(244,240,232,.045) 0 1px,transparent 1px 138.66px);pointer-events:none}
+.s-title .frame{display:grid;grid-template-rows:auto auto auto 1fr auto;align-content:start}
+.s-title .kicker{margin-top:42px}
+.hero{font:800 var(--fs-hero)/.95 var(--f-display);letter-spacing:-.048em;color:var(--fg)}
+.hero .em{color:var(--accent)}
+.hero-sub{margin-top:40px;font:500 40px/1.25 var(--f-display);letter-spacing:-.015em;color:#D9D3C8;max-width:24em}
+.chain{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-top:auto;padding-top:24px}
+.chain li{position:relative;padding:22px 0 0;border-top:2px solid var(--line-2);animation:chainPulse 7.2s linear infinite;animation-delay:calc(var(--i) * 1.2s)}
+.chain li b{display:block;font:600 15px/1 var(--f-display);letter-spacing:.15em;color:var(--dim);margin-bottom:14px;animation:inherit;animation-name:chainNum}
+.chain li strong{display:block;font:650 30px/1.05 var(--f-display);letter-spacing:-.02em;color:var(--text);margin-bottom:10px}
+.chain li span{display:block;font-size:18px;line-height:1.4;color:var(--muted)}
+.chain li:not(:last-child)::after{content:"";position:absolute;right:-12px;top:-7px;width:10px;height:10px;border-top:2px solid var(--line-2);border-right:2px solid var(--line-2);transform:rotate(45deg)}
+@keyframes chainPulse{0%,16%{border-top-color:var(--accent)}17%,100%{border-top-color:var(--line-2)}}
+@keyframes chainNum{0%,16%{color:var(--accent)}17%,100%{color:var(--dim)}}
+.hero-meta{display:flex;gap:44px;margin-top:40px;padding-top:24px;border-top:1px solid var(--line);font:500 19px/1.3 var(--f-display);color:var(--muted)}
+.hero-meta > span{display:flex;align-items:center;gap:12px;white-space:nowrap}
+.hero-meta > span::before{content:"";width:6px;height:6px;border-radius:2px;background:var(--accent)}
+.hero-meta .hint{margin-left:auto;color:var(--dim)}
+.hero-meta > .hint::before{display:none}
+.hero-meta .ins-link{margin-left:auto;color:var(--accent);text-decoration:none;font-weight:600}
+.hero-meta .ins-link:hover{text-decoration:underline}
+.hero-meta .ins-link + .hint{margin-left:28px}
+.hero-meta .hint .kbd{margin:0 -4px}
+.kbd{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 8px;border:1px solid var(--line-2);border-radius:7px;font:600 15px/1 var(--f-display);color:var(--text)}
+
+/* ───────── 02 LLM ───────── */
+.s-llm .frame{display:grid;grid-template-columns:1fr 860px;gap:96px;align-items:center}
+.gloss{margin-top:48px;border-top:1px solid var(--ln)}
+.gloss div{display:grid;grid-template-columns:250px 1fr;gap:28px;padding:24px 0;border-bottom:1px solid var(--ln)}
+.gloss dt{font:700 27px/1.15 var(--f-display);letter-spacing:-.02em;color:var(--fg)}
+.gloss dt small{display:block;margin-top:6px;font:500 16px/1.3 var(--f-body);letter-spacing:0;color:var(--fg-3)}
+.gloss dd{font-size:21px;line-height:1.45;color:var(--fg-2)}
+.nw{padding:44px 48px 40px;display:flex;flex-direction:column;gap:30px}
+.dev-top{display:flex;justify-content:space-between;align-items:center;gap:20px}
+.nw-sentence{font:600 42px/1.25 var(--f-display);letter-spacing:-.02em;color:var(--text);min-height:3.75em}
+.nw-built{color:var(--accent)}
+.caret{display:inline-block;width:3px;height:.95em;background:var(--accent);vertical-align:-.12em;margin-left:6px;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.nw-cands{display:grid;gap:12px}
+.nw-cands li{display:grid;grid-template-columns:200px 1fr 64px;align-items:center;gap:18px;font:500 22px/1 var(--f-display);color:var(--muted);transition:color .3s}
+.nw-cands .bar{height:12px;border-radius:6px;background:rgba(255,255,255,.06);overflow:hidden}
+.nw-cands .bar i{display:block;height:100%;width:0;border-radius:6px;background:var(--dim);transition:width .7s var(--ease),background .3s}
+.nw-cands .pct{text-align:right;font-variant-numeric:tabular-nums;font-size:19px}
+.nw-cands li.win{color:var(--text)}
+.nw-cands li.win .bar i{background:var(--accent)}
+.nw-actions{display:flex;gap:12px}
+.dev-note{font-size:19px;line-height:1.5;color:var(--muted);padding-top:22px;border-top:1px solid var(--line)}
+.dev-note b{color:var(--text)}
+
+/* ───────── 03 Возможности и риски ───────── */
+.s-limits .frame{display:grid;grid-template-columns:1fr 640px;grid-template-rows:auto 1fr auto;column-gap:64px;row-gap:40px}
+.s-limits header{grid-column:1;grid-row:1}
+html:not(.reflow) .s-limits .h1{font-size:84px}
+.limits{grid-column:1;grid-row:2;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.s-limits .hc{grid-column:2;grid-row:1 / 3;align-self:stretch}
+.s-limits .redzone{grid-column:1 / -1;grid-row:3}
+.list-title{display:flex;align-items:center;gap:12px;font:650 26px/1.1 var(--f-display);letter-spacing:-.01em;padding-bottom:18px;margin-bottom:6px;border-bottom:2px solid var(--green)}
+.list-title .ic{width:24px;height:24px;color:var(--green)}
+.list-title.no{border-bottom-color:var(--accent)}
+.list-title.no .ic{color:var(--accent)}
+.plain li{padding:13px 0;border-bottom:1px solid var(--ln);font-size:20px;line-height:1.35;color:var(--fg-2)}
+.plain li b{color:var(--fg)}
+.hc{padding:30px 32px;display:flex;flex-direction:column;gap:18px}
+.bubble{padding:16px 20px;border-radius:18px;font-size:20px;line-height:1.45}
+.bubble.me{align-self:flex-end;max-width:86%;background:var(--ink-4);color:var(--text);border-bottom-right-radius:6px}
+.bubble.ai{max-width:94%;background:transparent;border:1px solid var(--line-2);color:var(--text);border-bottom-left-radius:6px;position:relative}
+.bubble .who{display:block;font:600 13px/1 var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.mark{border-radius:4px;transition:background .4s,box-shadow .4s}
+.hc.checked .mark{background:rgba(255,79,31,.22);box-shadow:0 2px 0 var(--accent)}
+.hc-check{display:none;flex-direction:column;gap:12px}
+.hc.checked .hc-check{display:flex}
+.hc-check p{display:grid;grid-template-columns:28px 1fr;gap:10px;font-size:18px;line-height:1.42;color:var(--muted)}
+.hc-check p .ic{width:22px;height:22px;color:var(--accent);margin-top:2px}
+.hc-check .verdict{margin-top:4px;padding:14px 18px;border-radius:14px;background:var(--accent-soft);color:var(--text);font-size:18px;line-height:1.42;display:block}
+.hc .btn{align-self:flex-start;margin-top:auto}
+.redzone{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:26px;border-top:1px solid var(--ln)}
+.redzone .rz-l{display:flex;align-items:center;gap:10px;font:600 15px/1 var(--f-display);letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-right:12px}
+.redzone .rz-l .ic{width:22px;height:22px}
+.redzone .rz{padding:11px 18px;border-radius:999px;border:1px solid rgba(255,79,31,.45);font:600 18px/1 var(--f-display);color:var(--text)}
+
+/* ───────── 04 Пять задач ───────── */
+.s-tasks .frame{display:grid;grid-template-rows:auto 1fr;gap:42px}
+.head-row{display:grid;grid-template-columns:1fr 640px;gap:80px;align-items:end}
+.task-rows{border-top:1px solid var(--ln);align-self:start}
+.task-rows li{display:grid;grid-template-columns:86px 58px 380px 1fr 330px 140px;gap:24px;align-items:center;padding:20px 0;border-bottom:1px solid var(--ln)}
+.tr-n{font:700 34px/1 var(--f-display);letter-spacing:-.02em;color:var(--fg-3);font-variant-numeric:tabular-nums}
+.tr-ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}
+.tr-ic .ic{width:26px;height:26px}
+.tr-t strong{display:block;font:650 28px/1.1 var(--f-display);letter-spacing:-.015em}
+.tr-t span{display:block;margin-top:6px;font-size:17px;color:var(--fg-3)}
+.tr-d{font-size:20px;line-height:1.42;color:var(--fg-2)}
+.tr-out{font:500 17px/1.35 var(--f-mono);color:var(--text);padding:12px 16px;border-radius:12px;background:var(--panel);border:1px solid var(--ln)}
+.tr-link{justify-self:end;font:600 14px/1 var(--f-display);letter-spacing:.12em;text-transform:uppercase;color:var(--em)}
+
+/* ───────── 05 Gemini ───────── */
+.s-gemini .frame{display:grid;grid-template-columns:1fr 600px;grid-template-rows:auto 1fr;column-gap:72px;row-gap:34px}
+.s-gemini .head-row{grid-column:1 / -1;grid-template-columns:1fr 600px;gap:72px}
+.wire{position:relative;align-self:start}
+.wire svg{display:block;width:100%;height:auto}
+.wire .t{font-family:var(--f-display);fill:#A39E95}
+.hot{position:absolute;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;border:2px solid var(--accent);background:rgba(15,15,14,.85);color:var(--text);font:700 19px/1 var(--f-display);cursor:pointer;display:grid;place-items:center;transition:background .2s,color .2s,transform .2s}
+.hot::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:1px solid rgba(255,79,31,.45);animation:ping 2.4s var(--ease) infinite}
+.hot:hover{transform:translate(-50%,-50%) scale(1.08)}
+.hot.on{background:var(--accent);color:#170A05}
+.hot.on::after{animation:none;opacity:0}
+@keyframes ping{0%{transform:scale(.8);opacity:1}100%{transform:scale(1.5);opacity:0}}
+.gx{padding:36px 38px;display:flex;flex-direction:column;gap:20px;align-self:start}
+.gx-n{font:800 88px/.8 var(--f-display);letter-spacing:-.04em;color:var(--accent)}
+.gx-title{font:700 36px/1.05 var(--f-display);letter-spacing:-.02em;color:var(--text)}
+.gx-text{font-size:20px;line-height:1.5;color:var(--muted)}
+.gx-try{border-top:1px solid var(--line);padding-top:18px}
+.gx-try .label{display:block;margin-bottom:12px;color:var(--accent)}
+.gx-try .code{font-size:17px;line-height:1.55;color:#E9E3D8}
+.gx-hint{font-size:16px;line-height:1.45;color:var(--dim)}
+
+/* ───────── 06 Формула промпта ───────── */
+.s-formula .frame{display:grid;grid-template-columns:600px 1fr;gap:72px}
+.s-formula .left{display:flex;flex-direction:column}
+.toggles{margin-top:40px;border-top:1px solid var(--ln)}
+.toggle-row{width:100%;display:grid;grid-template-columns:44px 1fr 62px;gap:18px;align-items:center;padding:16px 0;border:0;border-bottom:1px solid var(--ln);background:none;color:inherit;text-align:left;cursor:pointer}
+.toggle-row .n{font:700 18px/1 var(--f-display);color:var(--fg-3)}
+.toggle-row strong{display:block;font:650 27px/1.1 var(--f-display);letter-spacing:-.015em;color:var(--fg-2);transition:color .2s}
+.toggle-row span{display:block;margin-top:5px;font-size:17px;line-height:1.35;color:var(--fg-3)}
+.sw{width:58px;height:32px;border-radius:999px;background:var(--ink-4);border:1px solid var(--line-2);position:relative;transition:background .25s}
+.sw::after{content:"";position:absolute;left:3px;top:3px;width:24px;height:24px;border-radius:50%;background:#77736C;transition:transform .25s var(--ease),background .25s}
+.toggle-row[aria-pressed="true"] .sw{background:var(--accent);border-color:var(--accent)}
+.toggle-row[aria-pressed="true"] .sw::after{transform:translateX(26px);background:#170A05}
+.toggle-row[aria-pressed="true"] strong{color:var(--fg)}
+.toggle-row[aria-pressed="true"] .n{color:var(--em)}
+.builder{padding:36px 40px;display:flex;flex-direction:column;gap:24px;align-self:stretch}
+.meter{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.meter i{height:8px;border-radius:4px;background:rgba(255,255,255,.08);transition:background .3s}
+.meter i.on{background:var(--accent)}
+.meter-row{display:flex;justify-content:space-between;align-items:baseline;gap:20px}
+.meter-row .q{font:650 24px/1.1 var(--f-display);color:var(--text)}
+.pb{flex:1;display:flex;flex-direction:column;gap:14px;font:400 20px/1.55 var(--f-mono);color:#E9E3D8}
+.pb p{display:grid;grid-template-columns:150px 1fr;gap:18px;padding:14px 0;border-top:1px solid var(--line)}
+.pb p .lb{font:600 13px/1.9 var(--f-display);letter-spacing:.15em;text-transform:uppercase;color:var(--accent)}
+.pb p .gh{display:none}
+.pb p.on .tx{animation:rise .45s var(--ease) both}
+.pb p:not(.on) .tx{display:none}
+.pb p:not(.on) .gh{display:block;font:400 18px/1.55 var(--f-body);color:#6F6B64}
+.pb p:not(.on) .lb{color:#5F5B55}
+.pb p:not(.on){border-top-style:dashed}
+.builder-foot{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-top:18px;border-top:1px solid var(--line)}
+.builder-foot .small{font-size:17px;color:var(--dim)}
+
+/* ───────── 07 Слабый vs сильный ───────── */
+.s-compare .frame{display:grid;grid-template-rows:auto 1fr;gap:40px}
+.versus{display:grid;grid-template-columns:1fr 92px 1fr;align-items:stretch}
+.vs-mid{display:grid;place-items:center;position:relative}
+.vs-mid::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--ln)}
+.vs-mid span{position:relative;width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:var(--bg);border:1px solid var(--ln-2);font:700 18px/1 var(--f-display);letter-spacing:.08em;color:var(--fg-2)}
+.vcol{display:flex;flex-direction:column;gap:18px}
+.vcol .label{display:flex;align-items:center;gap:10px}
+.vcol.strong .label{color:var(--em)}
+.vbox{padding:24px 28px;border-radius:var(--r-m);background:var(--panel);border:1px solid var(--ln)}
+.vbox .code{font-size:18px;line-height:1.58}
+.vbox.ans{background:transparent;border-style:dashed;border-color:var(--ln-2);font-size:19px;line-height:1.5;color:var(--fg-2)}
+.vbox.ans p+p{margin-top:8px}
+.vbox.ans b{color:var(--fg)}
+.vcol.weak .vbox.ans{color:var(--fg-3)}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;font:600 16px/1 var(--f-display);border:1px solid var(--ln-2);color:var(--fg-2)}
+.chip .ic{width:16px;height:16px}
+.chip.bad{color:#FF8A66;border-color:rgba(255,79,31,.4)}
+.chip.good{color:var(--green);border-color:rgba(76,195,138,.45)}
+.why{margin-top:26px;padding:6px 0 6px 28px;border-left:2px solid var(--ln-2)}
+.why .label{display:block;margin-bottom:14px}
+.why .serif{font-size:34px;line-height:1.25;color:var(--fg)}
+.why .small{margin-top:14px;font-size:19px;color:var(--fg-3)}
+
+/* ───────── 08 Контекст (paper) ───────── */
+.s-context .frame{display:grid;grid-template-rows:auto 1fr auto;gap:44px}
+.statement{font:700 92px/1 var(--f-display);letter-spacing:-.04em;color:var(--fg)}
+.statement .serif{display:block;font-size:104px;line-height:1.05;color:var(--em);letter-spacing:-.02em}
+.ctx-flow{display:grid;grid-template-columns:420px 1fr;gap:56px;align-items:center}
+.ctx-q{padding:30px 32px;border-radius:var(--r-l);background:var(--text-ink);color:var(--text)}
+.ctx-q .label{color:#8A857C;display:block;margin-bottom:14px}
+.ctx-q p{font:650 34px/1.15 var(--f-display);letter-spacing:-.02em}
+.ctx-q small{display:block;margin-top:18px;font-size:17px;line-height:1.4;color:#A39E95}
+.ctx-paths{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.ctx-path{padding:28px 30px;border-radius:var(--r-l);border:1px solid var(--ln-2);background:var(--panel);display:flex;flex-direction:column;gap:14px}
+.ctx-path.bad{background:transparent;border-style:dashed}
+.ctx-path .label{display:flex;justify-content:space-between;gap:10px}
+.ctx-path p{font-size:21px;line-height:1.48;color:var(--fg-2)}
+.ctx-path.good{border-color:var(--em);box-shadow:inset 0 3px 0 var(--em)}
+.ctx-path.good p{color:var(--fg)}
+.ctx-path .verdict{margin-top:auto;font:600 16px/1.2 var(--f-display);letter-spacing:.06em;text-transform:uppercase}
+.ctx-path.bad .verdict{color:var(--fg-3)}
+.ctx-path.good .verdict{color:var(--em)}
+.layers{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-top:26px;border-top:1px solid var(--ln)}
+.layers .label{margin-right:14px}
+.layers span.ly{padding:12px 20px;border-radius:999px;background:var(--text-ink);color:var(--paper);font:600 19px/1 var(--f-display)}
+
+/* ───────── 09 Файл контекста ───────── */
+.s-file .frame{display:grid;grid-template-columns:1fr 900px;gap:80px}
+.steps{margin-top:38px;counter-reset:st}
+.steps li{display:grid;grid-template-columns:52px 1fr;gap:18px;padding:15px 0;border-bottom:1px solid var(--ln);counter-increment:st}
+.steps li::before{content:counter(st);width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--em);font:700 18px/1 var(--f-display)}
+.steps strong{display:block;font:650 23px/1.15 var(--f-display);letter-spacing:-.01em}
+.steps span{display:block;margin-top:4px;font-size:18px;line-height:1.4;color:var(--fg-2)}
+.s-file .check-note{margin-top:26px}
+.win{display:flex;flex-direction:column;overflow:hidden;align-self:stretch}
+.win-bar{display:flex;align-items:center;gap:10px;padding:18px 24px;border-bottom:1px solid var(--line)}
+.win-bar i{width:12px;height:12px;border-radius:50%;background:#3A3A36}
+.win-bar .fn{margin-left:10px;font:500 17px/1 var(--f-mono);color:var(--muted)}
+.win-bar .btn{margin-left:auto;padding:10px 16px;font-size:16px}
+.win-body{flex:1;padding:26px 32px;overflow:hidden;position:relative}
+.win-body::after{content:"";position:absolute;left:0;right:0;bottom:0;height:90px;background:linear-gradient(transparent,#141412)}
+.win-body .code{font-size:18.5px;line-height:1.62}
+.win-body .code .h{color:#FF8A66;font-weight:500}
+
+/* ───────── 10 Grill-me ───────── */
+.s-grill .frame{display:grid;grid-template-columns:590px 1fr;gap:72px}
+.s-grill .left{display:flex;flex-direction:column}
+.how{margin-top:32px;border-top:1px solid var(--ln)}
+.how li{display:grid;grid-template-columns:30px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--ln);font-size:19px;line-height:1.42;color:var(--fg-2)}
+.how li .ic{width:22px;height:22px;color:var(--em);margin-top:2px}
+.s-grill .left .btn{margin-top:26px;align-self:flex-start}
+.credit{margin-top:auto;font-size:15px;line-height:1.45;color:var(--fg-3)}
+.chat{display:flex;flex-direction:column;overflow:hidden}
+.chat-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 28px;border-bottom:1px solid var(--line)}
+.chat-head .t{display:flex;align-items:center;gap:12px;font:600 18px/1 var(--f-display);color:var(--text)}
+.chat-head .t .ic{width:22px;height:22px;color:var(--accent)}
+.rounds-ind{display:flex;gap:8px;align-items:center}
+.rounds-ind i{width:34px;height:6px;border-radius:3px;background:rgba(255,255,255,.1);transition:background .3s}
+.rounds-ind i.on{background:var(--accent)}
+.chat-body{flex:1;padding:24px 28px;display:flex;flex-direction:column;gap:14px;overflow:hidden}
+.gr-round{display:none;flex-direction:column;gap:12px}
+.gr-round.on{display:flex;animation:rise .5s var(--ease) both}
+.gq{display:grid;grid-template-columns:54px 1fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.gq .qn{font:700 16px/1 var(--f-display);color:var(--accent);padding-top:5px;letter-spacing:.06em}
+.gq p{font-size:19px;line-height:1.42;color:var(--text)}
+.gq .rec{display:flex;gap:10px;margin-top:8px;font-size:17px;line-height:1.4;color:var(--muted)}
+.gq .rec .ic{width:18px;height:18px;color:var(--green);margin-top:2px}
+.gq .rec b{color:var(--green);font-weight:600}
+.gans{align-self:flex-end;max-width:80%;margin-top:6px;padding:14px 18px;border-radius:18px;border-bottom-right-radius:6px;background:var(--ink-4);font-size:18px;line-height:1.42;color:var(--text)}
+.gans .who{display:block;font:600 12px/1 var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:7px}
+.gr-result{display:none;flex-direction:column;gap:14px;padding:26px 28px;border-radius:20px;border:1px solid rgba(76,195,138,.4);background:var(--green-soft)}
+.gr-result.on{display:flex;animation:rise .5s var(--ease) both}
+.gr-result .label{color:var(--green)}
+.gr-result h4{font:700 32px/1.1 var(--f-display);letter-spacing:-.02em;color:var(--text)}
+.gr-result dl{display:grid;grid-template-columns:200px 1fr;gap:12px 20px;font-size:18px;line-height:1.42}
+.gr-result dt{color:var(--dim);font-weight:500}
+.gr-result dd{color:var(--text)}
+.gr-trail{display:none;flex-direction:column;margin-top:6px;border-top:1px solid var(--line)}
+.gr-trail.on{display:flex;animation:rise .5s .1s var(--ease) both}
+.gr-trail li{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:13px 0;border-bottom:1px solid var(--line);font-size:17px;line-height:1.4;color:var(--muted)}
+.gr-trail li span{font:600 13px/1.6 var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.chat-foot{display:flex;align-items:center;gap:12px;padding:16px 28px;border-top:1px solid var(--line)}
+.chat-foot .edu-note{margin-left:auto;font-size:15px;color:var(--dim)}
+
+/* ───────── 11 Навыки ───────── */
+.s-skills .frame{display:grid;grid-template-columns:560px 1fr;grid-template-rows:auto 1fr auto;column-gap:56px;row-gap:34px}
+.s-skills .head{grid-column:1 / -1}
+html:not(.reflow) .sk-h{font-size:66px;white-space:nowrap}
+.sk-list{border-top:1px solid var(--ln);align-self:start}
+.sk-item{width:100%;display:grid;grid-template-columns:44px 1fr 22px;gap:14px;align-items:center;padding:12px 0 12px 4px;border:0;border-bottom:1px solid var(--ln);background:none;color:var(--fg-2);text-align:left;cursor:pointer;transition:color .2s,padding .25s}
+.sk-item .n{font:700 16px/1 var(--f-display);color:var(--fg-3)}
+.sk-item strong{display:block;font:650 24px/1.1 var(--f-display);letter-spacing:-.01em;color:inherit}
+.sk-item span{display:block;margin-top:4px;font-size:16px;color:var(--fg-3)}
+.sk-item .ic{width:20px;height:20px;opacity:0;color:var(--em);transition:opacity .2s}
+.sk-item:hover{color:var(--fg)}
+.sk-item.on{color:var(--fg);padding-left:16px;box-shadow:inset 3px 0 0 var(--em)}
+.sk-item.on .n{color:var(--em)}
+.sk-item.on .ic{opacity:1}
+.anat{padding:32px 36px;display:flex;flex-direction:column;gap:22px;align-self:start}
+.anat-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+.anat-top h3{font:700 40px/1.05 var(--f-display);letter-spacing:-.025em;color:var(--text)}
+.anat-top .path{display:block;margin-top:10px;font:500 16px/1 var(--f-mono);color:var(--dim);text-decoration:none}
+.anat-top .path:hover,.gh-tag:hover{color:var(--accent)}
+.gh-tag{text-decoration:none}
+.anat-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
+.anat-grid div{padding:18px 24px 18px 0;border-bottom:1px solid var(--line)}
+.anat-grid div:nth-child(odd){padding-right:28px;border-right:1px solid var(--line)}
+.anat-grid div:nth-child(even){padding-left:28px}
+.anat-grid .label{display:block;margin-bottom:10px}
+.anat-grid p{font-size:19px;line-height:1.45;color:var(--text)}
+.anat-grid div.chk .label{color:var(--amber)}
+.ways{grid-column:1 / -1;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--ln)}
+.ways div{padding:22px 32px 0 0}
+.ways div+div{padding-left:32px;border-left:1px solid var(--ln)}
+.ways .label{display:flex;align-items:center;gap:10px;color:var(--em);margin-bottom:10px}
+.ways strong{display:block;font:650 24px/1.1 var(--f-display);margin-bottom:8px}
+.ways p{font-size:18px;line-height:1.45;color:var(--fg-2)}
+
+/* ───────── Практики (общий каркас) ───────── */
+.practice .frame{display:grid;grid-template-rows:auto 1fr auto;gap:30px}
+.p-head{display:flex;align-items:flex-end;gap:28px}
+.p-head .kicker{margin-bottom:18px}
+.p-head .grow{flex:1}
+.p-head .acts{display:flex;align-items:center;gap:12px;padding-bottom:8px}
+
+/* 12 Меню */
+.s-menu .main{display:grid;grid-template-columns:1fr 640px;gap:56px;min-height:0}
+.mtable{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.mtable th{font:600 13px/1.2 var(--f-display);letter-spacing:.13em;text-transform:uppercase;color:var(--fg-3);text-align:right;padding:0 0 14px;border-bottom:1px solid var(--ln-2)}
+.mtable th:first-child,.mtable td:first-child{text-align:left}
+.mtable td{padding:11px 0;border-bottom:1px solid var(--ln);font-size:20px;color:var(--fg-2);text-align:right}
+.mtable td:first-child{color:var(--fg);font-weight:500}
+.mtable td.strong{color:var(--fg);font-weight:600}
+.mtable input{width:96px;padding:7px 10px;border-radius:9px;border:1px solid var(--ln-2);background:var(--panel);color:var(--fg);font:600 20px/1 var(--f-body);text-align:right;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.mtable input::-webkit-outer-spin-button,.mtable input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.mtable input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.fc{display:inline-block;min-width:66px;padding:5px 9px;border-radius:7px;font-weight:600;font-size:18px}
+.fc.ok{background:var(--green-soft);color:var(--green)}
+.fc.mid{background:var(--amber-soft);color:var(--amber)}
+.fc.hi{background:var(--accent-soft);color:#FF8A66}
+.mtable tfoot td{border-bottom:0;padding-top:16px;color:var(--fg);font-weight:600}
+.menu-left{display:flex;flex-direction:column;gap:22px}
+.menu-note{display:flex;gap:18px;align-items:center}
+.menu-note .check-note{flex:1}
+.quad{display:flex;flex-direction:column;gap:14px}
+.quad svg{display:block;width:100%;height:auto}
+.quad .q-ins{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}
+.quad .q-ins div{font-size:16px;line-height:1.38;color:var(--fg-2)}
+.quad .q-ins b{display:block;font:650 17px/1.2 var(--f-display);color:var(--fg);margin-bottom:3px}
+
+/* 13 Контент (paper) */
+.s-content .main{display:grid;grid-template-rows:auto 1fr;gap:26px;min-height:0}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:12px}
+.wk-day{appearance:none;border:1px solid var(--ln-2);background:var(--panel);border-radius:18px;padding:18px 18px 20px;text-align:left;cursor:pointer;color:var(--fg);display:flex;flex-direction:column;gap:10px;min-height:178px;transition:border-color .2s,transform .25s var(--ease),box-shadow .25s}
+.wk-day:hover{border-color:var(--fg-2)}
+.wk-day .d{display:flex;justify-content:space-between;align-items:center;font:700 15px/1 var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3)}
+.wk-day .ch{font:600 13px/1 var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--em)}
+.wk-day strong{font:650 22px/1.15 var(--f-display);letter-spacing:-.01em}
+.wk-day span.g{margin-top:auto;font-size:15px;color:var(--fg-3)}
+.wk-day.on{border-color:var(--text-ink);background:var(--text-ink);color:var(--paper);transform:translateY(-4px);box-shadow:0 20px 40px -18px rgba(40,30,15,.5)}
+.wk-day.on .d{color:#8A857C}
+.wk-day.on .ch{color:#FF7A52}
+.wk-day.on span.g{color:#A39E95}
+.wk-day.on strong{color:var(--paper)}
+.ct-split{display:grid;grid-template-columns:1fr 600px;gap:40px;min-height:0}
+.draft{padding:30px 34px;display:grid;grid-template-columns:1fr 1fr;gap:16px 36px;align-content:start}
+.draft .full{grid-column:1 / -1}
+.draft .chk{padding-top:14px;border-top:1px solid var(--line)}
+.draft .chk .label{color:var(--amber)}
+.draft .label{display:block;margin-bottom:8px}
+.draft h4{font:700 30px/1.1 var(--f-display);letter-spacing:-.02em;color:var(--text)}
+.draft p{font-size:19px;line-height:1.48;color:var(--muted)}
+.draft .txt{font-size:21px;line-height:1.5;color:var(--text);padding:16px 20px;border-left:3px solid var(--accent);background:rgba(255,255,255,.03);border-radius:0 12px 12px 0}
+.ct-side{display:flex;flex-direction:column;gap:16px}
+.ct-side .rules{border-top:1px solid var(--ln)}
+.ct-side .rules li{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:13px 0;border-bottom:1px solid var(--ln);font-size:18px;line-height:1.4;color:var(--fg-2)}
+.ct-side .rules .ic{width:20px;height:20px;color:var(--em);margin-top:2px}
+
+/* 14 Отзывы */
+.s-reviews .main{display:grid;grid-template-columns:860px 1fr;gap:48px;min-height:0}
+.rv-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:start}
+.rv{padding:16px 18px;border-radius:16px;background:var(--panel);border:1px solid var(--ln);display:flex;flex-direction:column;gap:10px;transition:border-color .4s,box-shadow .4s}
+.rv-top{display:flex;justify-content:space-between;align-items:center}
+.rv-top .n{font:600 13px/1 var(--f-display);letter-spacing:.12em;color:var(--fg-3)}
+.stars{font:600 15px/1 var(--f-display);letter-spacing:.06em;color:var(--fg-3)}
+.stars b{color:var(--amber)}
+.rv p{font-size:18px;line-height:1.4;color:var(--fg)}
+.rv .cl{align-self:flex-start;display:none;padding:5px 10px;border-radius:999px;font:600 12px/1 var(--f-display);letter-spacing:.1em;text-transform:uppercase}
+.grouped .rv .cl{display:inline-block}
+.grouped .rv[data-c="speed"]{box-shadow:inset 3px 0 0 var(--accent)}
+.grouped .rv[data-c="temp"]{box-shadow:inset 3px 0 0 var(--amber)}
+.grouped .rv[data-c="clean"]{box-shadow:inset 3px 0 0 #7AA8FF}
+.grouped .rv[data-c="praise"]{box-shadow:inset 3px 0 0 var(--green)}
+.cl.speed{background:var(--accent-soft);color:#FF8A66}
+.cl.temp{background:var(--amber-soft);color:var(--amber)}
+.cl.clean{background:rgba(122,168,255,.14);color:#9CBDFF}
+.cl.praise{background:var(--green-soft);color:var(--green)}
+.rv-side{display:flex;flex-direction:column;gap:16px;min-height:0}
+.rv-placeholder{min-height:560px;display:grid;place-items:center;text-align:center;padding:40px;border:1px dashed var(--ln-2);border-radius:var(--r-l);color:var(--fg-3);font-size:20px;line-height:1.5}
+.rv-placeholder .btn{margin-top:22px}
+.rv-analysis{display:none;flex-direction:column;gap:14px}
+.grouped .rv-analysis{display:flex;animation:rise .5s var(--ease) both}
+.grouped .rv-placeholder{display:none}
+.clusters{border-top:1px solid var(--ln)}
+.clusters li{display:grid;grid-template-columns:400px 1fr 36px;gap:18px;align-items:center;padding:10px 0;border-bottom:1px solid var(--ln)}
+.clusters strong{font:650 19px/1.15 var(--f-display)}
+.clusters small{display:block;margin-top:3px;font-size:15px;line-height:1.3;color:var(--fg-3)}
+.clusters .bar{height:10px;border-radius:5px;background:rgba(255,255,255,.06);overflow:hidden}
+.clusters .bar i{display:block;height:100%;border-radius:5px;width:var(--w);animation:grow 1s var(--ease) both}
+@keyframes grow{from{width:0}}
+.clusters .ct{text-align:right;font:700 20px/1 var(--f-display);font-variant-numeric:tabular-nums}
+.reply{padding:20px 24px}
+.reply .label{display:block;margin-bottom:10px;color:var(--accent)}
+.reply p{font-size:18px;line-height:1.5;color:var(--text)}
+.reply .rv-chk{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:16px;color:var(--muted)}
+.reply .rv-chk .ic{width:20px;height:20px;color:var(--amber);margin-top:1px}
+.reply .rv-chk b{color:var(--amber)}
+
+/* 15 Сводка смены */
+.s-brief .main{display:grid;grid-template-columns:640px 120px 1fr;align-items:start;min-height:0}
+.s-brief .arrow-col{align-self:stretch}
+.notes{padding:26px 28px;display:flex;flex-direction:column;gap:14px;align-self:start}
+.notes .label{display:flex;justify-content:space-between}
+.voice{display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:14px;background:var(--ink-4)}
+.voice .pl{width:36px;height:36px;border-radius:50%;background:var(--accent);display:grid;place-items:center;color:#170A05}
+.voice .pl .ic{width:16px;height:16px;fill:currentColor;stroke:none}
+.wave{flex:1;height:26px;background:repeating-linear-gradient(90deg,rgba(244,240,232,.5) 0 3px,transparent 3px 7px);-webkit-mask:linear-gradient(90deg,#000 0 100%);mask:none;opacity:.55;clip-path:polygon(0 40%,4% 20%,8% 55%,12% 10%,16% 45%,20% 25%,24% 60%,28% 5%,32% 50%,36% 30%,40% 70%,44% 15%,48% 55%,52% 35%,56% 65%,60% 20%,64% 50%,68% 30%,72% 60%,76% 10%,80% 45%,84% 35%,88% 55%,92% 25%,96% 45%,100% 40%,100% 60%,96% 55%,92% 75%,88% 45%,84% 65%,80% 55%,76% 90%,72% 40%,68% 70%,64% 50%,60% 80%,56% 35%,52% 65%,48% 45%,44% 85%,40% 30%,36% 70%,32% 50%,28% 95%,24% 40%,20% 75%,16% 55%,12% 90%,8% 45%,4% 80%,0 60%)}
+.voice span{font:500 15px/1 var(--f-mono);color:var(--muted)}
+.raw{font:400 18.5px/1.62 var(--f-mono);color:#D9D3C8}
+.arrow-col{display:grid;place-items:center;position:relative}
+.arrow-col .btn{position:relative;z-index:1;flex-direction:column;gap:8px;padding:18px 14px;border-radius:20px;white-space:normal;text-align:center;font-size:15px;width:104px}
+.arrow-col .btn .ic{width:26px;height:26px}
+.arrow-col::before{content:"";position:absolute;left:12px;right:12px;top:50%;height:1px;background:var(--ln-2)}
+.bf-wrap{display:flex;flex-direction:column;min-height:0}
+.bf-placeholder{min-height:560px;display:grid;place-items:center;text-align:center;border:1px dashed var(--ln-2);border-radius:var(--r-l);color:var(--fg-3);font-size:20px;line-height:1.5;padding:40px}
+.brief{display:none;padding:26px 30px;flex-direction:column;gap:0;background:var(--paper);color:var(--text-ink);border-radius:var(--r-l)}
+.done .brief{display:flex;animation:rise .55s var(--ease) both}
+.done .bf-placeholder{display:none}
+.brief-top{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:14px;border-bottom:2px solid var(--text-ink)}
+.brief-top h4{font:700 28px/1 var(--f-display);letter-spacing:-.02em}
+.brief-top span{font:500 15px/1 var(--f-mono);color:#57534C}
+.brief dl{display:grid;grid-template-columns:190px 1fr;gap:0}
+.brief dt,.brief dd{padding:11px 0;border-bottom:1px solid rgba(20,20,18,.12)}
+.brief dt{font:600 13px/1.6 var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:#8A857C}
+.brief dd{font-size:17.5px;line-height:1.45;color:#151513}
+.brief dd .ph{color:#B04A10;font-weight:600}
+.brief dd ol{list-style:decimal;padding-left:22px}
+.brief dt.q{color:#8C5E08}
+
+/* 16 Система */
+.s-system .frame{display:grid;grid-template-columns:1fr 520px;grid-template-rows:auto 1fr;column-gap:64px;row-gap:32px}
+.s-system .head{grid-column:1 / -1}
+html:not(.reflow) .s-system .h1{font-size:80px}
+.sys{position:relative;display:grid;grid-template-columns:330px 1fr 300px;grid-template-rows:1fr auto;gap:28px 30px;align-items:stretch}
+.sys-node{padding:24px 26px;border-radius:var(--r-l);background:var(--panel);border:1px solid var(--ln);display:flex;flex-direction:column;gap:12px;position:relative}
+.sys-node .nt{display:flex;align-items:center;gap:12px;font:650 24px/1.1 var(--f-display)}
+.sys-node .nt .ic{width:26px;height:26px;color:var(--em)}
+.tree{font:400 17px/1.75 var(--f-mono);color:var(--fg-2);white-space:pre}
+.tree b{color:var(--fg);font-weight:500}
+.tree .ac{color:var(--em)}
+.hub{justify-content:center;align-items:center;text-align:center;border-color:rgba(255,79,31,.55);background:radial-gradient(circle at 50% 40%,rgba(255,79,31,.12),transparent 70%),var(--panel)}
+.hub .big{font:800 56px/1 var(--f-display);letter-spacing:-.04em;color:var(--text)}
+.hub ul{display:grid;gap:10px;margin-top:10px;width:100%}
+.hub li{padding:11px 14px;border-radius:12px;border:1px solid var(--ln);font-size:17px;line-height:1.3;color:var(--fg-2);text-align:left;display:grid;grid-template-columns:26px 1fr;gap:8px}
+.hub li .ic{width:20px;height:20px;color:var(--em);margin-top:0}
+.node-tip{margin-top:auto;padding-top:16px;border-top:1px solid var(--ln);font-size:16px;line-height:1.45;color:var(--fg-3)}
+.node-tip b{color:var(--fg-2)}
+.node-tip .mono{font-size:15px;color:var(--fg-2)}
+.sheet-list{display:grid;gap:8px;font-size:17px;line-height:1.35;color:var(--fg-2)}
+.sheet-list div{display:grid;grid-template-columns:22px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid var(--ln)}
+.sheet-list .ic{width:18px;height:18px;color:var(--fg-3);margin-top:2px}
+.sys-out{grid-column:1 / -1;display:grid;grid-template-columns:auto 1fr auto 1fr auto;align-items:center;gap:18px;padding:20px 26px;border-radius:var(--r-l);border:1px solid var(--ln-2)}
+.sys-out .step{display:flex;align-items:center;gap:12px;font:600 19px/1.2 var(--f-display);color:var(--fg)}
+.sys-out .step .ic{width:24px;height:24px;color:var(--em)}
+.sys-out .step.chk .ic{color:var(--amber)}
+.sys-out .ln{height:1px;background:var(--ln-2);position:relative}
+.sys-out .ln::after{content:"";position:absolute;right:0;top:-4px;width:8px;height:8px;border-top:1px solid var(--fg-3);border-right:1px solid var(--fg-3);transform:rotate(45deg)}
+.conn{position:absolute;height:1px;background:var(--ln-2)}
+.ladder{display:flex;flex-direction:column;border-top:1px solid var(--ln)}
+.ladder li{display:grid;grid-template-columns:70px 1fr;gap:18px;padding:18px 0;border-bottom:1px solid var(--ln);position:relative}
+.ladder .lv{font:800 44px/1 var(--f-display);letter-spacing:-.03em;color:var(--fg-3)}
+.ladder strong{display:block;font:650 23px/1.15 var(--f-display)}
+.ladder p{margin-top:5px;font-size:17px;line-height:1.4;color:var(--fg-2)}
+.ladder .when{display:inline-block;margin-top:9px;font:600 13px/1 var(--f-display);letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3)}
+.ladder li.now .lv{color:var(--em)}
+.ladder li.now .when{color:var(--em)}
+.sys-note{font-size:15px;line-height:1.45;color:var(--fg-3);margin-top:16px}
+
+/* 17 План */
+.s-plan .frame{display:grid;grid-template-columns:1fr 640px;gap:72px}
+.s-plan .left{display:flex;flex-direction:column}
+.days{margin-top:30px;border-top:1px solid var(--ln)}
+.days li{display:grid;grid-template-columns:110px 1fr 120px;gap:20px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--ln)}
+.days .dn{font:700 16px/1 var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--em)}
+.days strong{display:block;font:650 22px/1.15 var(--f-display);letter-spacing:-.01em}
+.days span{display:block;margin-top:4px;font-size:17px;line-height:1.38;color:var(--fg-2)}
+.days .tm{justify-self:end;font:500 15px/1 var(--f-mono);color:var(--fg-3)}
+.first{padding:32px 34px;display:flex;flex-direction:column;gap:16px;align-self:start}
+.first h3{font:700 32px/1.05 var(--f-display);letter-spacing:-.02em;color:var(--text)}
+.cl-list{border-top:1px solid var(--line)}
+.cl-list label{display:grid;grid-template-columns:34px 1fr;gap:14px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);font-size:19px;line-height:1.35;color:var(--text);cursor:pointer}
+.cl-list input{appearance:none;-webkit-appearance:none;width:28px;height:28px;margin:0;border-radius:8px;border:1.5px solid var(--line-2);background:transparent;display:grid;place-items:center;cursor:pointer;transition:background .2s,border-color .2s}
+.cl-list input::after{content:"";width:12px;height:7px;border-left:2.5px solid #06140D;border-bottom:2.5px solid #06140D;transform:rotate(-45deg) translate(1px,-2px);opacity:0}
+.cl-list input:checked{background:var(--green);border-color:var(--green)}
+.cl-list input:checked::after{opacity:1}
+.cl-list input:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.cl-list label:has(input:checked) span{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(163,158,149,.6)}
+.cl-prog{display:flex;justify-content:space-between;align-items:center;font:600 16px/1 var(--f-display);color:var(--muted)}
+.cl-prog b{color:var(--green)}
+.metric label{display:block;margin-bottom:10px}
+.metric input{width:100%;padding:15px 18px;border-radius:14px;border:1px solid var(--line-2);background:var(--ink-4);color:var(--text);font:500 19px/1.3 var(--f-body)}
+.metric input:focus{outline:2px solid var(--accent);border-color:transparent}
+.metric input::placeholder{color:#7A766F}
+.metric p{margin-top:10px;font-size:15px;line-height:1.45;color:var(--dim)}
+.files-row{margin-top:auto;padding-top:22px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.files-row .label{margin-right:8px}
+.files-row a{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:1px solid var(--ln-2);font:500 16px/1 var(--f-mono);color:var(--fg);text-decoration:none}
+.files-row a:hover{border-color:var(--em);color:var(--em)}
+.files-row a.next{background:var(--accent);border-color:var(--accent);color:#170A05;font-family:var(--f-display);font-weight:650}
+.files-row a.next:hover{background:#FF6A3F;color:#170A05}
+.files-row a .ic{width:16px;height:16px}
+
+/* ───────── Управление (вне сцены) ───────── */
+.progress{position:fixed;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.05);z-index:40}
+.progress i{display:block;height:100%;width:0;background:var(--accent);transition:width .5s var(--ease)}
+.controls{position:fixed;right:18px;bottom:16px;z-index:50;display:flex;align-items:center;gap:4px;padding:5px;border-radius:999px;background:rgba(22,22,20,.78);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.09);transition:opacity .4s}
+.controls button{width:40px;height:40px;border-radius:999px;border:0;background:transparent;color:#EDE9E1;display:grid;place-items:center;cursor:pointer;font-size:20px}
+.controls button:hover{background:rgba(255,255,255,.09)}
+.controls button:focus-visible{outline:2px solid var(--amber)}
+.controls button .ic{width:20px;height:20px}
+.controls .ctr{min-width:62px;text-align:center;font:600 13px/1 var(--f-display);letter-spacing:.08em;color:#A39E95;font-variant-numeric:tabular-nums}
+body.idle .controls{opacity:0}
+body.idle{cursor:none}
+.toc{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:rgba(10,10,9,.82);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s linear .3s}
+.toc.open{opacity:1;visibility:visible;transition:opacity .3s,visibility 0s}
+.toc-in{width:min(1120px,92vw);max-height:88vh;overflow:auto;padding:36px 40px;border-radius:24px;background:#141412;border:1px solid rgba(255,255,255,.09);color:var(--text)}
+.toc-top{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:24px}
+.toc-top h2{font:700 30px/1 var(--f-display);letter-spacing:-.02em}
+.toc-top .x{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.14);background:none;color:var(--text);display:grid;place-items:center;cursor:pointer}
+.toc-top .x .ic{width:20px;height:20px}
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px 36px}
+.toc-mod .label{display:block;margin-bottom:10px;color:var(--accent);font-size:12px}
+.toc-mod a{display:grid;grid-template-columns:38px 1fr;gap:8px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.07);color:#D9D3C8;text-decoration:none;font-size:16px;line-height:1.3}
+.toc-mod a span{font:600 14px/1.3 var(--f-display);color:#75716A;font-variant-numeric:tabular-nums}
+.toc-mod a:hover,.toc-mod a.cur{color:var(--text)}
+.toc-mod a.cur span{color:var(--accent)}
+.toc-foot{margin-top:28px;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.toc-foot .keys{margin-left:auto;font-size:14px;line-height:1.6;color:#8A857C}
+.toc-foot .keys b{color:#D9D3C8;font-weight:600}
+.toc-foot .btn{--fg:var(--text);--ln-2:rgba(255,255,255,.2)}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);z-index:70;padding:12px 18px;border-radius:12px;background:#F2EEE6;color:#151513;font:600 15px/1 var(--f-display);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* ───────── Мобильный режим (переразметка вместо масштабирования) ───────── */
+@media screen{
+  html.reflow{--fs-hero:52px;--fs-h1:38px;--fs-h2:32px;--fs-h3:21px;--fs-lead:18px;--fs-body:16px;--fs-small:15px;--fs-micro:11px;--fs-code:13.5px;--px:20px}
+  html.reflow .deck{left:0;top:0;width:100%;height:100%;transform:none}
+  html.reflow .slide{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  html.reflow .chrome{position:static;padding:18px 20px 0;font-size:10px;letter-spacing:.12em;gap:12px}
+  html.reflow .chrome .mod{display:none}
+  html.reflow .chrome .num{margin-left:auto}
+  html.reflow .frame{position:static;display:flex!important;flex-direction:column;gap:26px;padding:26px 20px 110px}
+  html.reflow .frame > *{min-width:0}
+  html.reflow .kicker{margin-bottom:14px}
+  html.reflow .kicker::before{width:20px}
+  html.reflow .s-title::before{display:none}
+  html.reflow .s-title .kicker{margin-top:8px}
+  html.reflow .hero-sub{margin-top:18px;font-size:20px}
+  html.reflow .chain{grid-template-columns:1fr 1fr;gap:18px 14px;margin-top:18px}
+  html.reflow .chain li{padding-top:12px}
+  html.reflow .chain li strong{font-size:18px}
+  html.reflow .chain li span{font-size:13px}
+  html.reflow .chain li b{font-size:11px;margin-bottom:8px}
+  html.reflow .chain li::after{display:none}
+  html.reflow .hero-meta{flex-direction:column;gap:10px;margin-top:10px;font-size:14px}
+  html.reflow .hero-meta .hint{display:none}
+  html.reflow .hero-meta .ins-link{margin-left:0}
+  html.reflow .gloss{margin-top:20px}
+  html.reflow .gloss div{grid-template-columns:1fr;gap:6px;padding:14px 0}
+  html.reflow .gloss dt{font-size:19px}
+  html.reflow .gloss dd{font-size:15px}
+  html.reflow .nw{padding:22px 20px;gap:18px}
+  html.reflow .nw-sentence{font-size:22px;min-height:0}
+  html.reflow .nw-cands li{grid-template-columns:110px 1fr 40px;gap:10px;font-size:15px}
+  html.reflow .nw-cands .pct{font-size:13px}
+  html.reflow .dev-note,html.reflow .gx-text,html.reflow .gq p{font-size:15px}
+  html.reflow .btn{padding:11px 16px;font-size:14px}
+  html.reflow .tag{font-size:10px;padding:6px 10px}
+  html.reflow .limits,html.reflow .head-row,html.reflow .versus,html.reflow .ctx-flow,html.reflow .ctx-paths,html.reflow .s-menu .main,html.reflow .ct-split,html.reflow .s-reviews .main,html.reflow .s-brief .main,html.reflow .sys,html.reflow .ways,html.reflow .anat-grid,html.reflow .draft,html.reflow .quad .q-ins{display:flex;flex-direction:column;gap:18px}
+  html.reflow .list-title{font-size:18px}
+  html.reflow .plain li{font-size:15px;padding:10px 0}
+  html.reflow .hc{padding:20px}
+  html.reflow .bubble{font-size:15px}
+  html.reflow .hc-check p,html.reflow .hc-check .verdict{font-size:14px}
+  html.reflow .redzone .rz{font-size:13px;padding:8px 12px}
+  html.reflow .redzone .rz-l{font-size:11px;width:100%}
+  html.reflow .task-rows li{grid-template-columns:44px 1fr;gap:6px 14px;padding:16px 0}
+  html.reflow .tr-n{font-size:20px}
+  html.reflow .tr-ic{display:none}
+  html.reflow .tr-t strong{font-size:19px}
+  html.reflow .tr-t span{font-size:13px}
+  html.reflow .tr-d,html.reflow .tr-out,html.reflow .tr-link{grid-column:2}
+  html.reflow .tr-d{font-size:15px}
+  html.reflow .tr-out{font-size:12.5px;padding:8px 10px}
+  html.reflow .tr-link{justify-self:start;font-size:11px}
+  html.reflow .wire{width:100%}
+  html.reflow .hot{width:30px;height:30px;font-size:13px}
+  html.reflow .gx{padding:22px 20px}
+  html.reflow .gx-n{font-size:48px}
+  html.reflow .gx-title{font-size:22px}
+  html.reflow .gx-try .code{font-size:13px}
+  html.reflow .toggles{margin-top:16px}
+  html.reflow .toggle-row{grid-template-columns:28px 1fr 52px;padding:12px 0}
+  html.reflow .toggle-row strong{font-size:18px}
+  html.reflow .toggle-row span{font-size:13px}
+  html.reflow .sw{width:48px;height:28px}
+  html.reflow .sw::after{width:20px;height:20px}
+  html.reflow .toggle-row[aria-pressed="true"] .sw::after{transform:translateX(20px)}
+  html.reflow .builder{padding:20px}
+  html.reflow .pb{font-size:13.5px}
+  html.reflow .pb p{grid-template-columns:1fr;gap:4px;padding:10px 0}
+  html.reflow .meter-row .q{font-size:16px}
+  html.reflow .builder-foot{flex-direction:column;align-items:flex-start}
+  html.reflow .vs-mid{height:50px}
+  html.reflow .vs-mid::before{top:50%;bottom:auto;left:0;right:0;width:auto;height:1px}
+  html.reflow .vs-mid span{width:46px;height:46px;font-size:13px}
+  html.reflow .vbox{padding:16px}
+  html.reflow .vbox .code{font-size:13px}
+  html.reflow .vbox.ans{font-size:15px}
+  html.reflow .chip{font-size:12px;padding:7px 10px}
+  html.reflow .statement{font-size:34px}
+  html.reflow .statement .serif{font-size:38px}
+  html.reflow .ctx-q p{font-size:22px}
+  html.reflow .ctx-path{padding:20px}
+  html.reflow .ctx-path p{font-size:15px}
+  html.reflow .layers span.ly{font-size:13px;padding:8px 12px}
+  html.reflow .steps li{grid-template-columns:40px 1fr;gap:12px;padding:12px 0}
+  html.reflow .steps li::before{width:32px;height:32px;font-size:14px}
+  html.reflow .steps strong{font-size:17px}
+  html.reflow .steps span{font-size:14px}
+  html.reflow .check-note{font-size:14px;padding:12px 14px}
+  html.reflow .win-bar .fn{display:none}
+  html.reflow .win-body{padding:18px;max-height:420px}
+  html.reflow .win-body .code{font-size:12.5px}
+  html.reflow .how li{font-size:15px}
+  html.reflow .chat-head,html.reflow .chat-body,html.reflow .chat-foot{padding-left:16px;padding-right:16px}
+  html.reflow .chat-foot{flex-wrap:wrap}
+  html.reflow .chat-foot .edu-note{margin-left:0;width:100%}
+  html.reflow .gq{grid-template-columns:40px 1fr}
+  html.reflow .gq .rec,html.reflow .gans{font-size:14px}
+  html.reflow .gr-result{padding:18px}
+  html.reflow .gr-result h4{font-size:21px}
+  html.reflow .gr-result dl{grid-template-columns:1fr;gap:4px;font-size:14px}
+  html.reflow .gr-trail li{grid-template-columns:1fr;gap:2px;font-size:13px}
+  html.reflow .sk-item strong{font-size:18px}
+  html.reflow .sk-item span{font-size:13px}
+  html.reflow .anat{padding:20px}
+  html.reflow .anat-top h3{font-size:24px}
+  html.reflow .anat-top{flex-direction:column}
+  html.reflow .anat-grid div,html.reflow .anat-grid div:nth-child(odd),html.reflow .anat-grid div:nth-child(even){padding:12px 0;border-right:0}
+  html.reflow .anat-grid p{font-size:15px}
+  html.reflow .ways div,html.reflow .ways div+div{padding:14px 0 0;border-left:0}
+  html.reflow .ways strong{font-size:18px}
+  html.reflow .ways p{font-size:14px}
+  html.reflow .p-head{flex-direction:column;align-items:flex-start;gap:12px}
+  html.reflow .p-head .acts{flex-wrap:wrap;padding:0}
+  html.reflow .rail{grid-template-columns:1fr 1fr;gap:14px}
+  html.reflow .rail li b{font-size:14px}
+  html.reflow .mtable th{font-size:9px;letter-spacing:.06em}
+  html.reflow .mtable td{font-size:13px;padding:8px 0}
+  html.reflow .mtable input{width:62px;font-size:13px;padding:5px 6px}
+  html.reflow .mtable th:nth-child(5),html.reflow .mtable td:nth-child(5){display:none}
+  html.reflow .fc{min-width:0;font-size:12px;padding:3px 5px}
+  html.reflow .menu-note{flex-direction:column;align-items:flex-start}
+  html.reflow .quad .q-ins div{font-size:14px}
+  html.reflow .week{display:flex;overflow-x:auto;gap:10px;padding-bottom:6px;scroll-snap-type:x mandatory}
+  html.reflow .wk-day{min-width:150px;min-height:150px;scroll-snap-align:start;padding:14px}
+  html.reflow .wk-day strong{font-size:16px}
+  html.reflow .draft{padding:20px}
+  html.reflow .draft h4{font-size:20px}
+  html.reflow .draft p,html.reflow .draft .txt{font-size:15px}
+  html.reflow .ct-side .rules li{font-size:14px}
+  html.reflow .rv-list{grid-template-columns:1fr}
+  html.reflow .rv p{font-size:15px}
+  html.reflow .clusters li{grid-template-columns:1fr 60px 30px;gap:10px}
+  html.reflow .reply .rv-chk{font-size:13px}
+  html.reflow .clusters strong{font-size:15px}
+  html.reflow .reply p{font-size:14px}
+  html.reflow .raw{font-size:13px}
+  html.reflow .arrow-col{padding:6px 0}
+  html.reflow .arrow-col .btn{flex-direction:row;width:auto;padding:12px 18px}
+  html.reflow .brief{padding:18px}
+  html.reflow .brief dl{grid-template-columns:1fr}
+  html.reflow .brief dt{border-bottom:0;padding-bottom:0}
+  html.reflow .brief dd{font-size:14px;padding-top:4px}
+  html.reflow .brief-top h4{font-size:19px}
+  html.reflow .hub .big{font-size:36px}
+  html.reflow .tree{font-size:13px}
+  html.reflow .sys-out{display:flex;flex-direction:column;align-items:flex-start}
+  html.reflow .sys-out .ln{display:none}
+  html.reflow .ladder .lv{font-size:28px}
+  html.reflow .ladder li{grid-template-columns:44px 1fr}
+  html.reflow .ladder strong{font-size:17px}
+  html.reflow .ladder p{font-size:14px}
+  html.reflow .days li{grid-template-columns:70px 1fr;gap:12px}
+  html.reflow .days .tm{display:none}
+  html.reflow .days strong{font-size:17px}
+  html.reflow .days span{font-size:14px}
+  html.reflow .first{padding:20px}
+  html.reflow .first h3{font-size:22px}
+  html.reflow .cl-list label{font-size:15px}
+  html.reflow .controls{right:12px;bottom:12px}
+  html.reflow .rv-placeholder,html.reflow .bf-placeholder{padding:24px;font-size:15px;min-height:0}
+  html.reflow .pb p:not(.on) .gh{font-size:13.5px}
+  html.reflow .why .serif{font-size:22px}
+  html.reflow .why .small{font-size:14px}
+  html.reflow .why{padding-left:16px}
+  html.reflow .node-tip{font-size:13px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  html.js .slide .a{opacity:1}
+}
+
+/* ───────── Печать / PDF: один слайд — одна страница 16:9 ───────── */
+@page{size:1920px 1080px;margin:0}
+@media print{
+  html,body{height:auto;overflow:visible;background:#0F0F0E}
+  .viewport{position:static;overflow:visible}
+  .deck{position:static;transform:none!important;width:1920px;height:auto;overflow:visible}
+  .slide{position:relative;inset:auto;width:1920px;height:1080px;opacity:1!important;visibility:visible!important;break-after:page;page-break-after:always;overflow:hidden;transition:none!important}
+  .slide:last-child{break-after:auto;page-break-after:auto}
+  .controls,.progress,.toc,.toast{display:none!important}
+  html.js .slide .a{opacity:1!important;animation:none!important;transform:none!important}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;animation:none!important}
+  .caret,.hot::after{display:none}
+  .pb p .tx{display:block!important}
+  .pb p .gh{display:none!important}
+  .pb p .lb{color:var(--accent)!important}
+  .pb p{border-top-style:solid!important}
+  .toggle-row .sw{background:var(--accent)!important;border-color:var(--accent)!important}
+  .toggle-row .sw::after{transform:translateX(26px)!important;background:#170A05!important}
+  .toggle-row strong{color:var(--fg)!important}
+  .toggle-row .n{color:var(--em)!important}
+  .meter i{background:var(--accent)!important}
+  #pbQ{font-size:0!important}
+  #pbQ::after{content:"Готово к работе";font-size:24px}
+  .hc .mark{background:rgba(255,79,31,.22);box-shadow:0 2px 0 var(--accent)}
+  .hc-check{display:flex!important}
+  .hc .btn{display:none}
+  .gr-round{display:none!important}
+  .gr-round[data-r="1"]{display:flex!important}
+  .gr-round[data-r="1"] .gans{display:none}
+  .gr-result{display:flex!important}
+  .gr-trail{display:none!important}
+  .chat-foot .btn{display:none}
+  .rv-analysis{display:flex!important}
+  .rv-placeholder{display:none!important}
+  .rv .cl{display:inline-block!important}
+  .rv[data-c="speed"]{box-shadow:inset 3px 0 0 var(--accent)}
+  .rv[data-c="temp"]{box-shadow:inset 3px 0 0 var(--amber)}
+  .rv[data-c="clean"]{box-shadow:inset 3px 0 0 #7AA8FF}
+  .rv[data-c="praise"]{box-shadow:inset 3px 0 0 var(--green)}
+  .brief{display:flex!important}
+  .bf-placeholder{display:none!important}
+  .arrow-col .btn{visibility:hidden}
+  [data-copy],[data-menu],.nw-actions,.chat-foot .btn,.builder-foot .btn{display:none!important}
+  .builder-foot .small{visibility:hidden}
+  .chain li{border-top-color:var(--line-2)!important}
+  .chain li:first-child{border-top-color:var(--accent)!important}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M15 9V6.5A2.5 2.5 0 0 0 12.5 4h-6A2.5 2.5 0 0 0 4 6.5v6A2.5 2.5 0 0 0 6.5 15H9"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V4h10v5"/><rect x="3.5" y="9" width="17" height="8" rx="2"/><path d="M7 14h10v6H7z"/></symbol>
+  <symbol id="i-full" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/></symbol>
+  <symbol id="i-mega" viewBox="0 0 24 24"><path d="M4 10v4a1 1 0 0 0 1 1h3l7 4V5L8 9H5a1 1 0 0 0-1 1z"/><path d="M18.5 9.5a4 4 0 0 1 0 5"/></symbol>
+  <symbol id="i-review" viewBox="0 0 24 24"><path d="M4 5h16v11H10l-5 4v-4H4z"/><path d="M12 7.6l1 2.1 2.3.3-1.7 1.6.4 2.3-2-1.1-2 1.1.4-2.3-1.7-1.6 2.3-.3z"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 4.5a3.2 3.2 0 0 1 0 6.3M21 20c0-2.6-1.6-4.8-4-5.6"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h4"/></symbol>
+  <symbol id="i-sheet" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M4 15h16M10 4v16"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M11 3l1.9 5.3L18 10l-5.1 1.8L11 17l-1.9-5.2L4 10l5.1-1.7z"/><path d="M18.5 15l.8 2.1 2.2.8-2.2.8-.8 2.3-.8-2.3-2.2-.8 2.2-.8z"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5"/><path d="M4 18v2h16v-2"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4 4.5V8h3.5"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17v.4"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H10l-5 4v-4H4z"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".6"/></symbol>
+  <symbol id="i-q" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.5a2.5 2.5 0 0 1 4.8 1c0 1.7-2.4 2.1-2.4 3.6M12 17v.3"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+</svg>
+
+<div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+
+<div class="viewport" id="viewport">
+<main class="deck" id="deck">
+
+<!-- ═════════ 01 · ТИТУЛ ═════════ -->
+<section class="slide s-title" data-module="01" data-title="AI для фастфуд-бизнеса">
+  <div class="frame">
+    <p class="kicker a">Практический воркшоп · для Абаса</p>
+    <h1 class="hero a" style="--d:1"><span class="em">AI</span> для<br>фастфуд-бизнеса</h1>
+    <p class="hero-sub a" style="--d:2">От первого промпта до собственного AI-помощника.</p>
+    <ol class="chain a" style="--d:3" aria-label="Рабочий цикл AI-системы">
+      <li style="--i:0"><b>01</b><strong>Бизнес-контекст</strong><span>что AI должен знать о&nbsp;заведении</span></li>
+      <li style="--i:1"><b>02</b><strong>AI</strong><span>Gemini читает, считает, пишет</span></li>
+      <li style="--i:2"><b>03</b><strong>Навык</strong><span>готовая инструкция под задачу</span></li>
+      <li style="--i:3"><b>04</b><strong>Действие</strong><span>таблица, текст или сводка</span></li>
+      <li style="--i:4"><b>05</b><strong>Проверка</strong><span>человек подтверждает и решает</span></li>
+      <li style="--i:5"><b>06</b><strong>Сохранение</strong><span>результат — в&nbsp;Google Drive</span></li>
+    </ol>
+    <div class="hero-meta a" style="--d:4">
+      <span>Инструмент — Google Gemini</span>
+      <span>4 практики на задачах заведения</span>
+      <span>Итог дня — первый рабочий AI-процесс</span>
+      <a class="ins-link" href="instructions.html">Пошаговая инструкция →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 02 · ЧТО ТАКОЕ AI ═════════ -->
+<section class="slide paper s-llm" data-module="01" data-title="Что такое AI, LLM и нейросети">
+  <div class="frame">
+    <div>
+      <p class="kicker a">Основы · простыми словами</p>
+      <h2 class="h1 a" style="--d:1">Как «думает»<br>нейросеть</h2>
+      <dl class="gloss a" style="--d:2">
+        <div><dt>Нейросеть</dt><dd>Программа, которая научилась находить закономерности на миллиардах примеров: текстах, фото, звуках.</dd></div>
+        <div><dt>LLM<small>большая языковая модель</small></dt><dd>Нейросеть, обученная на текстах. Её главный навык — угадывать, какое слово логично написать следующим.</dd></div>
+        <div><dt>Gemini</dt><dd>Помощник от Google на основе LLM. Понимает вопросы, читает документы и фото, умеет искать в интернете.</dd></div>
+      </dl>
+    </div>
+    <div class="device nw a" style="--d:3" data-demo="nextword">
+      <div class="dev-top"><span class="label">Демонстрация · как LLM пишет текст</span><span class="tag edu">иллюстрация</span></div>
+      <p class="nw-sentence" aria-live="polite"><span>Чтобы гости возвращались, нужно</span> <span class="nw-built"></span><span class="caret"></span></p>
+      <ul class="nw-cands" aria-label="Варианты следующего слова"></ul>
+      <div class="nw-actions">
+        <button class="btn primary" data-nw="next"><span>Следующее слово</span><svg class="ic"><use href="#i-arrow-r"/></svg></button>
+        <button class="btn" data-nw="reset"><svg class="ic"><use href="#i-reset"/></svg>Сначала</button>
+      </div>
+      <p class="dev-note">Модель не знает ваше заведение — она выбирает <b>вероятное</b> продолжение. Поэтому чем больше конкретики о&nbsp;бизнесе вы дадите, тем точнее и полезнее ответ.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 03 · УМЕЕТ / НЕ УМЕЕТ ═════════ -->
+<section class="slide s-limits" data-module="01" data-title="Что AI умеет и чего не умеет">
+  <div class="frame">
+    <header class="a">
+      <p class="kicker">Возможности и риски</p>
+      <h2 class="h1">Сильный помощник.<br><em>Ненадёжный свидетель.</em></h2>
+    </header>
+    <div class="limits">
+      <div class="a" style="--d:1">
+        <h3 class="list-title"><svg class="ic"><use href="#i-check"/></svg>Хорошо умеет</h3>
+        <ul class="plain">
+          <li><b>Черновики</b> постов, ответов, инструкций</li>
+          <li><b>Наводить порядок</b> в заметках и списках</li>
+          <li><b>Считать и сравнивать</b> данные, которые вы дали</li>
+          <li><b>Предлагать идеи</b> и варианты решений</li>
+          <li><b>Объяснять</b> сложное простыми словами</li>
+          <li><b>Задавать вопросы</b>, чтобы прояснить задачу</li>
+        </ul>
+      </div>
+      <div class="a" style="--d:2">
+        <h3 class="list-title no"><svg class="ic"><use href="#i-x"/></svg>Нельзя доверять без проверки</h3>
+        <ul class="plain">
+          <li><b>Ваши цифры</b> — AI их не знает, пока вы их не дали</li>
+          <li><b>Факты, цены, законы</b> — может ошибиться уверенно</li>
+          <li><b>Состав и аллергены</b> — не видел ваших техкарт</li>
+          <li><b>Решения</b> — отвечаете за них вы, а не AI</li>
+          <li><b>Память</b> — новый чат не помнит прошлый без настроек</li>
+        </ul>
+      </div>
+    </div>
+    <div class="device hc a" style="--d:3" data-demo="halluc">
+        <div class="dev-top"><span class="label">Что такое галлюцинация</span><span class="tag edu">учебный пример</span></div>
+        <div class="bubble me"><span class="who">Вы</span>В нашем соусе «Чесночный» есть аллергены?</div>
+        <div class="bubble ai"><span class="who">AI</span>Нет, соус «Чесночный» <span class="mark">обычно не содержит</span> распространённых аллергенов, <span class="mark">его можно предлагать всем гостям</span>.</div>
+        <div class="hc-check">
+          <p><svg class="ic"><use href="#i-warn"/></svg><span>AI не видел вашу техкарту и состав от поставщика — он угадывает.</span></p>
+          <p><svg class="ic"><use href="#i-warn"/></svg><span>Чесночные соусы часто делают на майонезе (яйцо) или йогурте (молоко).</span></p>
+          <span class="verdict"><b>Галлюцинация</b> — уверенный, правдоподобный и неверный ответ. Правильный ответ AI: «Я не знаю ваш рецепт. Проверьте техкарту и состав от поставщика».</span>
+        </div>
+        <button class="btn" data-hc><svg class="ic"><use href="#i-search"/></svg><span>Проверить ответ</span></button>
+      </div>
+    <div class="redzone a" style="--d:4">
+      <span class="rz-l"><svg class="ic"><use href="#i-shield"/></svg>Красная зона · решает человек</span>
+      <span class="rz">Цены</span><span class="rz">Аллергены и состав</span><span class="rz">Пищевая безопасность</span><span class="rz">Платежи и деньги</span><span class="rz">Публикации</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 04 · ПЯТЬ ЗАДАЧ ═════════ -->
+<section class="slide s-tasks" data-module="01" data-title="Пять задач фастфуда для AI">
+  <div class="frame">
+    <div class="head-row a">
+      <div><p class="kicker">С чего начать</p><h2 class="h1">Пять задач, где AI<br>экономит часы</h2></div>
+      <p class="lead">Начните не с «внедрения AI», а с одной повторяющейся работы, которую сейчас делаете вручную.</p>
+    </div>
+    <ol class="task-rows">
+      <li class="a" style="--d:1"><span class="tr-n">01</span><span class="tr-ic"><svg class="ic"><use href="#i-receipt"/></svg></span><div class="tr-t"><strong>Меню и цены</strong><span>себестоимость, маржа, комбо</span></div><p class="tr-d">Считает маржу по вашим данным, находит слабые позиции, предлагает гипотезы по ценам и комбо.</p><span class="tr-out">таблица маржи + 3 гипотезы</span><span class="tr-link">Практика 1</span></li>
+      <li class="a" style="--d:2"><span class="tr-n">02</span><span class="tr-ic"><svg class="ic"><use href="#i-mega"/></svg></span><div class="tr-t"><strong>Маркетинг и акции</strong><span>Instagram, Google Maps, офферы</span></div><p class="tr-d">Пишет черновики постов, описаний и условий акций под вашу аудиторию и бюджет.</p><span class="tr-out">контент-план на неделю</span><span class="tr-link">Практика 2</span></li>
+      <li class="a" style="--d:3"><span class="tr-n">03</span><span class="tr-ic"><svg class="ic"><use href="#i-review"/></svg></span><div class="tr-t"><strong>Отзывы и сервис</strong><span>жалобы, похвала, ответы</span></div><p class="tr-d">Группирует отзывы по темам, показывает повторяющиеся проблемы, готовит вежливые ответы.</p><span class="tr-out">3 главные проблемы + ответы</span><span class="tr-link">Практика 3</span></li>
+      <li class="a" style="--d:4"><span class="tr-n">04</span><span class="tr-ic"><svg class="ic"><use href="#i-clip"/></svg></span><div class="tr-t"><strong>Операции смены</strong><span>продажи, закупки, проблемы</span></div><p class="tr-d">Превращает заметки управляющего в короткую сводку с решениями и задачами на завтра.</p><span class="tr-out">сводка на 2 минуты чтения</span><span class="tr-link">Практика 4</span></li>
+      <li class="a" style="--d:5"><span class="tr-n">05</span><span class="tr-ic"><svg class="ic"><use href="#i-users"/></svg></span><div class="tr-t"><strong>Стандарты и обучение</strong><span>чек-листы, инструкции</span></div><p class="tr-d">Оформляет чек-листы открытия и закрытия, инструкции и короткие тесты для новых сотрудников.</p><span class="tr-out">чек-лист смены на 1 странице</span><span class="tr-link">Промпты 12–13</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═════════ 05 · GEMINI ═════════ -->
+<section class="slide s-gemini" data-module="02" data-title="Знакомство с Gemini">
+  <div class="frame">
+    <div class="head-row a">
+      <div><p class="kicker">Инструмент</p><h2 class="h1">Знакомство с Gemini</h2></div>
+      <p class="lead">Откройте <b>gemini.google.com</b> или приложение Gemini на телефоне и войдите в Google-аккаунт. Нажимайте на точки на схеме.</p>
+    </div>
+    <div class="wire a" style="--d:1" data-demo="gemini">
+      <svg viewBox="0 0 1000 640" role="img" aria-label="Упрощённая схема интерфейса Gemini">
+        <rect x="1" y="1" width="998" height="638" rx="26" fill="#141412" stroke="rgba(255,255,255,.1)"/>
+        <path d="M230 1v638" stroke="rgba(255,255,255,.08)"/>
+        <rect x="24" y="30" width="182" height="44" rx="22" fill="#1D1D1B" stroke="rgba(255,255,255,.12)"/>
+        <text class="t" x="48" y="58" font-size="16" fill="#D9D3C8">+  Новый чат</text>
+        <text class="t" x="28" y="128" font-size="13" letter-spacing="2">GEMS</text>
+        <rect x="24" y="142" width="182" height="40" rx="10" fill="rgba(255,79,31,.12)"/>
+        <text class="t" x="40" y="168" font-size="15" fill="#F4F0E8">Аналитик меню</text>
+        <rect x="24" y="190" width="182" height="40" rx="10" fill="#1A1A18"/>
+        <text class="t" x="40" y="216" font-size="15" fill="#D9D3C8">Сводка смены</text>
+        <text class="t" x="28" y="300" font-size="13" letter-spacing="2">НЕДАВНИЕ</text>
+        <rect x="28" y="318" width="150" height="10" rx="5" fill="#2A2A27"/>
+        <rect x="28" y="346" width="120" height="10" rx="5" fill="#2A2A27"/>
+        <rect x="28" y="374" width="160" height="10" rx="5" fill="#2A2A27"/>
+        <rect x="28" y="402" width="104" height="10" rx="5" fill="#2A2A27"/>
+        <rect x="262" y="28" width="168" height="40" rx="20" fill="#1D1D1B" stroke="rgba(255,255,255,.12)"/>
+        <text class="t" x="284" y="54" font-size="15" fill="#D9D3C8">Модель  ▾</text>
+        <circle cx="950" cy="48" r="20" fill="#2A2A27"/>
+        <text class="t" x="615" y="268" font-size="40" fill="#F4F0E8" text-anchor="middle" font-weight="700">Чем помочь?</text>
+        <text class="t" x="615" y="306" font-size="17" text-anchor="middle">Спросите, загрузите файл или выберите Gem</text>
+        <rect x="262" y="476" width="706" height="128" rx="28" fill="#1D1D1B" stroke="rgba(255,255,255,.14)"/>
+        <text class="t" x="292" y="522" font-size="18" fill="#75716A">Спросите что-нибудь…</text>
+        <circle cx="300" cy="568" r="18" fill="none" stroke="rgba(255,255,255,.25)"/>
+        <path d="M300 560v16M292 568h16" stroke="#D9D3C8" stroke-width="2" stroke-linecap="round"/>
+        <rect x="334" y="550" width="138" height="36" rx="18" fill="none" stroke="rgba(255,255,255,.2)"/>
+        <text class="t" x="352" y="574" font-size="15" fill="#D9D3C8">Инструменты</text>
+        <rect x="922" y="551" width="22" height="34" rx="11" fill="none" stroke="#D9D3C8" stroke-width="2"/>
+      </svg>
+      <button class="hot" style="left:61%;top:81%" data-hot="0" aria-label="Поле запроса">1</button>
+      <button class="hot" style="left:30%;top:88.8%" data-hot="1" aria-label="Загрузка файлов">2</button>
+      <button class="hot" style="left:46%;top:7.6%" data-hot="2" aria-label="Выбор модели">3</button>
+      <button class="hot" style="left:50.6%;top:88.8%" data-hot="3" aria-label="Инструменты">4</button>
+      <button class="hot" style="left:23%;top:29%" data-hot="4" aria-label="Gems">5</button>
+      <button class="hot" style="left:21%;top:56%" data-hot="5" aria-label="История чатов">6</button>
+    </div>
+    <div class="device gx a" style="--d:2" aria-live="polite">
+      <div class="gx-n">2</div>
+      <h3 class="gx-title">Файлы и фото</h3>
+      <p class="gx-text"></p>
+      <div class="gx-try"><span class="label">Попробуйте</span><p class="code"></p></div>
+      <p class="gx-hint">Интерфейс обновляется — названия кнопок могут отличаться. Схема упрощённая.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 06 · ФОРМУЛА ПРОМПТА ═════════ -->
+<section class="slide s-formula" data-module="02" data-title="Принципы хорошего промпта">
+  <div class="frame">
+    <div class="left">
+      <p class="kicker a">Промпт = задание для AI</p>
+      <h2 class="h1 a" style="--d:1">Формула<br>хорошего запроса</h2>
+      <div class="toggles a" style="--d:2" data-demo="builder">
+        <button class="toggle-row" data-k="role" aria-pressed="false"><span class="n">01</span><span><strong>Роль</strong><span>кем должен быть AI</span></span><span class="sw"></span></button>
+        <button class="toggle-row" data-k="ctx" aria-pressed="false"><span class="n">02</span><span><strong>Контекст</strong><span>что важно знать о вас</span></span><span class="sw"></span></button>
+        <button class="toggle-row" data-k="task" aria-pressed="true"><span class="n">03</span><span><strong>Задача</strong><span>что именно сделать</span></span><span class="sw"></span></button>
+        <button class="toggle-row" data-k="lim" aria-pressed="false"><span class="n">04</span><span><strong>Ограничения</strong><span>рамки и чего нельзя</span></span><span class="sw"></span></button>
+        <button class="toggle-row" data-k="fmt" aria-pressed="false"><span class="n">05</span><span><strong>Формат</strong><span>как выглядит результат</span></span><span class="sw"></span></button>
+      </div>
+    </div>
+    <div class="device builder a" style="--d:3">
+      <div class="meter-row"><span class="label">Качество запроса</span><span class="q" id="pbQ">Общий ответ</span></div>
+      <div class="meter" id="pbMeter"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="pb" id="pb">
+        <p data-k="role"><span class="lb">Роль</span><span class="tx">Ты — опытный управляющий фастфуд-заведения и маркетолог.</span><span class="gh">не указана — AI ответит как «кто угодно»</span></p>
+        <p data-k="ctx"><span class="lb">Контекст</span><span class="tx">Небольшое заведение у метро: бургеры и шаурма. Гости — студенты и офисные работники. В будни с 15:00 до 18:00 мало заказов. <span class="c">[учебный пример — замените своим]</span></span><span class="gh">не указан — AI не знает ваше заведение</span></p>
+        <p data-k="task"><span class="lb">Задача</span><span class="tx">Предложи 5 идей, как увеличить продажи в будни с 15:00 до 18:00.</span><span class="gh">не указана — непонятно, что делать</span></p>
+        <p data-k="lim"><span class="lb">Ограничения</span><span class="tx">Скидка не больше 15%, без нового оборудования. Не придумывай цифры — если данных не хватает, задай мне вопросы.</span><span class="gh">не указаны — AI может предложить что угодно</span></p>
+        <p data-k="fmt"><span class="lb">Формат</span><span class="tx">Таблица: идея, как работает, затраты для нас, как измерить результат. В конце — какую идею проверить первой и почему.</span><span class="gh">не указан — ответ будет сплошным текстом</span></p>
+      </div>
+      <div class="builder-foot">
+        <span class="small">Включайте элементы слева — запрос собирается сам</span>
+        <button class="btn primary" data-copy="builder"><svg class="ic"><use href="#i-copy"/></svg><span>Скопировать промпт</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 07 · СЛАБЫЙ VS СИЛЬНЫЙ ═════════ -->
+<section class="slide s-compare" data-module="02" data-title="Слабый запрос против качественного">
+  <div class="frame">
+    <header class="a"><p class="kicker">Живой пример</p><h2 class="h1">Один повод — <em>два результата</em></h2></header>
+    <div class="versus">
+      <div class="vcol weak a" style="--d:1">
+        <span class="label"><svg class="ic" style="width:18px;height:18px"><use href="#i-x"/></svg>Слабый запрос</span>
+        <div class="vbox"><p class="code">Напиши пост для инстаграма про бургер.</p></div>
+        <div class="vbox ans"><p>«Попробуйте наш сочный бургер! Самый вкусный в городе! Свежие ингредиенты и неповторимый вкус. Ждём вас! #бургер #вкусно #фастфуд»</p></div>
+        <div class="chips"><span class="chip bad">нет аудитории</span><span class="chip bad">нет повода</span><span class="chip bad">шаблонные слова</span><span class="chip bad">нечего измерить</span></div>
+        <div class="why"><span class="label">Почему так получается</span><p class="serif">Когда в запросе нет деталей, AI заполняет пустоту самыми частыми фразами из интернета.</p><p class="small">Отсюда «сочный», «самый вкусный» и «ждём вас». Это не ошибка модели — это ошибка запроса.</p></div>
+      </div>
+      <div class="vs-mid a" style="--d:2"><span>VS</span></div>
+      <div class="vcol strong a" style="--d:3">
+        <span class="label"><svg class="ic" style="width:18px;height:18px"><use href="#i-check"/></svg>Сильный запрос</span>
+        <div class="vbox"><p class="code"><span class="k">Роль:</span> ты — SMM-специалист фастфуд-заведения.
+<span class="k">Контекст:</span> бургерная у метро <span class="c">[учебный пример]</span>, гости — студенты 18–25 лет, тон дружелюбный, без пафоса.
+<span class="k">Задача:</span> 3 варианта поста про комбо «Бургер + фри + напиток» для будней до 15:00.
+<span class="k">Ограничения:</span> цену не указывай — впишу сам. Без слов «самый вкусный».
+<span class="k">Формат:</span> крючок, текст до 400 знаков, призыв, идея для фото.</p></div>
+        <div class="vbox ans">
+          <p><b>Вариант 1 · Крючок:</b> «Пара закончилась — обед уже ждёт».</p>
+          <p>Между парами мало времени? Комбо «Бургер + фри + напиток» по будням до 15:00. Цена — <span style="color:var(--amber)">[впишите]</span>. <b>Призыв:</b> покажите этот пост на кассе. <b>Фото:</b> комбо на подносе рядом с конспектом.</p>
+        </div>
+        <div class="chips"><span class="chip good">понятна аудитория</span><span class="chip good">есть повод</span><span class="chip good">цена — за человеком</span><span class="chip good">измеримо: пост на кассе</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 08 · БИЗНЕС-КОНТЕКСТ ═════════ -->
+<section class="slide paper s-context" data-module="03" data-title="Что такое бизнес-контекст">
+  <div class="frame">
+    <h2 class="statement a">Волшебного промпта не существует.<span class="serif">Существует контекст.</span></h2>
+    <div class="ctx-flow">
+      <div class="ctx-q a" style="--d:1"><span class="label">Один и тот же вопрос</span><p>«Как поднять продажи во вторник?»</p><small>Контекст — это то, что знает о заведении хороший управляющий: меню, гости, процессы, цели, ограничения, цифры.</small></div>
+      <div class="ctx-paths">
+        <div class="ctx-path bad a" style="--d:2"><span class="label"><span>AI без контекста</span></span><p>«Запустите акцию, сделайте рекламу в соцсетях, обновите меню, улучшите сервис».</p><span class="verdict">Общие советы — подходят кому угодно</span></div>
+        <div class="ctx-path good a" style="--d:3"><span class="label"><span>AI с вашим контекстом</span><span class="tag edu">учебный пример</span></span><p>«По вашим данным, во вторник мало гостей после 15:00, рядом бизнес-центр, бюджет на рекламу маленький. Гипотеза: комбо “Перерыв” с 15:00 до 18:00 и листовка на ресепшене. Проверяем 2 недели, метрика — число чеков с 15 до 18 часов».</p><span class="verdict">Конкретно, проверяемо, про вас</span></div>
+      </div>
+    </div>
+    <div class="layers a" style="--d:4"><span class="label">7 слоёв контекста</span><span class="ly">Кто мы</span><span class="ly">Меню</span><span class="ly">Гости</span><span class="ly">Процессы</span><span class="ly">Цели</span><span class="ly">Ограничения</span><span class="ly">Показатели</span></div>
+  </div>
+</section>
+
+<!-- ═════════ 09 · BUSINESS_CONTEXT.md ═════════ -->
+<section class="slide s-file" data-module="03" data-title="Создание файла BUSINESS_CONTEXT">
+  <div class="frame">
+    <div>
+      <p class="kicker a">Упражнение · 30 минут</p>
+      <h2 class="h1 a" style="--d:1">Файл контекста<br>заведения</h2>
+      <ol class="steps a" style="--d:2">
+        <li><div><strong>Скопируйте шаблон</strong><span>Кнопка справа или файл BUSINESS_CONTEXT_TEMPLATE.md</span></div></li>
+        <li><div><strong>Заполните, что знаете</strong><span>Пишите простыми словами. «Не знаю» — тоже честный ответ.</span></div></li>
+        <li><div><strong>Или пусть AI спросит</strong><span>Навык Business Context Builder проведёт интервью и заполнит файл.</span></div></li>
+        <li><div><strong>Сохраните в Google Drive</strong><span>Папка 00_Контекст. Обновляйте раз в месяц.</span></div></li>
+        <li><div><strong>Подключайте к работе</strong><span>Прикрепляйте к чату или добавьте в Gem как «Знания».</span></div></li>
+      </ol>
+      <div class="check-note a" style="--d:3"><svg class="ic"><use href="#i-lock"/></svg><span><b>Не вписывайте:</b> пароли, номера карт и счетов, паспортные данные, телефоны и личные данные сотрудников и гостей.</span></div>
+    </div>
+    <div class="device win a" style="--d:2">
+      <div class="win-bar"><i></i><i></i><i></i><span class="fn">BUSINESS_CONTEXT.md</span><button class="btn primary" data-copy="tpl-context"><svg class="ic"><use href="#i-copy"/></svg><span>Скопировать шаблон</span></button></div>
+      <div class="win-body"><p class="code"><span class="h"># BUSINESS_CONTEXT — [название заведения]</span>
+<span class="c">Обновлено: [дата] · Заполнил: [имя или роль]</span>
+
+<span class="h">## 1. Кто мы</span>
+Формат: <span class="ph">[кафе / точка выдачи / фудкорт / доставка]</span>
+Город и район: <span class="ph">[ ]</span>     Часы работы: <span class="ph">[ ]</span>
+
+<span class="h">## 2. Меню</span>
+Топ-5 позиций: <span class="ph">[ ]</span>
+Комбо и цены: <span class="ph">[файл: 01_Меню_и_цены/меню]</span>
+
+<span class="h">## 3. Гости</span>
+Кто приходит и когда: <span class="ph">[ ]</span>
+За что хвалят / на что жалуются: <span class="ph">[ ]</span>
+
+<span class="h">## 5. Цели на 3 месяца</span>   <span class="ph">[ ]</span>
+<span class="h">## 6. Ограничения</span>         <span class="ph">[бюджет, персонал, оборудование]</span>
+<span class="h">## 7. Показатели</span>          <span class="ph">[чеки в день, средний чек, рейтинг]</span>
+
+<span class="h">## 9. Правила для AI</span>
+- Не придумывай цифры. Нет данных — спроси.
+- Цены, аллергены, безопасность, платежи — только черновик.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 10 · GRILL-ME ═════════ -->
+<section class="slide s-grill" data-module="03" data-title="Grill-me: AI задаёт вопросы">
+  <div class="frame">
+    <div class="left">
+      <p class="kicker a">Навык · Grill-me</p>
+      <h2 class="h1 a" style="--d:1">Пусть AI<br>сначала<br><em>спросит</em></h2>
+      <ul class="how a" style="--d:2">
+        <li><svg class="ic"><use href="#i-q"/></svg><span><b>Раунды вопросов</b> вместо готовых советов: сначала то, на что можно ответить сразу.</span></li>
+        <li><svg class="ic"><use href="#i-check"/></svg><span><b>К каждому вопросу — рекомендация.</b> Согласны — отвечаете «да».</span></li>
+        <li><svg class="ic"><use href="#i-search"/></svg><span><b>Проверка предположений:</b> AI ищет противоречия и спрашивает о причинах, а не о симптомах.</span></li>
+        <li><svg class="ic"><use href="#i-target"/></svg><span><b>Итог:</b> одна приоритетная задача и одна метрика. Решаете вы.</span></li>
+      </ul>
+      <button class="btn primary a" style="--d:3" data-copy="tpl-grill"><svg class="ic"><use href="#i-copy"/></svg><span>Скопировать промпт grill-me</span></button>
+      <p class="credit a" style="--d:4">Адаптация навыка grill-me / grilling из github.com/mattpocock/skills (MIT).</p>
+    </div>
+    <div class="device chat a" style="--d:2" data-demo="grill">
+      <div class="chat-head"><span class="t"><svg class="ic"><use href="#i-chat"/></svg>Gemini · интервью grill-me</span><span class="rounds-ind"><span class="label" id="grLabel" style="margin-right:10px">Раунд 1 из 3</span><i class="on"></i><i></i><i></i></span></div>
+      <div class="chat-body">
+        <div class="gr-round on" data-r="1">
+          <div class="gq"><span class="qn">В1</span><div><p>Что важнее в ближайший месяц: больше гостей, выше средний чек или меньше хаоса в работе?</p><span class="rec"><svg class="ic"><use href="#i-arrow-r"/></svg><span><b>Рекомендую:</b> «меньше хаоса» — без порядка рост съедает силы.</span></span></div></div>
+          <div class="gq"><span class="qn">В2</span><div><p>Сколько времени в неделю вы готовы уделять AI в первый месяц?</p><span class="rec"><svg class="ic"><use href="#i-arrow-r"/></svg><span><b>Рекомендую:</b> 3–4 часа, по 30 минут в день.</span></span></div></div>
+          <div class="gq"><span class="qn">В3</span><div><p>Где сейчас живут цифры: касса, тетрадь, таблица, голова?</p><span class="rec"><svg class="ic"><use href="#i-arrow-r"/></svg><span><b>Рекомендую:</b> начать с того, что уже есть, без новых систем.</span></span></div></div>
+          <div class="gans"><span class="who">Абас · учебный ответ</span>1 — да, хаос. 2 — да. 3 — касса и заметки в телефоне.</div>
+        </div>
+        <div class="gr-round" data-r="2">
+          <div class="gq"><span class="qn">В4</span><div><p>Что чаще всего «горит» за неделю: закупки, персонал, жалобы гостей или отчётность?</p><span class="rec"><svg class="ic"><use href="#i-arrow-r"/></svg><span><b>Рекомендую:</b> выбрать то, что повторяется каждый день.</span></span></div></div>
+          <div class="gq"><span class="qn">В5</span><div><p>Кто закрывает смену и может присылать короткий отчёт?</p><span class="rec"><svg class="ic"><use href="#i-arrow-r"/></svg><span><b>Рекомендую:</b> управляющий смены — голосовым сообщением, 2 минуты.</span></span></div></div>
+          <div class="gans"><span class="who">Абас · учебный ответ</span>4 — закупки: то картошка кончится, то булки опоздают. 5 — да, управляющий.</div>
+        </div>
+        <div class="gr-round" data-r="3">
+          <div class="gq"><span class="qn">В6</span><div><p>Проверим предположение: проблема в поставщиках или в том, что вы узнаёте о нехватке слишком поздно?</p><span class="rec"><svg class="ic"><use href="#i-arrow-r"/></svg><span><b>Рекомендую:</b> «узнаю поздно» — значит, нужна ежедневная сводка, а не новый поставщик.</span></span></div></div>
+          <div class="gq"><span class="qn">В7</span><div><p>Как поймём через 7 дней, что стало лучше?</p><span class="rec"><svg class="ic"><use href="#i-arrow-r"/></svg><span><b>Рекомендую:</b> сводка к 09:00 каждый день и ни одной «стоп-позиции» по вине поздней закупки.</span></span></div></div>
+          <div class="gans"><span class="who">Абас · учебный ответ</span>Да, узнаю поздно. Метрика подходит.</div>
+        </div>
+        <div class="gr-result">
+          <span class="label">Итог интервью · общее понимание</span>
+          <h4>Приоритет на 7 дней — ежедневная сводка смены</h4>
+          <dl>
+            <dt>Почему</dt><dd>Проблемы повторяются каждый день, а вы узнаёте о них поздно.</dd>
+            <dt>Навык</dt><dd>Daily Operations Manager</dd>
+            <dt>Метрика</dt><dd>Сводка к 09:00 — 7 дней из 7; стоп-позиций из-за поздней закупки — 0.</dd>
+            <dt>Пока не делаем</dt><dd>Новые системы учёта и автоматизацию.</dd>
+          </dl>
+        </div>
+        <ol class="gr-trail">
+          <li><span>Раунд 1</span>цель — меньше хаоса · 3–4 часа в неделю · цифры в кассе и заметках</li>
+          <li><span>Раунд 2</span>горят закупки · отчёт может присылать управляющий</li>
+          <li><span>Раунд 3</span>корень проблемы — «узнаю поздно» · метрика согласована</li>
+        </ol>
+      </div>
+      <div class="chat-foot">
+        <button class="btn primary" data-gr="next"><span>Следующий раунд</span><svg class="ic"><use href="#i-arrow-r"/></svg></button>
+        <button class="btn" data-gr="reset"><svg class="ic"><use href="#i-reset"/></svg>Сначала</button>
+        <span class="edu-note">Учебный диалог — ответы придуманы для примера</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 11 · НАВЫКИ ═════════ -->
+<section class="slide s-skills" data-module="03" data-title="Навыки: повторяемые инструкции">
+  <div class="frame">
+    <header class="head a"><p class="kicker">Skills · навыки</p><h2 class="h1 sk-h">Навык — инструкция, которую <em>не нужно повторять</em></h2></header>
+    <div class="sk-list a" style="--d:1" data-demo="skills" role="tablist" aria-label="Навыки">
+      <button class="sk-item on" data-sk="0" role="tab" aria-selected="true"><span class="n">01</span><span><strong>Grill-me</strong><span>интервью перед решением</span></span><svg class="ic"><use href="#i-arrow-r"/></svg></button>
+      <button class="sk-item" data-sk="1" role="tab" aria-selected="false"><span class="n">02</span><span><strong>Business Context Builder</strong><span>профиль заведения</span></span><svg class="ic"><use href="#i-arrow-r"/></svg></button>
+      <button class="sk-item" data-sk="2" role="tab" aria-selected="false"><span class="n">03</span><span><strong>Menu Economics Analyst</strong><span>меню, цены, маржа</span></span><svg class="ic"><use href="#i-arrow-r"/></svg></button>
+      <button class="sk-item" data-sk="3" role="tab" aria-selected="false"><span class="n">04</span><span><strong>Content &amp; Marketing</strong><span>контент и акции</span></span><svg class="ic"><use href="#i-arrow-r"/></svg></button>
+      <button class="sk-item" data-sk="4" role="tab" aria-selected="false"><span class="n">05</span><span><strong>Customer Feedback Analyst</strong><span>отзывы и сервис</span></span><svg class="ic"><use href="#i-arrow-r"/></svg></button>
+      <button class="sk-item" data-sk="5" role="tab" aria-selected="false"><span class="n">06</span><span><strong>Daily Operations Manager</strong><span>сводка смены</span></span><svg class="ic"><use href="#i-arrow-r"/></svg></button>
+    </div>
+    <div class="device anat a" style="--d:2" role="tabpanel" aria-live="polite">
+      <div class="anat-top"><div><h3 id="skName">Grill-me</h3><a class="path" id="skPath" href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/grill-me/SKILL.md" target="_blank" rel="noopener">github.com/…/skills/grill-me/SKILL.md</a></div><a class="tag acc gh-tag" id="skGh" href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/grill-me/SKILL.md" target="_blank" rel="noopener">Открыть на GitHub ↗</a></div>
+      <div class="anat-grid">
+        <div><span class="label">Когда использовать</span><p id="skWhen"></p></div>
+        <div><span class="label">Что дать на входе</span><p id="skIn"></p></div>
+        <div><span class="label">Что получите</span><p id="skOut"></p></div>
+        <div class="chk"><span class="label">Что проверяет человек</span><p id="skChk"></p></div>
+      </div>
+    </div>
+    <div class="ways a" style="--d:3">
+      <div><span class="label"><svg class="ic" style="width:18px;height:18px"><use href="#i-copy"/></svg>Способ 1 · везде</span><strong>Вручную</strong><p>Откройте SKILL.md на GitHub, скопируйте блок «Версия для Gemini» в начало чата и добавьте свои данные.</p></div>
+      <div><span class="label"><svg class="ic" style="width:18px;height:18px"><use href="#i-spark"/></svg>Способ 2 · рекомендуем</span><strong>Gem в Gemini</strong><p>Создайте Gem, вставьте инструкцию навыка, добавьте BUSINESS_CONTEXT в «Знания». Помощник всегда под рукой.</p></div>
+      <div><span class="label"><svg class="ic" style="width:18px;height:18px"><use href="#i-layers"/></svg>Способ 3 · если доступно</span><strong>Agent Skills</strong><p>Если ваш инструмент поддерживает формат SKILL.md (например, Gemini CLI или Claude), положите папку навыка в каталог skills. Проверьте документацию своей версии.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 12 · ПРАКТИКА 1 · МЕНЮ ═════════ -->
+<section class="slide practice s-menu" data-module="04" data-title="Практика 1 — меню, цены и маржа">
+  <div class="frame">
+    <div class="p-head a">
+      <div class="grow"><p class="kicker">Практика 01 · Menu Economics Analyst</p><h2 class="h2">Меню, цены и маржа</h2></div>
+      <div class="acts"><span class="tag edu">Учебные цифры · валюта условная</span><button class="btn primary" data-copy="tpl-menu"><svg class="ic"><use href="#i-copy"/></svg><span>Промпт для Gemini</span></button></div>
+    </div>
+    <div class="main" data-demo="menu">
+      <div class="menu-left a" style="--d:1">
+        <table class="mtable">
+          <thead><tr><th>Позиция</th><th>Цена</th><th>Себест.</th><th>Фудкост</th><th>Маржа/шт</th><th>Продаж/нед</th><th>Маржа/нед</th></tr></thead>
+          <tbody id="mBody"></tbody>
+          <tfoot><tr><td>Итого маржа за неделю</td><td></td><td></td><td></td><td></td><td id="mQty"></td><td id="mTotal"></td></tr></tfoot>
+        </table>
+        <div class="menu-note">
+          <div class="check-note"><svg class="ic"><use href="#i-shield"/></svg><span><b>Проверяет человек:</b> себестоимость — по техкартам и накладным. Новые цены — решение владельца, не AI.</span></div>
+          <button class="btn" data-menu="reset"><svg class="ic"><use href="#i-reset"/></svg>Сбросить</button>
+        </div>
+      </div>
+      <div class="quad a" style="--d:2">
+        <span class="label">Матрица меню · меняйте цены в таблице</span>
+        <svg id="mQuad" viewBox="0 0 640 470" role="img" aria-label="Матрица меню: популярность и маржа"></svg>
+        <div class="q-ins" id="mIns"></div>
+      </div>
+    </div>
+    <ol class="rail a" style="--d:3">
+      <li><span>Контекст</span><b>меню, техкарты, продажи</b></li>
+      <li><span>AI</span><b>Gemini, сильная модель</b></li>
+      <li><span>Навык</span><b>Menu Economics Analyst</b></li>
+      <li><span>Действие</span><b>таблица маржи и гипотезы</b></li>
+      <li class="chk"><span>Проверка</span><b>себестоимость, цены</b></li>
+      <li><span>Сохранение</span><b>Drive / 01_Меню_и_цены</b></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═════════ 13 · ПРАКТИКА 2 · КОНТЕНТ ═════════ -->
+<section class="slide paper practice s-content" data-module="04" data-title="Практика 2 — контент и акции">
+  <div class="frame">
+    <div class="p-head a">
+      <div class="grow"><p class="kicker">Практика 02 · Content &amp; Marketing Assistant</p><h2 class="h2">Контент и акции на неделю</h2></div>
+      <div class="acts"><span class="tag edu">Учебный план</span><button class="btn primary" data-copy="tpl-content"><svg class="ic"><use href="#i-copy"/></svg><span>Промпт для Gemini</span></button></div>
+    </div>
+    <div class="main" data-demo="content">
+      <div class="week a" style="--d:1" role="tablist" aria-label="Дни недели"></div>
+      <div class="ct-split a" style="--d:2">
+        <div class="device draft" aria-live="polite"></div>
+        <div class="ct-side">
+          <span class="label">Правила для контента</span>
+          <ul class="rules">
+            <li><svg class="ic"><use href="#i-shield"/></svg><span><b>Публикует только человек.</b> AI готовит черновик.</span></li>
+            <li><svg class="ic"><use href="#i-receipt"/></svg><span>Цены, сроки и условия акций — проверяет владелец.</span></li>
+            <li><svg class="ic"><use href="#i-warn"/></svg><span>Состав и аллергены в постах — только из техкарт.</span></li>
+            <li><svg class="ic"><use href="#i-users"/></svg><span>Лица сотрудников и гостей — только с их согласия.</span></li>
+            <li><svg class="ic"><use href="#i-target"/></svg><span>У каждой акции — способ измерить: код, пост на кассе, отдельная кнопка в кассе.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <ol class="rail a" style="--d:3">
+      <li><span>Контекст</span><b>гости, тон, бюджет, поводы</b></li>
+      <li><span>AI</span><b>Gemini + картинки</b></li>
+      <li><span>Навык</span><b>Content &amp; Marketing</b></li>
+      <li><span>Действие</span><b>план и тексты постов</b></li>
+      <li class="chk"><span>Проверка</span><b>цены, условия, факты</b></li>
+      <li><span>Сохранение</span><b>Drive / 02_Маркетинг</b></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═════════ 14 · ПРАКТИКА 3 · ОТЗЫВЫ ═════════ -->
+<section class="slide practice s-reviews" data-module="04" data-title="Практика 3 — отзывы и сервис">
+  <div class="frame">
+    <div class="p-head a">
+      <div class="grow"><p class="kicker">Практика 03 · Customer Feedback Analyst</p><h2 class="h2">Отзывы → темы → решения</h2></div>
+      <div class="acts"><span class="tag edu">Учебные отзывы, без имён</span><button class="btn primary" data-copy="tpl-reviews"><svg class="ic"><use href="#i-copy"/></svg><span>Промпт для Gemini</span></button></div>
+    </div>
+    <div class="main" data-demo="reviews">
+      <div class="rv-list a" style="--d:1">
+        <article class="rv" data-c="speed"><div class="rv-top"><span class="n">#1</span><span class="stars"><b>2</b> / 5</span></div><p>Ждали заказ 25 минут, хотя в зале было пусто.</p><span class="cl speed">скорость</span></article>
+        <article class="rv" data-c="temp"><div class="rv-top"><span class="n">#2</span><span class="stars"><b>3</b> / 5</span></div><p>Бургер отличный, но картошка была холодная.</p><span class="cl temp">качество</span></article>
+        <article class="rv" data-c="praise"><div class="rv-top"><span class="n">#3</span><span class="stars"><b>5</b> / 5</span></div><p>Очень вежливый кассир, всё объяснил. Вернёмся!</p><span class="cl praise">похвала</span></article>
+        <article class="rv" data-c="speed"><div class="rv-top"><span class="n">#4</span><span class="stars"><b>1</b> / 5</span></div><p>Доставка опоздала на 40 минут, еда остыла.</p><span class="cl speed">скорость</span></article>
+        <article class="rv" data-c="clean"><div class="rv-top"><span class="n">#5</span><span class="stars"><b>2</b> / 5</span></div><p>Столики были липкие, никто не протирал.</p><span class="cl clean">чистота</span></article>
+        <article class="rv" data-c="praise"><div class="rv-top"><span class="n">#6</span><span class="stars"><b>5</b> / 5</span></div><p>Шаурма — лучшая в районе, ребята молодцы.</p><span class="cl praise">похвала</span></article>
+        <article class="rv" data-c="speed"><div class="rv-top"><span class="n">#7</span><span class="stars"><b>2</b> / 5</span></div><p>В час пик очередь, а работает одна касса.</p><span class="cl speed">скорость</span></article>
+        <article class="rv" data-c="temp"><div class="rv-top"><span class="n">#8</span><span class="stars"><b>2</b> / 5</span></div><p>Фри снова чуть тёплая, а соус забыли положить.</p><span class="cl temp">качество</span></article>
+      </div>
+      <div class="rv-side a" style="--d:2">
+        <div class="rv-placeholder"><div>8 отзывов — это уже данные.<br>Попросим AI найти повторяющиеся темы.<br><button class="btn primary" data-rv><svg class="ic"><use href="#i-spark"/></svg><span>Сгруппировать отзывы</span></button></div></div>
+        <div class="rv-analysis">
+          <span class="label">Темы · частота · первое действие</span>
+          <ul class="clusters">
+            <li><div><strong>Скорость и ожидание</strong><small>одна касса в час пик? → замерить время выдачи 3 дня</small></div><span class="bar"><i style="--w:100%;background:var(--accent)"></i></span><span class="ct">3</span></li>
+            <li><div><strong>Температура и комплектность</strong><small>путь «фритюр → выдача», чек-лист «соус в пакет»</small></div><span class="bar"><i style="--w:66%;background:var(--amber)"></i></span><span class="ct">2</span></li>
+            <li><div><strong>Чистота зала</strong><small>протирка столов каждые 30 минут в час пик</small></div><span class="bar"><i style="--w:33%;background:#7AA8FF"></i></span><span class="ct">1</span></li>
+            <li><div><strong>Похвала команде</strong><small>поблагодарить смену; репост — с согласия автора</small></div><span class="bar"><i style="--w:66%;background:var(--green)"></i></span><span class="ct">2</span></li>
+          </ul>
+          <div class="device reply"><span class="label">Черновик ответа на отзыв #1</span><p>«Спасибо, что написали. 25 минут ожидания — не тот сервис, который мы хотим давать. Мы разбираемся, что произошло в эту смену, и будем рады, если вы дадите нам ещё один шанс».</p><p class="rv-chk"><svg class="ic"><use href="#i-shield"/></svg><span><b>Проверяет человек:</b> без обещаний компенсации; публикует человек.</span></p></div>
+        </div>
+      </div>
+    </div>
+    <ol class="rail a" style="--d:3">
+      <li><span>Контекст</span><b>отзывы без имён и телефонов</b></li>
+      <li><span>AI</span><b>Gemini</b></li>
+      <li><span>Навык</span><b>Customer Feedback Analyst</b></li>
+      <li><span>Действие</span><b>темы, причины, ответы</b></li>
+      <li class="chk"><span>Проверка</span><b>тон, обещания, факты</b></li>
+      <li><span>Сохранение</span><b>Drive / 03_Отзывы</b></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═════════ 15 · ПРАКТИКА 4 · СВОДКА СМЕНЫ ═════════ -->
+<section class="slide practice s-brief" data-module="04" data-title="Практика 4 — ежедневный операционный помощник">
+  <div class="frame">
+    <div class="p-head a">
+      <div class="grow"><p class="kicker">Практика 04 · Daily Operations Manager</p><h2 class="h2">Сводка смены за 5 минут</h2></div>
+      <div class="acts"><span class="tag edu">Учебные заметки</span><button class="btn primary" data-copy="tpl-brief"><svg class="ic"><use href="#i-copy"/></svg><span>Промпт для Gemini</span></button></div>
+    </div>
+    <div class="main" data-demo="brief">
+      <div class="device notes a" style="--d:1">
+        <span class="label"><span>23:20 · заметки управляющего</span><span>голос → текст</span></span>
+        <div class="voice"><span class="pl"><svg class="ic"><use href="#i-play"/></svg></span><span class="wave"></span><span>1:48</span></div>
+        <p class="raw">закрыли смену. по кассе сегодня [сумма], вроде больше чем вчера. картошка кончилась в 21:00 — убрали фри из комбо. булки привезли в 12, а не в 10. новый кассир путает допы, было два возврата. фритюр №2 шумит, надо мастера. в гугле новый отзыв про долгое ожидание. завтра вечером футбол — людей будет много</p>
+      </div>
+      <div class="arrow-col a" style="--d:2"><button class="btn primary" data-bf><svg class="ic"><use href="#i-spark"/></svg><span>Сделать сводку</span></button></div>
+      <div class="bf-wrap a" style="--d:3">
+        <div class="bf-placeholder"><div>Нажмите «Сделать сводку» —<br>AI превратит поток мыслей в документ.</div></div>
+        <div class="brief">
+          <div class="brief-top"><h4>Сводка смены</h4><span>[дата] · учебный пример</span></div>
+          <dl>
+            <dt>Продажи</dt><dd>По кассе — <span class="ph">[сумма из отчёта]</span>. «Больше, чем вчера» — сверить с отчётом кассы.</dd>
+            <dt>Закупки</dt><dd>Картофель закончился в 21:00 → увеличить заказ (объём — по остаткам). Булки пришли на 2 часа позже.</dd>
+            <dt>Проблемы</dt><dd>Кассир путает дополнительные позиции — 2 возврата. Шумит фритюр №2. Новый отзыв о долгом ожидании.</dd>
+            <dt>Решения</dt><dd><ol><li>Инструктаж по допам до открытия</li><li>Вызвать мастера по фритюру</li><li>Усилить вечернюю смену — футбол</li></ol></dd>
+            <dt class="q">Вопросы владельцу</dt><dd>Подтвердить объём заказа картофеля? Кого поставить на вечер? Ответить на отзыв — черновик готов.</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <ol class="rail a" style="--d:4">
+      <li><span>Контекст</span><b>заметки + отчёт кассы</b></li>
+      <li><span>AI</span><b>Gemini или Gem «Сводка»</b></li>
+      <li><span>Навык</span><b>Daily Operations Manager</b></li>
+      <li><span>Действие</span><b>сводка к 09:00</b></li>
+      <li class="chk"><span>Проверка</span><b>цифры по кассе, закупки</b></li>
+      <li><span>Сохранение</span><b>Drive / 04_Операции/Сводки</b></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═════════ 16 · DRIVE + GEMINI + ТАБЛИЦЫ ═════════ -->
+<section class="slide s-system" data-module="05" data-title="Как связать Google Drive, Gemini и таблицы">
+  <div class="frame">
+    <header class="head a"><p class="kicker">Система</p><h2 class="h1">Drive, Gemini и Таблицы —<br><em>без программирования</em></h2></header>
+    <div class="sys a" style="--d:1">
+      <div class="sys-node">
+        <span class="nt"><svg class="ic"><use href="#i-folder"/></svg>Google Drive</span>
+        <p class="tree"><b>AI-Фастфуд/</b>
+├─ <span class="ac">00_Контекст</span>
+├─ 01_Меню_и_цены
+├─ 02_Маркетинг
+├─ 03_Отзывы
+├─ 04_Операции/Сводки
+├─ 05_Навыки
+└─ 99_Архив</p>
+        <p class="node-tip"><b>Имя файла:</b> дата_тема, например <span class="mono">2026-10-23_сводка</span>. Так всё находится за секунды.</p>
+      </div>
+      <div class="sys-node hub">
+        <span class="label">Мозг</span>
+        <span class="big">Gemini</span>
+        <ul>
+          <li><svg class="ic"><use href="#i-spark"/></svg><span><b>Gems</b> — ваши навыки + BUSINESS_CONTEXT в «Знаниях»</span></li>
+          <li><svg class="ic"><use href="#i-plus"/></svg><span><b>Файлы</b> — загрузка или выбор из Drive</span></li>
+          <li><svg class="ic"><use href="#i-search"/></svg><span><b>@Google Drive</b> — поиск по вашим документам, где доступно</span></li>
+        </ul>
+      </div>
+      <div class="sys-node">
+        <span class="nt"><svg class="ic"><use href="#i-sheet"/></svg>Google Таблицы</span>
+        <div class="sheet-list">
+          <div><svg class="ic"><use href="#i-sheet"/></svg><span>Меню и себестоимость</span></div>
+          <div><svg class="ic"><use href="#i-sheet"/></svg><span>Продажи по дням</span></div>
+          <div><svg class="ic"><use href="#i-sheet"/></svg><span>Журнал отзывов</span></div>
+          <div><svg class="ic"><use href="#i-sheet"/></svg><span>Сводки смен</span></div>
+        </div>
+        <p class="node-tip"><b>Правило:</b> одна строка — одна запись (день, позиция, отзыв), без объединённых ячеек. Так AI читает таблицу без ошибок.</p>
+      </div>
+      <div class="sys-out">
+        <span class="step"><svg class="ic"><use href="#i-bolt"/></svg>Результат AI</span><span class="ln"></span>
+        <span class="step chk"><svg class="ic"><use href="#i-shield"/></svg>Проверка человеком</span><span class="ln"></span>
+        <span class="step"><svg class="ic"><use href="#i-save"/></svg>Сохранить в Drive: дата + тема</span>
+      </div>
+    </div>
+    <div class="a" style="--d:2">
+      <span class="label">Лестница автоматизации</span>
+      <ol class="ladder" style="margin-top:14px">
+        <li class="now"><span class="lv">1</span><div><strong>Вручную</strong><p>Копируете промпт и данные в чат.</p><span class="when">Сегодня</span></div></li>
+        <li><span class="lv">2</span><div><strong>Gem + файлы знаний</strong><p>Помощник помнит контекст и инструкцию.</p><span class="when">Неделя 1</span></div></li>
+        <li><span class="lv">3</span><div><strong>Drive и Таблицы</strong><p>Данные в одном месте, Gemini читает их по ссылке или @.</p><span class="when">Недели 2–4</span></div></li>
+        <li><span class="lv">4</span><div><strong>Автоматизация</strong><p>Расписание, формы, интеграции — когда процесс стабилен.</p><span class="when">После 5+ ручных повторов</span></div></li>
+      </ol>
+      <p class="sys-note">@Google Drive и подключённые приложения доступны не во всех странах и аккаунтах; в рабочих аккаунтах их включает администратор.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 17 · ПЛАН НА 7 ДНЕЙ ═════════ -->
+<section class="slide s-plan" data-module="05" data-title="План внедрения на 7 дней">
+  <div class="frame">
+    <div class="left">
+      <p class="kicker a">Внедрение</p>
+      <h2 class="h1 a" style="--d:1">7 дней до первого<br><em>результата</em></h2>
+      <ol class="days a" style="--d:2">
+        <li><span class="dn">День 1</span><div><strong>Gemini + бизнес-контекст</strong><span>3 упражнения, заполнить BUSINESS_CONTEXT</span></div><span class="tm">60 мин</span></li>
+        <li><span class="dn">День 2</span><div><strong>Grill-me интервью</strong><span>одна приоритетная задача и одна метрика</span></div><span class="tm">30 мин</span></li>
+        <li><span class="dn">День 3</span><div><strong>Первый результат</strong><span>реальные или обезличенные данные → навык</span></div><span class="tm">45 мин</span></li>
+        <li><span class="dn">День 4</span><div><strong>Свой Gem</strong><span>навык + контекст; повторить на новых данных</span></div><span class="tm">30 мин</span></li>
+        <li><span class="dn">День 5</span><div><strong>Проверка и правка</strong><span>что AI сделал не так → поправить инструкцию</span></div><span class="tm">30 мин</span></li>
+        <li><span class="dn">День 6</span><div><strong>Порядок в Drive</strong><span>папки, названия, показать управляющему</span></div><span class="tm">30 мин</span></li>
+        <li><span class="dn">День 7</span><div><strong>Итог недели</strong><span>сравнить метрику: продолжаем, меняем или берём следующий процесс</span></div><span class="tm">20 мин</span></li>
+      </ol>
+      <div class="files-row a" style="--d:3"><span class="label">Дальше</span><a class="next" href="instructions.html"><svg class="ic"><use href="#i-clip"/></svg>Пошаговая инструкция</a><a href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/GUIDE.md" target="_blank" rel="noopener"><svg class="ic"><use href="#i-file"/></svg>GUIDE</a><a href="https://github.com/pirajoke/abbas-ai-fastfood/tree/gh-pages/skills" target="_blank" rel="noopener"><svg class="ic"><use href="#i-folder"/></svg>skills на GitHub</a><a href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/for-gemini/AI_KIT_ABBAS.md" target="_blank" rel="noopener"><svg class="ic"><use href="#i-spark"/></svg>for-gemini/</a></div>
+    </div>
+    <div class="device first a" style="--d:2" data-demo="plan">
+      <span class="label">Первый практический результат</span>
+      <h3>Чек-лист Абаса</h3>
+      <div class="cl-list">
+        <label><input type="checkbox" data-cl="0"><span>Создал бизнес-контекст в Gemini</span></label>
+        <label><input type="checkbox" data-cl="1"><span>Провёл grill-me интервью</span></label>
+        <label><input type="checkbox" data-cl="2"><span>Выбрал один операционный процесс</span></label>
+        <label><input type="checkbox" data-cl="3"><span>Получил результат на реальных или обезличенных данных</span></label>
+        <label><input type="checkbox" data-cl="4"><span>Сохранил результат в Google Drive</span></label>
+        <label><input type="checkbox" data-cl="5"><span>Сформулировал измеримый показатель успеха</span></label>
+      </div>
+      <div class="cl-prog"><span>Готово</span><span><b id="clDone">0</b> из 6</span></div>
+      <div class="metric">
+        <label class="label" for="metricIn">Мой показатель успеха на 7 дней</label>
+        <input id="metricIn" type="text" placeholder="Например: сводка смены к 09:00 — 7 дней из 7">
+        <p>Ещё примеры: «ответ на каждый отзыв за 24 часа», «контент-план за 40 минут вместо 3 часов». Отметки сохраняются только в этом браузере.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<nav class="controls" id="controls" aria-label="Навигация по слайдам">
+  <button id="tocBtn" aria-label="Содержание (M)" title="Содержание (M)"><svg class="ic"><use href="#i-menu"/></svg></button>
+  <button id="prevBtn" aria-label="Предыдущий слайд" title="Назад (←)"><svg class="ic"><use href="#i-arrow-l"/></svg></button>
+  <span class="ctr" id="ctr">01 / 17</span>
+  <button id="nextBtn" aria-label="Следующий слайд" title="Вперёд (→)"><svg class="ic"><use href="#i-arrow-r"/></svg></button>
+</nav>
+
+<div class="toc" id="toc" role="dialog" aria-modal="true" aria-labelledby="tocTitle">
+  <div class="toc-in">
+    <div class="toc-top"><h2 id="tocTitle">Содержание воркшопа</h2><button class="x" id="tocClose" aria-label="Закрыть"><svg class="ic"><use href="#i-x"/></svg></button></div>
+    <div class="toc-grid" id="tocGrid"></div>
+    <div class="toc-foot">
+      <a class="btn primary" href="instructions.html" style="text-decoration:none"><svg class="ic"><use href="#i-clip"/></svg>Пошаговая инструкция</a>
+      <button class="btn" id="printBtn"><svg class="ic"><use href="#i-print"/></svg>Печать / PDF</button>
+      <button class="btn" id="fullBtn"><svg class="ic"><use href="#i-full"/></svg>Полный экран</button>
+      <span class="keys"><b>← →</b> или пробел — листать · <b>M</b> — содержание · <b>F</b> — полный экран · <b>Home / End</b> — начало / конец</span>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ═════════ Полные тексты промптов (копируются кнопками) ═════════ -->
+<template id="tpl-context"># BUSINESS_CONTEXT — [название заведения]
+Обновлено: [дата] · Заполнил: [имя или роль]
+
+> Правило: не вписывайте пароли, номера карт и счетов, паспортные данные, телефоны и личные данные сотрудников и гостей. Если не знаете ответ — напишите «не знаю».
+
+## 1. Кто мы
+- Название:
+- Формат (кафе / точка выдачи / фудкорт / доставка / несколько форматов):
+- Город и район, что рядом (метро, офисы, учебные заведения):
+- Часы работы:
+- Количество точек:
+- Команда (роли и сколько человек — по желанию):
+
+## 2. Меню и продукт
+- Основные категории:
+- Топ-5 позиций по продажам (если известно):
+- Комбо и их состав:
+- Ценовой диапазон:
+- Чем мы отличаемся от соседей:
+- Где лежит актуальное меню с ценами (файл):
+
+## 3. Гости
+- Кто приходит (студенты, офисы, семьи, туристы, доставка):
+- Когда пик и когда пусто:
+- Средний чек (если известен):
+- Каналы заказа (зал, навынос, доставка, агрегаторы):
+- За что гости хвалят:
+- На что жалуются:
+
+## 4. Процессы
+- Открытие и закрытие смены:
+- Закупки (как часто, кто заказывает; без контактов поставщиков):
+- Касса и учёт (какая система — по желанию):
+- Кто ведёт соцсети и карты:
+- Что сейчас занимает больше всего времени:
+
+## 5. Цели на 3–6 месяцев
+-
+
+## 6. Ограничения
+- Бюджет на маркетинг:
+- Оборудование и площадь:
+- Персонал:
+- Что нельзя делать (тон, бренд, правила):
+
+## 7. Показатели
+- Что измеряем сейчас (чеки в день, средний чек, фудкост %, рейтинг на картах, число отзывов, время ожидания):
+- Где лежат данные:
+
+## 8. Тон общения
+- Как мы говорим с гостями (на «ты» / на «вы», дружелюбно, коротко):
+
+## 9. Правила для AI
+- Не придумывай цифры и факты. Если данных нет — задай вопрос.
+- Отмечай допущения словом «Допущение:».
+- Цены, состав и аллергены, пищевая безопасность, платежи и публикации — только черновик для проверки человеком.
+- Отвечай на русском, коротко, с таблицами, где это уместно.
+- В конце ответа — один следующий шаг.</template>
+
+<template id="tpl-grill">Проведи со мной интервью в стиле grill-me, прежде чем давать советы.
+Тема: [например: «что улучшить в моём фастфуд-заведении в первую очередь»].
+Если я прикрепил файл BUSINESS_CONTEXT — сначала прочитай его.
+
+Правила:
+1. Задавай вопросы раундами. В раунде — только те вопросы, на которые я могу ответить сейчас, не зная ответов на другие. Нумеруй вопросы: В1, В2, В3…
+2. К каждому вопросу дай свой рекомендуемый ответ и коротко объясни почему. Формулируй вопрос так, чтобы ответ «да» означал согласие с рекомендацией.
+3. Проверяй мои предположения и ищи противоречия. Если я называю симптом, спроси о причине.
+4. Не придумывай факты о моём бизнесе. То, что есть в прикреплённых файлах, ищи сам, а не спрашивай.
+5. Решения принимаю я. Не отвечай за меня.
+6. Когда все важные вопросы закрыты, дай итог: одна приоритетная задача, почему именно она, один измеримый показатель успеха на 7 дней и что мы пока НЕ делаем. Ничего не начинай делать, пока я не подтвержу итог.
+
+Начни с первого раунда.</template>
+
+<template id="tpl-menu">Ты — аналитик экономики меню для фастфуд-заведения.
+Контекст: [прикрепите BUSINESS_CONTEXT или опишите заведение в 2–3 предложениях].
+Данные: ниже (или в прикреплённой таблице) — позиции меню: название, цена продажи, себестоимость порции, продажи за период.
+[вставьте таблицу]
+
+Задача:
+1. Посчитай для каждой позиции: фудкост % (себестоимость / цена × 100), маржу на порцию (цена − себестоимость), маржу за период (маржа × продажи).
+2. Покажи расчёты в таблице. Если в данных есть пропуски или странные значения — перечисли их и не заполняй сам.
+3. Разложи позиции по матрице меню: «Звёзды» (популярные и маржинальные), «Рабочие лошадки» (популярные, низкая маржа), «Загадки» (маржинальные, мало продаж), «Собаки» (мало продаж и низкая маржа). Порог — средние значения по меню.
+4. Предложи 3 гипотезы (цена, порция, комбо, место в меню). Для каждой: что меняем, ожидаемый эффект, риск, как проверить за 2 недели.
+
+Ограничения: используй только мои цифры. Ничего не выдумывай. Не утверждай, что гипотеза точно сработает. Цены не меняются без решения владельца.
+Формат: таблица расчётов → матрица → 3 гипотезы → список «что проверить человеку».</template>
+
+<template id="tpl-content">Ты — маркетолог фастфуд-заведения, который пишет просто и по делу.
+Контекст: [прикрепите BUSINESS_CONTEXT или опишите: формат, район, гости, тон общения].
+Каналы: Instagram (посты, Stories, Reels), Google Maps (профиль компании), акции в заведении.
+Поводы на неделю: [например: новое комбо, футбол в субботу, сезонный напиток — или «предложи сам»].
+Бюджет на продвижение: [сумма или «без бюджета»].
+
+Задача: составь контент-план на 7 дней.
+Для каждого дня: канал, формат, тема, цель (охват / визит / средний чек / отзывы), текст-черновик до 400 знаков, призыв к действию, идея для фото или видео, как измерить результат.
+
+Ограничения:
+- Не указывай цены, сроки и условия акций — оставь поля [ЦЕНА], [СРОК], [УСЛОВИЯ] для проверки.
+- Не пиши о составе и аллергенах, если я их не дал.
+- Без слов «самый вкусный», «лучший в городе» и выдуманных фактов.
+- Ничего не публикуй — это черновики для меня.
+Формат: таблица на 7 дней → затем полные тексты постов → в конце список «что проверить перед публикацией».</template>
+
+<template id="tpl-reviews">Ты — аналитик клиентского опыта фастфуд-заведения.
+Ниже — отзывы гостей за период [даты]. Имена, телефоны и ссылки на профили я удалил.
+[вставьте отзывы, по одному в строке, с оценкой, если есть]
+
+Задача:
+1. Сгруппируй отзывы по темам (например: скорость, температура и качество еды, комплектность заказа, чистота, персонал, цены, доставка). Для каждой темы: сколько отзывов, номера отзывов, короткая цитата.
+2. Найди повторяющиеся проблемы и предложи вероятные причины — помечай их как «гипотеза».
+3. Для трёх главных проблем предложи по одному первому действию, которое можно проверить за неделю.
+4. Подготовь черновики ответов на негативные отзывы: вежливо, коротко, без оправданий и шаблонов, на «вы».
+
+Ограничения: не обещай скидки, компенсации и бесплатную еду — это решение владельца. Не придумывай детали, которых нет в отзыве. Не используй персональные данные.
+Формат: таблица тем → 3 проблемы с действиями → черновики ответов → что проверить человеку.</template>
+
+<template id="tpl-brief">Ты — операционный помощник владельца фастфуд-заведения.
+Ниже — заметки управляющего после смены [дата] и данные кассы (если есть).
+[вставьте заметки или расшифровку голосового сообщения]
+[вставьте итоги кассы: выручка, число чеков — если есть]
+
+Задача: сделай сводку смены, которую владелец прочитает за 2 минуты.
+Разделы:
+1. Продажи — только цифры из данных; если цифр нет, напиши «нет данных».
+2. Закупки и остатки — что закончилось, что заказать (объём — «уточнить по остаткам»).
+3. Проблемы смены — люди, оборудование, гости.
+4. Решения на завтра — не больше 3 пунктов, по одному действию на пункт.
+5. Вопросы владельцу — что требует его решения.
+6. Отзывы и жалобы за день — если упоминались.
+
+Ограничения: не выдумывай цифры и события. Отделяй факты от предположений («Допущение:»). Закупки и платежи только предлагай — подтверждает человек.
+Формат: короткие пункты, без воды. В конце — одна строка «Главное на завтра».</template>
+
+<script>
+(function () {
+  "use strict";
+  document.documentElement.classList.add("js");
+  var deck = document.getElementById("deck");
+  var slides = Array.prototype.slice.call(deck.querySelectorAll(".slide"));
+  var total = slides.length;
+  var modules = { "01": "Основы", "02": "Gemini и промпты", "03": "Контекст и навыки", "04": "Практика", "05": "Система и внедрение" };
+  var current = 0;
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+
+  /* хром слайдов */
+  slides.forEach(function (s, i) {
+    var h = document.createElement("header");
+    h.className = "chrome";
+    h.setAttribute("aria-hidden", "true");
+    h.innerHTML = '<span class="brand"><i></i>AI для фастфуд-бизнеса</span><span class="mod">Модуль ' + s.dataset.module + " · " + modules[s.dataset.module] + '</span><span class="num">' + pad(i + 1) + "<em> / " + pad(total) + "</em></span>";
+    s.insertBefore(h, s.firstChild);
+    s.id = "slide-" + (i + 1);
+    s.setAttribute("role", "group");
+    s.setAttribute("aria-roledescription", "слайд");
+    s.setAttribute("aria-label", (i + 1) + " из " + total + ": " + s.dataset.title);
+  });
+
+  /* масштаб сцены или мобильная переразметка */
+  function fit() {
+    var s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    document.documentElement.classList.toggle("reflow", s < 0.5);
+    deck.style.setProperty("--scale", s);
+  }
+  window.addEventListener("resize", fit);
+  fit();
+
+  /* содержание */
+  var tocGrid = $("#tocGrid");
+  Object.keys(modules).forEach(function (m) {
+    var col = document.createElement("div");
+    col.className = "toc-mod";
+    col.innerHTML = '<span class="label">Модуль ' + m + " · " + modules[m] + "</span>";
+    slides.forEach(function (s, i) {
+      if (s.dataset.module !== m) return;
+      var a = document.createElement("a");
+      a.href = "#slide-" + (i + 1);
+      a.dataset.i = i;
+      a.innerHTML = "<span>" + pad(i + 1) + "</span>" + s.dataset.title;
+      a.addEventListener("click", function (e) { e.preventDefault(); closeToc(); go(i); });
+      col.appendChild(a);
+    });
+    tocGrid.appendChild(col);
+  });
+  var toc = $("#toc");
+  function openToc() { toc.classList.add("open"); $$(".toc-mod a").forEach(function (a) { a.classList.toggle("cur", +a.dataset.i === current); }); setTimeout(function () { $("#tocClose").focus(); }, 50); }
+  function closeToc() { toc.classList.remove("open"); }
+  $("#tocBtn").addEventListener("click", function () { toc.classList.contains("open") ? closeToc() : openToc(); });
+  $("#tocClose").addEventListener("click", closeToc);
+  toc.addEventListener("click", function (e) { if (e.target === toc) closeToc(); });
+  $("#printBtn").addEventListener("click", function () { closeToc(); setTimeout(function () { window.print(); }, 250); });
+  function toggleFull() {
+    var d = document, el = d.documentElement;
+    if (d.fullscreenElement || d.webkitFullscreenElement) { (d.exitFullscreen || d.webkitExitFullscreen).call(d); }
+    else if (el.requestFullscreen) { el.requestFullscreen(); }
+    else if (el.webkitRequestFullscreen) { el.webkitRequestFullscreen(); }
+  }
+  $("#fullBtn").addEventListener("click", function () { closeToc(); toggleFull(); });
+
+  /* навигация */
+  var bar = $("#progressBar"), ctr = $("#ctr");
+  function go(i, instant) {
+    if (i < 0 || i >= total) return;
+    slides[current].classList.remove("is-active");
+    current = i;
+    slides.forEach(function (s, k) {
+      if (k === i) { s.removeAttribute("inert"); s.removeAttribute("aria-hidden"); }
+      else { s.setAttribute("inert", ""); s.setAttribute("aria-hidden", "true"); }
+    });
+    var s = slides[i];
+    s.classList.add("is-active");
+    s.scrollTop = 0;
+    bar.style.width = ((i + 1) / total * 100) + "%";
+    ctr.textContent = pad(i + 1) + " / " + pad(total);
+    var hash = "#slide-" + (i + 1);
+    if (location.hash !== hash) { try { history.replaceState(null, "", hash); } catch (e) {} }
+    document.title = s.dataset.title + " — AI для фастфуд-бизнеса";
+  }
+  function fromHash() {
+    var m = location.hash.match(/^#slide-(\d+)$/);
+    return m ? Math.max(0, Math.min(total - 1, parseInt(m[1], 10) - 1)) : 0;
+  }
+  $("#nextBtn").addEventListener("click", function () { go(current + 1); });
+  $("#prevBtn").addEventListener("click", function () { go(current - 1); });
+  window.addEventListener("hashchange", function () { go(fromHash()); });
+  document.addEventListener("keydown", function (e) {
+    var t = e.target, tag = t && t.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || (t && t.isContentEditable)) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (toc.classList.contains("open")) { if (e.key === "Escape" || e.code === "KeyM") { e.preventDefault(); closeToc(); } return; }
+    if (e.key === "ArrowRight" || e.key === "PageDown" || (e.key === " " && tag !== "BUTTON")) { e.preventDefault(); go(current + 1); }
+    else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(current - 1); }
+    else if (e.key === "Home") { e.preventDefault(); go(0); }
+    else if (e.key === "End") { e.preventDefault(); go(total - 1); }
+    else if (e.code === "KeyM") { e.preventDefault(); openToc(); }
+    else if (e.code === "KeyF") { e.preventDefault(); toggleFull(); }
+  });
+  var tx = 0, ty = 0;
+  document.addEventListener("touchstart", function (e) { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+  document.addEventListener("touchend", function (e) {
+    var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6) { go(current + (dx < 0 ? 1 : -1)); }
+  }, { passive: true });
+  var idleT;
+  function wake() {
+    document.body.classList.remove("idle");
+    clearTimeout(idleT);
+    idleT = setTimeout(function () { if (!toc.classList.contains("open") && !document.documentElement.classList.contains("reflow")) document.body.classList.add("idle"); }, 2800);
+  }
+  document.addEventListener("mousemove", wake);
+  document.addEventListener("keydown", wake);
+  wake();
+  window.addEventListener("beforeprint", function () { document.documentElement.classList.remove("reflow"); });
+  window.addEventListener("afterprint", fit);
+
+  /* копирование */
+  var toastEl = $("#toast"), toastT;
+  function toast(msg) { toastEl.textContent = msg; toastEl.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(function () { toastEl.classList.remove("on"); }, 2200); }
+  function fallbackCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0"; ta.style.top = "0";
+    document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, text.length);
+    var ok = false; try { ok = document.execCommand("copy"); } catch (e) {}
+    document.body.removeChild(ta); return ok;
+  }
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).then(function () { return true; }, function () { return fallbackCopy(text); });
+    }
+    return Promise.resolve(fallbackCopy(text));
+  }
+  function promptText(key) {
+    if (key === "builder") {
+      return $$("#pb p.on").map(function (p) { return p.querySelector(".lb").textContent + ": " + p.querySelector(".tx").textContent; }).join("\n");
+    }
+    var tpl = document.getElementById(key);
+    return tpl ? (tpl.content ? tpl.content.textContent : tpl.textContent).trim() : "";
+  }
+  $$("[data-copy]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var text = promptText(btn.dataset.copy);
+      if (!text) { toast("Сначала включите хотя бы один элемент"); return; }
+      var label = btn.querySelector("span"), old = label ? label.textContent : "";
+      copyText(text).then(function (ok) {
+        if (!ok) { toast("Не удалось скопировать — текст есть в PROMPT_LIBRARY.md"); return; }
+        btn.classList.add("copied"); if (label) label.textContent = "Скопировано";
+        toast("Скопировано — вставьте в Gemini (Cmd+V)");
+        setTimeout(function () { btn.classList.remove("copied"); if (label) label.textContent = old; }, 1800);
+      });
+    });
+  });
+
+  /* 02 · следующее слово */
+  (function () {
+    var root = $('[data-demo="nextword"]'); if (!root) return;
+    var steps = [
+      { c: [["предложить", 31], ["сделать", 24], ["улучшить", 19], ["давать", 11]] },
+      { c: [["им", 38], ["бонус", 22], ["что-то", 17], ["скидку", 12]] },
+      { c: [["причину", 29], ["бонус", 26], ["скидку", 21], ["новинку", 13]] },
+      { c: [["вернуться.", 64], ["прийти.", 18], ["снова.", 9], ["заказать.", 5]] }
+    ];
+    var built = $(".nw-built", root), list = $(".nw-cands", root), nextBtn = $('[data-nw="next"]', root), label = $("span", nextBtn), k = 0, busy = false;
+    function render(step, pick) {
+      list.innerHTML = step.c.map(function (c, j) {
+        return '<li class="' + (pick && j === 0 ? "win" : "") + '"><span>' + c[0] + '</span><span class="bar"><i></i></span><span class="pct">' + c[1] + "%</span></li>";
+      }).join("");
+      requestAnimationFrame(function () { requestAnimationFrame(function () {
+        $$(".bar i", list).forEach(function (b, j) { b.style.width = step.c[j][1] + "%"; });
+      }); });
+    }
+    function reset() { k = 0; built.textContent = ""; label.textContent = "Следующее слово"; render(steps[0], false); }
+    nextBtn.addEventListener("click", function () {
+      if (busy) return;
+      if (k >= steps.length) { reset(); return; }
+      busy = true;
+      render(steps[k], false);
+      setTimeout(function () {
+        $$("li", list)[0].classList.add("win");
+        setTimeout(function () {
+          built.textContent += (k ? " " : "") + steps[k].c[0][0];
+          k++;
+          if (k < steps.length) { render(steps[k], false); } else { label.textContent = "Ещё раз"; }
+          busy = false;
+        }, 520);
+      }, 650);
+    });
+    $('[data-nw="reset"]', root).addEventListener("click", reset);
+    reset();
+  })();
+
+  /* 03 · галлюцинация */
+  (function () {
+    var root = $('[data-demo="halluc"]'); if (!root) return;
+    var btn = $("[data-hc]", root), label = $("span", btn);
+    btn.addEventListener("click", function () {
+      var on = root.classList.toggle("checked");
+      label.textContent = on ? "Скрыть проверку" : "Проверить ответ";
+    });
+  })();
+
+  /* 05 · Gemini */
+  (function () {
+    var wire = $('[data-demo="gemini"]'); if (!wire) return;
+    var panel = wire.parentNode.querySelector(".gx");
+    var data = [
+      ["Поле запроса", "Пишите как новому сотруднику: кто вы, что нужно, для чего и в каком виде. Можно надиктовать голосом — кнопка микрофона справа.", "Я владелец фастфуд-заведения. Объясни простыми словами, чем ты можешь помочь мне в первую неделю. Дай 5 идей с примерами."],
+      ["Файлы и фото", "Кнопка «+»: фото меню, PDF-накладная, таблица продаж (Excel, CSV), скриншоты отзывов. Файлы можно выбрать и из Google Drive.", "Вот фото нашего меню. Перепиши его в таблицу: категория, позиция, цена. Если что-то не читается — отметь, не угадывай."],
+      ["Выбор модели", "Быстрая модель — для коротких текстов. Более сильная («думающая», Pro) — для цифр и анализа. Названия меняются: для расчётов выбирайте самую сильную из доступных.", "Сравни два варианта цены на комбо. Сначала покажи расчёт по шагам, потом вывод и риски."],
+      ["Инструменты", "Deep Research — исследование темы с источниками. Canvas — совместная работа над документом. Создание изображений — идеи визуала для постов.", "Сделай Deep Research: какие форматы комбо и акций используют фастфуд-заведения. Только с источниками и датами."],
+      ["Gems", "Свои помощники с постоянной инструкцией и файлами-знаниями. Здесь будут жить ваши навыки: «Аналитик меню», «Сводка смены».", "Gems → Создать → вставить инструкцию навыка → добавить файл BUSINESS_CONTEXT в «Знания» → Сохранить."],
+      ["История чатов", "Можно вернуться к прошлым разговорам. Но история — не архив: важные результаты сохраняйте в Google Drive.", "Сделай итог этого чата: решения, цифры, следующие шаги — в виде, готовом для Google Документа."]
+    ];
+    var hots = $$(".hot", wire);
+    function show(i) {
+      hots.forEach(function (h, k) { h.classList.toggle("on", k === i); h.setAttribute("aria-pressed", k === i ? "true" : "false"); });
+      $(".gx-n", panel).textContent = i + 1;
+      $(".gx-title", panel).textContent = data[i][0];
+      $(".gx-text", panel).textContent = data[i][1];
+      $(".gx-try .code", panel).textContent = data[i][2];
+    }
+    hots.forEach(function (h, i) { h.addEventListener("click", function () { show(i); }); });
+    show(1);
+  })();
+
+  /* 06 · конструктор промпта */
+  (function () {
+    var root = $('[data-demo="builder"]'); if (!root) return;
+    var rows = $$(".toggle-row", root), labels = ["Пустой запрос", "Общий ответ из интернета", "Чуть точнее", "Полезный черновик", "Конкретный план", "Готово к работе"];
+    function sync() {
+      var n = 0;
+      rows.forEach(function (r) {
+        var on = r.getAttribute("aria-pressed") === "true"; if (on) n++;
+        var p = $('#pb p[data-k="' + r.dataset.k + '"]'); if (p) p.classList.toggle("on", on);
+      });
+      $$("#pbMeter i").forEach(function (m, k) { m.classList.toggle("on", k < n); });
+      $("#pbQ").textContent = labels[n];
+    }
+    rows.forEach(function (r) { r.addEventListener("click", function () { r.setAttribute("aria-pressed", r.getAttribute("aria-pressed") === "true" ? "false" : "true"); sync(); }); });
+    sync();
+  })();
+
+  /* 10 · grill-me */
+  (function () {
+    var root = $('[data-demo="grill"]'); if (!root) return;
+    var rounds = $$(".gr-round", root), result = $(".gr-result", root), trail = $(".gr-trail", root), resetBtn = $('[data-gr="reset"]', root), inds = $$(".rounds-ind i", root), lbl = $("#grLabel"), nextBtn = $('[data-gr="next"]', root), nl = $("span", nextBtn), step = 0;
+    function render() {
+      rounds.forEach(function (r, k) { r.classList.toggle("on", k === step); });
+      result.classList.toggle("on", step === rounds.length);
+      trail.classList.toggle("on", step === rounds.length);
+      resetBtn.style.display = step === rounds.length ? "none" : "";
+      inds.forEach(function (i, k) { i.classList.toggle("on", k <= Math.min(step, 2)); });
+      lbl.textContent = step < rounds.length ? "Раунд " + (step + 1) + " из 3" : "Итог";
+      nl.textContent = step < rounds.length - 1 ? "Следующий раунд" : step === rounds.length - 1 ? "Показать итог" : "Пройти ещё раз";
+    }
+    nextBtn.addEventListener("click", function () { step = step >= rounds.length ? 0 : step + 1; render(); });
+    $('[data-gr="reset"]', root).addEventListener("click", function () { step = 0; render(); });
+    render();
+  })();
+
+  /* 11 · навыки */
+  (function () {
+    var root = $('[data-demo="skills"]'); if (!root) return;
+    var d = [
+      ["Grill-me", "grill-me", "Есть идея или проблема, но неясно, с чего начать и что важнее.", "Тема разговора; файл BUSINESS_CONTEXT, если он уже есть.", "Одна приоритетная задача, причина выбора, метрика на 7 дней, список «пока не делаем».", "Решение принимаете вы. AI только спрашивает и рекомендует."],
+      ["Business Context Builder", "business-context-builder", "Первый день работы с AI; затем раз в месяц — обновить профиль.", "Ваши ответы на 15–25 вопросов. Без паролей и личных данных.", "Заполненный BUSINESS_CONTEXT по шаблону с пометками «уточнить».", "Всё ли верно; нет ли личных и платёжных данных."],
+      ["Menu Economics Analyst", "menu-economics-analyst", "Пересмотр меню, цен и комбо; рост себестоимости.", "Позиции, цены, себестоимость порций, продажи за период.", "Таблица фудкоста и маржи, матрица меню, 3 гипотезы с планом проверки.", "Себестоимость — по техкартам и накладным. Цены меняет только владелец."],
+      ["Content & Marketing Assistant", "content-marketing-assistant", "План на неделю, запуск акции, обновление Google Maps.", "Поводы, аудитория, тон, бюджет, ограничения.", "Контент-план на 7 дней, тексты постов, черновик условий акции.", "Цены, сроки, условия, состав. Публикует только человек."],
+      ["Customer Feedback Analyst", "customer-feedback-analyst", "Раз в неделю или после всплеска жалоб.", "Отзывы без имён, телефонов и ссылок на профили.", "Темы и частота, вероятные причины, 3 действия, черновики ответов.", "Никаких обещаний компенсации без владельца. Ответ публикует человек."],
+      ["Daily Operations Manager", "daily-operations-manager", "Каждый вечер после смены или утром до открытия.", "Заметки или голосовое управляющего, итоги кассы.", "Сводка: продажи, закупки, проблемы, решения, вопросы владельцу.", "Цифры — по отчёту кассы. Закупки и платежи подтверждает человек."]
+    ];
+    var items = $$(".sk-item", root);
+    function show(i) {
+      items.forEach(function (b, k) { b.classList.toggle("on", k === i); b.setAttribute("aria-selected", k === i ? "true" : "false"); });
+      $("#skName").textContent = d[i][0];
+      $("#skPath").textContent = "github.com/…/skills/" + d[i][1] + "/SKILL.md"; $("#skPath").href = $("#skGh").href = "https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/" + d[i][1] + "/SKILL.md";
+      $("#skWhen").textContent = d[i][2]; $("#skIn").textContent = d[i][3]; $("#skOut").textContent = d[i][4]; $("#skChk").textContent = d[i][5];
+    }
+    items.forEach(function (b, i) { b.addEventListener("click", function () { show(i); }); });
+    show(0);
+  })();
+
+  /* 12 · экономика меню */
+  (function () {
+    var root = $('[data-demo="menu"]'); if (!root) return;
+    var base = [["Бургер классический", 450, 160, 320], ["Шаурма", 350, 140, 410], ["Картофель фри", 180, 35, 520], ["Комбо «Обед»", 590, 230, 180], ["Наггетсы, 9 шт", 290, 120, 95], ["Лимонад", 190, 30, 140]];
+    var rows = base.map(function (r) { return r.slice(); });
+    var body = $("#mBody"), svg = $("#mQuad"), ins = $("#mIns");
+    var fmt = function (n) { return Math.round(n).toLocaleString("ru-RU"); };
+    function buildTable() {
+      body.innerHTML = rows.map(function (r, i) {
+        return "<tr><td>" + r[0] + '</td><td><input type="number" inputmode="numeric" min="0" step="10" value="' + r[1] + '" data-i="' + i + '" aria-label="Цена: ' + r[0] + '"></td><td>' + r[2] + '</td><td class="fcc"></td><td class="m1"></td><td>' + r[3] + '</td><td class="m2 strong"></td></tr>';
+      }).join("");
+      $$("input", body).forEach(function (inp) {
+        inp.addEventListener("input", function () { var v = parseFloat(inp.value); rows[+inp.dataset.i][1] = isFinite(v) && v > 0 ? v : 0; calc(); });
+      });
+    }
+    function calc() {
+      var trs = $$("tr", body), tot = 0, qty = 0;
+      rows.forEach(function (r, i) {
+        var price = r[1], fc = price > 0 ? r[2] / price * 100 : 0, m = price - r[2];
+        tot += m * r[3]; qty += r[3];
+        var cls = fc < 30 ? "ok" : fc <= 38 ? "mid" : "hi";
+        $(".fcc", trs[i]).innerHTML = price > 0 ? '<span class="fc ' + cls + '">' + fc.toFixed(1).replace(".", ",") + "%</span>" : "—";
+        $(".m1", trs[i]).textContent = fmt(m);
+        $(".m2", trs[i]).textContent = fmt(m * r[3]);
+      });
+      $("#mQty").textContent = fmt(qty);
+      $("#mTotal").textContent = fmt(tot);
+      drawQuad();
+    }
+    function drawQuad() {
+      var L = 64, R = 620, T = 22, B = 412, W = R - L, H = B - T;
+      var ms = rows.map(function (r) { return r[1] - r[2]; }), qs = rows.map(function (r) { return r[3]; });
+      var mAvg = ms.reduce(function (a, b) { return a + b; }, 0) / ms.length, qAvg = qs.reduce(function (a, b) { return a + b; }, 0) / qs.length;
+      var mMax = Math.max.apply(null, ms.concat([mAvg])) * 1.18, mMin = Math.min(0, Math.min.apply(null, ms)), qMax = Math.max.apply(null, qs) * 1.15;
+      var X = function (q) { return L + q / qMax * W; }, Y = function (m) { return B - (m - mMin) / (mMax - mMin) * H; };
+      var ax = X(qAvg), ay = Y(mAvg), out = [];
+      out.push('<rect x="' + L + '" y="' + T + '" width="' + W + '" height="' + H + '" rx="14" fill="rgba(255,255,255,.025)" stroke="rgba(244,240,232,.12)"/>');
+      out.push('<rect x="' + ax + '" y="' + T + '" width="' + (R - ax) + '" height="' + (ay - T) + '" fill="rgba(255,79,31,.07)"/>');
+      out.push('<line x1="' + ax + '" y1="' + T + '" x2="' + ax + '" y2="' + B + '" stroke="rgba(244,240,232,.28)" stroke-dasharray="5 6"/>');
+      out.push('<line x1="' + L + '" y1="' + ay + '" x2="' + R + '" y2="' + ay + '" stroke="rgba(244,240,232,.28)" stroke-dasharray="5 6"/>');
+      var ql = [["ЗАГАДКИ", L + 18, T + 34, "start", "#A39E95"], ["ЗВЁЗДЫ", R - 18, T + 34, "end", "#FF7A52"], ["СОБАКИ", L + 18, B - 18, "start", "#A39E95"], ["ЛОШАДКИ", R - 18, B - 18, "end", "#A39E95"]];
+      ql.forEach(function (q) { out.push('<text x="' + q[1] + '" y="' + q[2] + '" text-anchor="' + q[3] + '" font-family="Inter Tight, sans-serif" font-weight="700" font-size="14" letter-spacing="2.5" fill="' + q[4] + '">' + q[0] + "</text>"); });
+      out.push('<text x="' + (L + W / 2) + '" y="' + (B + 40) + '" text-anchor="middle" font-family="Inter Tight, sans-serif" font-size="15" fill="#75716A">Популярность — продаж в неделю →</text>');
+      out.push('<text transform="translate(' + (L - 30) + "," + (T + H / 2) + ') rotate(-90)" text-anchor="middle" font-family="Inter Tight, sans-serif" font-size="15" fill="#75716A">Маржа на порцию →</text>');
+      var placed = rows.map(function (r, i) { var x = X(qs[i]), y = Y(ms[i]); return [x - 12, y - 12, x + 12, y + 12]; });
+      rows.forEach(function (r, i) {
+        var x = X(qs[i]), y = Y(ms[i]), star = ms[i] >= mAvg && qs[i] >= qAvg;
+        var tw = r[0].length * 8.6, right = x + 16 + tw > R - 8, lx = right ? x - 16 : x + 16, anchor = right ? "end" : "start";
+        var bx0 = right ? lx - tw : lx, ly = y + 5, tries = [0, 22, -22, 40, -40];
+        for (var t = 0; t < tries.length; t++) {
+          var cy = y + 5 + tries[t], hit = placed.some(function (b) { return bx0 < b[2] && bx0 + tw > b[0] && cy - 14 < b[3] && cy + 4 > b[1]; });
+          if (!hit) { ly = cy; break; }
+        }
+        placed.push([bx0, ly - 14, bx0 + tw, ly + 4]);
+        out.push('<circle cx="' + x + '" cy="' + y + '" r="9" fill="' + (star ? "#FF4F1F" : "#F4F0E8") + '" stroke="#141412" stroke-width="3"/>');
+        if (ly !== y + 5) out.push('<line x1="' + (right ? x - 9 : x + 9) + '" y1="' + y + '" x2="' + (right ? lx + 4 : lx - 4) + '" y2="' + (ly - 5) + '" stroke="rgba(244,240,232,.35)"/>');
+        out.push('<text x="' + lx + '" y="' + ly + '" text-anchor="' + anchor + '" font-family="Inter, sans-serif" font-weight="500" font-size="16" fill="#F4F0E8">' + r[0] + "</text>");
+      });
+      svg.innerHTML = out.join("");
+      var groups = { s: [], h: [], p: [], d: [] };
+      rows.forEach(function (r, i) {
+        var hm = ms[i] >= mAvg, hq = qs[i] >= qAvg;
+        groups[hm && hq ? "s" : hq ? "h" : hm ? "p" : "d"].push(r[0]);
+      });
+      var txt = [["s", "Звёзды", "держать качество, ставить на видное место"], ["h", "Лошадки", "мягко поднять цену или снизить себестоимость"], ["p", "Загадки", "продвигать: кассир предлагает, фото в меню"], ["d", "Собаки", "пересмотреть рецепт и порцию или убрать"]];
+      ins.innerHTML = txt.map(function (t) { return "<div><b>" + t[1] + ": " + (groups[t[0]].join(", ") || "—") + "</b>" + t[2] + "</div>"; }).join("");
+    }
+    $('[data-menu="reset"]', root.parentNode).addEventListener("click", function () { rows = base.map(function (r) { return r.slice(); }); buildTable(); calc(); });
+    buildTable(); calc();
+  })();
+
+  /* 13 · контент-план */
+  (function () {
+    var root = $('[data-demo="content"]'); if (!root) return;
+    var days = [
+      ["Пн", "Instagram · Reels", "Как мы готовим", "доверие", "Что происходит на кухне до того, как вы получите заказ? Показываем без фильтров — от гриля до упаковки.", "15-секундное видео сборки бургера, крупные планы рук и продукта.", "В кадре нет лиц сотрудников без их согласия; кухня чистая.", "Просмотры и сохранения через 48 часов."],
+      ["Вт", "Акция · офисы", "Комбо до 15:00", "дневные продажи", "Обед без очереди: комбо [СОСТАВ] по будням до 15:00 — [ЦЕНА]. Покажите этот пост на кассе.", "Комбо на подносе, рядом ноутбук и пропуск в бизнес-центр.", "Цена, срок и состав комбо — решение владельца. Кассиры знают об акции.", "Сколько комбо продано с пометкой «пост» в кассе."],
+      ["Ср", "Maps · профиль", "Обновить карточку", "визиты", "Ответ на частый вопрос «Можно оплатить картой?»: [ДА/НЕТ — проверить]. Обновить фото фасада и меню.", "3 свежих фото: вход, зал, популярная позиция.", "Часы работы и способы оплаты совпадают с реальностью.", "Звонки и маршруты в статистике профиля за неделю."],
+      ["Чт", "Stories · опрос", "Какой соус добавить?", "вовлечение", "Выбираем новый соус вместе: [ВАРИАНТ А] или [ВАРИАНТ Б]? Победитель появится в меню [СРОК].", "Два соуса крупным планом на тёмном фоне.", "Соус реально можем ввести; состав и аллергены проверены.", "Число голосов и ответов в опросе."],
+      ["Пт", "Instagram · пост", "Сет на компанию", "средний чек", "Пятница — берём на всех. Сет [СОСТАВ] на [N] человек — [ЦЕНА].", "Сет сверху на большом столе, руки тянутся к еде.", "Состав и цена сета; хватает ли продуктов на вечер.", "Продажи сета в пятницу и субботу."],
+      ["Сб", "Instagram · репост", "Отзыв недели", "отзывы", "Спасибо за тёплые слова! Нам важно каждое мнение — пишите, что улучшить.", "Скриншот отзыва (без фамилии и фото автора).", "Есть согласие автора; нет личных данных.", "Новые отзывы за неделю."],
+      ["Вс", "Maps · пост", "План на неделю", "визиты", "На этой неделе: [НОВИНКА ИЛИ АКЦИЯ]. Ждём вас [ЧАСЫ РАБОТЫ].", "Фото новинки при дневном свете.", "Даты, условия и часы работы.", "Просмотры поста в профиле."]
+    ];
+    var week = $(".week", root), draft = $(".draft", root);
+    week.innerHTML = days.map(function (d, i) {
+      return '<button class="wk-day" role="tab" data-i="' + i + '"><span class="d">' + d[0] + '</span><span class="ch">' + d[1] + "</span><strong>" + d[2] + '</strong><span class="g">цель: ' + d[3] + "</span></button>";
+    }).join("");
+    var btns = $$(".wk-day", week);
+    function show(i) {
+      btns.forEach(function (b, k) { b.classList.toggle("on", k === i); b.setAttribute("aria-selected", k === i ? "true" : "false"); });
+      var d = days[i];
+      draft.innerHTML = '<div class="full"><span class="label">' + d[0] + " · " + d[1] + "</span><h4>" + d[2] + '</h4></div><div class="full"><span class="label">Черновик текста</span><p class="txt">' + d[4].replace(/\[([^\]]+)\]/g, '<span style="color:var(--amber)">[$1]</span>') + '</p></div><div><span class="label">Фото / видео</span><p>' + d[5] + '</p></div><div><span class="label">Как измерить</span><p>' + d[7] + '</p></div><div class="full chk"><span class="label">Проверить перед публикацией</span><p>' + d[6] + "</p></div>";
+    }
+    btns.forEach(function (b, i) { b.addEventListener("click", function () { show(i); }); });
+    show(1);
+  })();
+
+  /* 14 · отзывы */
+  (function () {
+    var root = $('[data-demo="reviews"]'); if (!root) return;
+    $("[data-rv]", root).addEventListener("click", function () { root.classList.add("grouped"); });
+  })();
+
+  /* 15 · сводка */
+  (function () {
+    var root = $('[data-demo="brief"]'); if (!root) return;
+    var btn = $("[data-bf]", root), lbl = $("span", btn);
+    btn.addEventListener("click", function () {
+      var on = root.classList.toggle("done");
+      lbl.textContent = on ? "Скрыть сводку" : "Сделать сводку";
+    });
+  })();
+
+  /* 17 · чек-лист (только локально в браузере) */
+  (function () {
+    var root = $('[data-demo="plan"]'); if (!root) return;
+    var KEY = "abbas-ai-fastfood:v1", state = { c: [], m: "" };
+    try { state = JSON.parse(localStorage.getItem(KEY)) || state; } catch (e) {}
+    var boxes = $$("input[type=checkbox]", root), metric = $("#metricIn");
+    function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+    function count() { $("#clDone").textContent = boxes.filter(function (b) { return b.checked; }).length; }
+    boxes.forEach(function (b, i) {
+      b.checked = !!(state.c && state.c[i]);
+      b.addEventListener("change", function () { state.c = boxes.map(function (x) { return x.checked; }); save(); count(); });
+    });
+    metric.value = state.m || "";
+    metric.addEventListener("input", function () { state.m = metric.value; save(); });
+    count();
+  })();
+
+  go(fromHash(), true);
+})();
+</script>
+</body>
+</html>

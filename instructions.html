@@ -1,0 +1,1575 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Инструкция — первая неделя с AI</title>
+<meta name="description" content="Пошаговая инструкция к воркшопу «AI для фастфуд-бизнеса»: ссылки на сервисы, промпты, навыки и чек-листы.">
+<meta name="color-scheme" content="dark">
+<style>
+
+/* ───────── Шрифты (локальные, кириллица + латиница, OFL) ───────── */
+@font-face{font-family:"Inter Tight";font-style:normal;font-weight:500 800;font-display:swap;src:url(assets/fonts/InterTight-cyrillic.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Inter Tight";font-style:normal;font-weight:500 800;font-display:swap;src:url(assets/fonts/InterTight-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Inter";font-style:normal;font-weight:400 600;font-display:swap;src:url(assets/fonts/Inter-cyrillic.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Inter";font-style:normal;font-weight:400 600;font-display:swap;src:url(assets/fonts/Inter-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:400 500;font-display:swap;src:url(assets/fonts/JetBrainsMono-cyrillic.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:400 500;font-display:swap;src:url(assets/fonts/JetBrainsMono-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Source Serif 4";font-style:italic;font-weight:400;font-display:swap;src:url(assets/fonts/SourceSerif4-italic-cyrillic.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Source Serif 4";font-style:italic;font-weight:400;font-display:swap;src:url(assets/fonts/SourceSerif4-italic-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+/* ───────── Дизайн-система ───────── */
+:root{
+  --ink:#0F0F0E; --ink-2:#161614; --ink-3:#1D1D1B; --ink-4:#262623;
+  --line:rgba(244,240,232,.10); --line-2:rgba(244,240,232,.20);
+  --paper:#F2EEE6; --paper-2:#E7E1D5; --paper-line:rgba(20,20,18,.12); --paper-line-2:rgba(20,20,18,.24);
+  --text:#F4F0E8; --muted:#A39E95; --dim:#75716A;
+  --text-ink:#151513; --muted-ink:#57534C; --dim-ink:#8A857C;
+  --accent:#FF4F1F; --accent-ink:#C8330A; --accent-soft:rgba(255,79,31,.13);
+  --amber:#F2B33D; --amber-soft:rgba(242,179,61,.13); --green:#4CC38A; --green-soft:rgba(76,195,138,.12);
+  --f-display:"Inter Tight","SF Pro Display",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --f-body:"Inter","SF Pro Text",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --f-serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+  --fs-hero:176px; --fs-h1:96px; --fs-h2:66px; --fs-h3:34px; --fs-lead:30px; --fs-body:24px; --fs-small:20px; --fs-micro:15px; --fs-code:19px;
+  --px:128px; --pt:124px; --pb:84px;
+  --r-l:24px; --r-m:16px; --r-s:10px;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#0A0A09;color:var(--text);font-family:var(--f-body);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+body{overflow:hidden}
+button{font-family:inherit}
+p,h1,h2,h3,h4,ul,ol,dl,dd,figure{margin:0;padding:0}
+ul,ol{list-style:none}
+.ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* сцена 16:9 */
+.viewport{position:fixed;inset:0;overflow:hidden;background:#0A0A09}
+.deck{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform:translate(-50%,-50%) scale(var(--scale,.5));transform-origin:50% 50%;overflow:hidden;background:var(--ink)}
+.slide{
+  --bg:var(--ink); --fg:var(--text); --fg-2:var(--muted); --fg-3:var(--dim);
+  --ln:var(--line); --ln-2:var(--line-2); --em:var(--accent); --panel:var(--ink-2); --panel-2:var(--ink-3);
+  position:absolute;inset:0;background:var(--bg);color:var(--fg);
+  opacity:0;visibility:hidden;transition:opacity .55s var(--ease),visibility 0s linear .55s;
+}
+.slide.paper{--bg:var(--paper);--fg:var(--text-ink);--fg-2:var(--muted-ink);--fg-3:var(--dim-ink);--ln:var(--paper-line);--ln-2:var(--paper-line-2);--em:var(--accent-ink);--panel:#FAF8F3;--panel-2:#F5F1E9}
+.slide.is-active{opacity:1;visibility:visible;transition:opacity .55s var(--ease),visibility 0s}
+.frame{position:absolute;left:var(--px);right:var(--px);top:var(--pt);bottom:var(--pb)}
+.chrome{position:absolute;left:var(--px);right:var(--px);top:48px;display:flex;align-items:center;gap:28px;font:600 14px/1 var(--f-display);letter-spacing:.16em;text-transform:uppercase;color:var(--fg-3)}
+.chrome .brand{display:flex;align-items:center;gap:12px;color:var(--fg-2)}
+.chrome .brand i{width:11px;height:11px;border-radius:3px;background:var(--em)}
+.chrome .mod{margin-left:auto}
+.chrome .num{color:var(--fg);font-variant-numeric:tabular-nums}
+.chrome .num em{font-style:normal;color:var(--fg-3)}
+
+/* типографика */
+.kicker{display:flex;align-items:center;gap:14px;font:600 var(--fs-micro)/1 var(--f-display);letter-spacing:.17em;text-transform:uppercase;color:var(--em);margin-bottom:26px}
+.kicker::before{content:"";width:30px;height:2px;background:currentColor;flex:none}
+.h1{font:700 var(--fs-h1)/.97 var(--f-display);letter-spacing:-.037em;color:var(--fg)}
+.h2{font:700 var(--fs-h2)/1 var(--f-display);letter-spacing:-.032em;color:var(--fg)}
+.h3{font:650 var(--fs-h3)/1.1 var(--f-display);letter-spacing:-.02em;color:var(--fg)}
+em,.em{font-style:normal;color:var(--em)}
+.serif{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
+.lead{font-size:var(--fs-lead);line-height:1.38;color:var(--fg-2);max-width:30em}
+.body{font-size:var(--fs-body);line-height:1.5;color:var(--fg-2)}
+.small{font-size:var(--fs-small);line-height:1.45;color:var(--fg-2)}
+.label{font:600 var(--fs-micro)/1.2 var(--f-display);letter-spacing:.15em;text-transform:uppercase;color:var(--fg-3)}
+.mono{font-family:var(--f-mono)}
+b,strong{font-weight:600;color:var(--fg)}
+
+/* общие компоненты */
+.btn{appearance:none;-webkit-appearance:none;display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;border:1px solid var(--ln-2);background:transparent;color:var(--fg);font:600 18px/1 var(--f-display);letter-spacing:.01em;cursor:pointer;white-space:nowrap;transition:background .2s,border-color .2s,color .2s,transform .2s}
+.btn:hover{border-color:var(--fg-2)}
+.btn:active{transform:translateY(1px)}
+.btn .ic{width:19px;height:19px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#170A05}
+.btn.primary:hover{background:#FF6A3F;border-color:#FF6A3F}
+.btn.copied{border-color:var(--green);color:var(--green)}
+.btn.primary.copied{background:var(--green);border-color:var(--green);color:#06140D}
+.btn:focus-visible,.hot:focus-visible,.toggle-row:focus-visible,.sk-item:focus-visible,.wk-day:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+.tag{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;border:1px solid var(--ln-2);font:600 14px/1 var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--fg-2);white-space:nowrap}
+.tag.edu{border-color:rgba(242,179,61,.55);color:var(--amber)}
+.paper .tag.edu{border-color:#B9811A;color:#8C5E08}
+.tag.acc{border-color:var(--em);color:var(--em)}
+.panel{background:var(--panel);border:1px solid var(--ln);border-radius:var(--r-l)}
+.device{--fg:var(--text);--fg-2:var(--muted);--fg-3:var(--dim);--ln:var(--line);--ln-2:var(--line-2);--em:var(--accent);--panel:var(--ink-3);--panel-2:var(--ink-4);
+  background:#141412;color:var(--text);border:1px solid rgba(255,255,255,.08);border-radius:28px}
+.paper .device{box-shadow:0 40px 90px -30px rgba(40,30,15,.45)}
+.check-note{display:flex;gap:14px;align-items:flex-start;padding:16px 20px;border-radius:var(--r-m);background:var(--amber-soft);border:1px solid rgba(242,179,61,.32);font-size:19px;line-height:1.42;color:var(--fg)}
+.paper .check-note{background:rgba(242,179,61,.16);border-color:rgba(185,129,26,.4)}
+.check-note .ic{width:24px;height:24px;color:var(--amber);margin-top:1px}
+.paper .check-note .ic{color:#9A6A0C}
+.check-note b{color:inherit}
+.code{font:400 var(--fs-code)/1.6 var(--f-mono);color:#E9E3D8;white-space:pre-wrap;word-break:break-word}
+.code .ph{color:var(--amber)}
+.code .k{color:#FF8A66}
+.code .c{color:#7E7A72}
+.divider{height:1px;background:var(--ln)}
+
+/* рельс цикла (на практических слайдах) */
+.rail{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;counter-reset:rail}
+.rail li{position:relative;padding-top:16px;border-top:2px solid var(--ln-2);counter-increment:rail}
+.rail li span{display:block;font:600 13px/1 var(--f-display);letter-spacing:.15em;text-transform:uppercase;color:var(--fg-3);margin-bottom:8px}
+.rail li span::before{content:"0" counter(rail) "  ";color:var(--em)}
+.rail li b{display:block;font:500 18px/1.3 var(--f-body);color:var(--fg)}
+.rail li.chk{border-top-color:var(--amber)}
+.rail li.chk span{color:var(--amber)}
+.paper .rail li.chk{border-top-color:#B9811A}
+.paper .rail li.chk span{color:#8C5E08}
+
+/* анимация появления */
+html.js .slide .a{opacity:0}
+html.js .slide.is-active .a{animation:rise .8s var(--ease) both;animation-delay:calc(var(--d,0) * 90ms + 140ms)}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+
+.hero{font:800 var(--fs-hero)/.95 var(--f-display);letter-spacing:-.048em;color:var(--fg)}
+.hero .em{color:var(--accent)}
+.hero-sub{margin-top:40px;font:500 40px/1.25 var(--f-display);letter-spacing:-.015em;color:#D9D3C8;max-width:24em}
+.kbd{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 8px;border:1px solid var(--line-2);border-radius:7px;font:600 15px/1 var(--f-display);color:var(--text)}
+/* ───────── Управление (вне сцены) ───────── */
+.progress{position:fixed;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.05);z-index:40}
+.progress i{display:block;height:100%;width:0;background:var(--accent);transition:width .5s var(--ease)}
+.controls{position:fixed;right:18px;bottom:16px;z-index:50;display:flex;align-items:center;gap:4px;padding:5px;border-radius:999px;background:rgba(22,22,20,.78);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.09);transition:opacity .4s}
+.controls button{width:40px;height:40px;border-radius:999px;border:0;background:transparent;color:#EDE9E1;display:grid;place-items:center;cursor:pointer;font-size:20px}
+.controls button:hover{background:rgba(255,255,255,.09)}
+.controls button:focus-visible{outline:2px solid var(--amber)}
+.controls button .ic{width:20px;height:20px}
+.controls .ctr{min-width:62px;text-align:center;font:600 13px/1 var(--f-display);letter-spacing:.08em;color:#A39E95;font-variant-numeric:tabular-nums}
+body.idle .controls{opacity:0}
+body.idle{cursor:none}
+.toc{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:rgba(10,10,9,.82);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s linear .3s}
+.toc.open{opacity:1;visibility:visible;transition:opacity .3s,visibility 0s}
+.toc-in{width:min(1120px,92vw);max-height:88vh;overflow:auto;padding:36px 40px;border-radius:24px;background:#141412;border:1px solid rgba(255,255,255,.09);color:var(--text)}
+.toc-top{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:24px}
+.toc-top h2{font:700 30px/1 var(--f-display);letter-spacing:-.02em}
+.toc-top .x{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.14);background:none;color:var(--text);display:grid;place-items:center;cursor:pointer}
+.toc-top .x .ic{width:20px;height:20px}
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px 36px}
+.toc-mod .label{display:block;margin-bottom:10px;color:var(--accent);font-size:12px}
+.toc-mod a{display:grid;grid-template-columns:38px 1fr;gap:8px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.07);color:#D9D3C8;text-decoration:none;font-size:16px;line-height:1.3}
+.toc-mod a span{font:600 14px/1.3 var(--f-display);color:#75716A;font-variant-numeric:tabular-nums}
+.toc-mod a:hover,.toc-mod a.cur{color:var(--text)}
+.toc-mod a.cur span{color:var(--accent)}
+.toc-foot{margin-top:28px;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.toc-foot .keys{margin-left:auto;font-size:14px;line-height:1.6;color:#8A857C}
+.toc-foot .keys b{color:#D9D3C8;font-weight:600}
+.toc-foot .btn{--fg:var(--text);--ln-2:rgba(255,255,255,.2)}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);z-index:70;padding:12px 18px;border-radius:12px;background:#F2EEE6;color:#151513;font:600 15px/1 var(--f-display);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+
+
+/* ───────── Инструкция: общие элементы ───────── */
+.ic-sm{width:18px;height:18px}
+a.btn{text-decoration:none}
+.st-tools .col.fill{display:flex;flex-direction:column;min-height:0}
+.col.fill .pcard{flex:1;display:flex;flex-direction:column;min-height:0}
+.col.fill .pc-prev{flex:1 1 0;min-height:0;max-height:none!important}
+.svc{display:grid;grid-template-columns:44px 1fr 20px;gap:14px;align-items:center;padding:12px 16px 12px 12px;border-radius:16px;border:1px solid var(--ln-2);background:var(--panel);color:var(--fg);text-decoration:none;transition:border-color .2s,background .2s,transform .2s}
+.svc:hover{border-color:var(--em);transform:translateY(-1px)}
+.svc .si{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--accent-soft);color:var(--em)}
+.svc .si .ic{width:22px;height:22px}
+.svc b{display:block;font:650 19px/1.15 var(--f-display);color:var(--fg)}
+.svc small{display:block;margin-top:3px;font:400 14.5px/1.2 var(--f-mono);color:var(--fg-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.svc .go{width:18px;height:18px;color:var(--fg-3)}
+.svc:hover .go{color:var(--em)}
+.svc-list{display:grid;gap:10px;align-content:start}
+.skchip{appearance:none;-webkit-appearance:none;width:100%;display:grid;grid-template-columns:44px 1fr 20px;gap:14px;align-items:center;padding:12px 16px 12px 12px;border-radius:16px;border:1px dashed rgba(255,79,31,.55);background:transparent;color:var(--fg);text-align:left;cursor:pointer;transition:background .2s}
+.skchip:hover{background:var(--accent-soft)}
+.skchip .si{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--accent);color:#170A05}
+.skchip .si .ic{width:22px;height:22px}
+.skchip small{display:block;font:600 12.5px/1.2 var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--em);margin-bottom:4px}
+.skchip b{display:block;font:650 19px/1.15 var(--f-display)}
+.skchip .go{width:18px;height:18px;color:var(--em)}
+.slink{display:inline-flex;align-items:center;gap:8px;font:600 16px/1 var(--f-display);color:var(--fg-2);text-decoration:none;border-bottom:1px solid var(--ln-2);padding-bottom:4px}
+.slink:hover{color:var(--em);border-color:var(--em)}
+.slink .ic{width:16px;height:16px}
+.pcard{border-radius:18px;border:1px solid var(--ln);background:var(--panel);overflow:hidden}
+.pc-top{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 16px 12px 20px;border-bottom:1px solid var(--ln)}
+.pc-top .label{color:var(--em)}
+.btn.sm{padding:10px 16px;font-size:16px}
+.btn.sm .ic{width:17px;height:17px}
+.pc-prev{position:relative;padding:16px 20px 18px;font:400 16.5px/1.6 var(--f-mono);color:#D9D3C8;white-space:pre-wrap;max-height:150px;overflow:hidden}
+.pc-prev::after{content:"";position:absolute;left:0;right:0;bottom:0;height:56px;background:linear-gradient(transparent,var(--panel))}
+.pc-foot{padding:0 20px 14px;font-size:14.5px;color:var(--fg-3)}
+
+html:not(.reflow) .h84{font-size:84px}
+/* шаг */
+.step .frame{display:grid;grid-template-columns:520px 1fr;gap:72px}
+.st-left{display:flex;flex-direction:column}
+.st-left .h1{font-size:84px}
+.st-why{margin-top:26px;font-size:23px;line-height:1.48;color:var(--fg-2)}
+.st-why b{color:var(--fg)}
+.st-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.st-meta span{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;border:1px solid var(--ln-2);font:600 15px/1 var(--f-display);color:var(--fg-2)}
+.st-meta span .ic{width:16px;height:16px;color:var(--em)}
+.st-done{margin-top:auto;padding:22px 24px;border-radius:20px;border:1px solid rgba(76,195,138,.35);background:var(--green-soft);display:flex;flex-direction:column;gap:12px}
+.st-done .label{color:var(--green)}
+.st-done p{font-size:19px;line-height:1.45;color:var(--fg)}
+.done-btn{align-self:flex-start}
+.done-btn.is-done{background:var(--green);border-color:var(--green);color:#06140D}
+.st-right{display:grid;grid-template-rows:auto minmax(0,1fr);gap:30px;min-height:0}
+.actions{counter-reset:ac;border-top:1px solid var(--ln)}
+.actions li{display:grid;grid-template-columns:52px 1fr;gap:16px;align-items:start;padding:16px 0;border-bottom:1px solid var(--ln);counter-increment:ac;font-size:21px;line-height:1.45;color:var(--fg-2)}
+.actions li::before{content:counter(ac);width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--em);font:700 17px/1 var(--f-display)}
+.actions li b{color:var(--fg)}
+.actions .k{display:inline-block;padding:2px 9px;border-radius:7px;border:1px solid var(--ln-2);font:600 17px/1.35 var(--f-display);color:var(--fg)}
+.actions code,.mono-in{font:500 18px/1.3 var(--f-mono);color:var(--fg);background:var(--panel);padding:2px 7px;border-radius:6px}
+.st-tools{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:minmax(0,1fr);gap:24px}
+.st-tools .col{display:grid;gap:12px;align-content:start}
+.col-label{margin-bottom:2px}
+
+/* 01 титул */
+.s-ititle .frame{display:grid;grid-template-rows:auto auto 1fr auto}
+.s-ititle .hero{font-size:150px}
+.s-ititle .hero-sub{margin-top:30px}
+.route3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;align-self:end}
+.r3{position:relative;padding:28px 30px 30px;border-radius:24px;border:1px solid var(--line-2);display:flex;flex-direction:column;gap:12px;color:var(--text);text-decoration:none;transition:border-color .2s}
+a.r3:hover{border-color:var(--accent)}
+.r3 .n{font:800 56px/.9 var(--f-display);letter-spacing:-.04em;color:var(--dim)}
+.r3 strong{font:700 34px/1.05 var(--f-display);letter-spacing:-.02em}
+.r3 span.d{font-size:19px;line-height:1.45;color:var(--muted)}
+.r3 .file{margin-top:auto;font:500 16px/1 var(--f-mono);color:var(--dim)}
+.r3.here{border-color:var(--accent);background:linear-gradient(180deg,rgba(255,79,31,.12),rgba(255,79,31,.02))}
+.r3.here .n{color:var(--accent)}
+.r3 .pin{position:absolute;top:24px;right:24px;padding:7px 12px;border-radius:999px;background:var(--accent);color:#170A05;font:700 13px/1 var(--f-display);letter-spacing:.12em;text-transform:uppercase}
+.ititle-foot{display:flex;align-items:center;gap:16px;margin-top:34px;padding-top:24px;border-top:1px solid var(--line)}
+.ititle-foot .hint{margin-left:auto;font:500 18px/1.3 var(--f-display);color:var(--dim)}
+
+/* 02 маршрут */
+.s-route .frame{display:grid;grid-template-columns:560px 1fr;gap:72px}
+.anatomy{margin-top:34px;display:grid;gap:10px}
+.anatomy div{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;padding:12px 16px;border-radius:14px;border:1px solid var(--ln)}
+.anatomy .ic{width:22px;height:22px;color:var(--em)}
+.anatomy b{display:block;font:650 19px/1.2 var(--f-display);color:var(--fg)}
+.anatomy span{display:block;font-size:16px;line-height:1.35;color:var(--fg-3)}
+.route{border-top:1px solid var(--ln);align-self:start}
+.route a{display:grid;grid-template-columns:62px 140px 1fr 110px 40px;gap:16px;align-items:center;padding:14px 4px;border-bottom:1px solid var(--ln);color:var(--fg);text-decoration:none;transition:background .2s}
+.route a:hover{background:rgba(255,255,255,.03)}
+.route .rn{font:700 22px/1 var(--f-display);color:var(--fg-3);font-variant-numeric:tabular-nums}
+.route .rd{font:600 14px/1 var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--em)}
+.route .rt{font:650 22px/1.2 var(--f-display)}
+.route .rt small{display:block;margin-top:3px;font:400 16px/1.3 var(--f-body);color:var(--fg-3)}
+.route .rm{justify-self:end;font:500 15px/1 var(--f-mono);color:var(--fg-3)}
+.route .rc{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--ln-2);display:grid;place-items:center;justify-self:end}
+.route .rc .ic{width:16px;height:16px;color:#06140D;opacity:0}
+.route a.ok .rc{background:var(--green);border-color:var(--green)}
+.route a.ok .rc .ic{opacity:1}
+.route a.ok .rn{color:var(--green)}
+.route-prog{margin-top:18px;display:flex;align-items:center;gap:16px;font:600 16px/1 var(--f-display);color:var(--fg-3)}
+.route-prog .bar{flex:1;height:8px;border-radius:4px;background:rgba(255,255,255,.07);overflow:hidden}
+.route-prog .bar i{display:block;height:100%;width:0;background:var(--green);transition:width .4s var(--ease)}
+.route-prog b{color:var(--green)}
+
+/* 09 процессы */
+.s-pick .frame{display:grid;grid-template-rows:auto 1fr auto;gap:30px}
+.pick-head{display:grid;grid-template-columns:1fr 620px;gap:72px;align-items:end}
+.pick-head .h1{font-size:84px}
+.picks{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;min-height:0}
+.pk{padding:24px 24px 22px;border-radius:22px;border:1px solid var(--ln-2);background:var(--panel);display:flex;flex-direction:column;gap:14px}
+.pk-top{display:flex;align-items:center;justify-content:space-between}
+.pk-top .si{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;background:var(--accent-soft);color:var(--em)}
+.pk-top .si .ic{width:24px;height:24px}
+.pk-top .label{color:var(--fg-3)}
+.pk h3{font:700 28px/1.1 var(--f-display);letter-spacing:-.02em}
+.pk .fit{font-size:17px;line-height:1.42;color:var(--fg-2)}
+.pk .data{padding-top:12px;border-top:1px solid var(--ln)}
+.pk .data .label{display:block;margin-bottom:8px}
+.pk .data ul li{position:relative;padding-left:16px;font-size:16.5px;line-height:1.45;color:var(--fg)}
+.pk .data ul li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:2px;background:var(--em)}
+.pk .acts{margin-top:auto;display:grid;gap:10px}
+.pk .acts .btn{justify-content:center}
+.pk .skchip{grid-template-columns:36px 1fr 18px;padding:10px 12px 10px 10px}
+.pk .skchip .si{width:36px;height:36px}
+.pk .skchip b{font-size:16px}
+.pick-foot{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+.pick-foot .st-done{margin:0;flex-direction:row;align-items:center;gap:20px;padding:16px 22px}
+.pick-foot .st-done p{flex:1}
+
+/* 10 Gem */
+.gem-opts{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:minmax(0,1fr);gap:20px;min-height:0}
+.gopt{padding:22px 24px;border-radius:20px;border:1px solid var(--ln-2);background:var(--panel);display:flex;flex-direction:column;gap:14px;min-height:0}
+.gopt .label{color:var(--em)}
+.gopt h4{font:700 25px/1.1 var(--f-display);letter-spacing:-.015em;color:var(--fg)}
+.gopt p{font-size:17px;line-height:1.45;color:var(--fg-2)}
+.gchips{display:flex;flex-wrap:wrap;gap:8px}
+.gchip{appearance:none;border:1px solid var(--ln-2);background:transparent;color:var(--fg-2);padding:9px 13px;border-radius:999px;font:600 15px/1 var(--f-display);cursor:pointer}
+.gchip.on{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.gopt .btn{align-self:flex-start}
+.gprev{flex:1 1 0;min-height:0;max-height:none;border-radius:12px;background:var(--ink-2);padding:14px 16px;font-size:14.5px}
+.gprev::after{background:linear-gradient(transparent,var(--ink-2))}
+.step-gem .st-right{grid-template-rows:auto minmax(0,1fr)}
+.step-gem .actions li{padding:11px 0;font-size:19px}
+.step-gem .actions li::before{width:34px;height:34px;font-size:15px}
+
+/* 11 проверка */
+.redlist{display:grid;gap:10px}
+.redlist label{display:grid;grid-template-columns:34px 1fr;gap:14px;align-items:center;padding:13px 16px;border-radius:14px;border:1px solid rgba(255,79,31,.3);font-size:18px;line-height:1.38;color:var(--fg);cursor:pointer}
+.redlist b{color:var(--fg)}
+.chkbox{appearance:none;-webkit-appearance:none;width:28px;height:28px;margin:0;border-radius:8px;border:1.5px solid var(--line-2);background:transparent;display:grid;place-items:center;cursor:pointer}
+.chkbox::after{content:"";width:12px;height:7px;border-left:2.5px solid #06140D;border-bottom:2.5px solid #06140D;transform:rotate(-45deg) translate(1px,-2px);opacity:0}
+.chkbox:checked{background:var(--green);border-color:var(--green)}
+.chkbox:checked::after{opacity:1}
+.chkbox:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+
+/* 13 метрика */
+.metric-box{padding:22px 24px;border-radius:20px;border:1px solid var(--ln-2);background:var(--panel);display:grid;gap:12px}
+.metric-box input{width:100%;padding:15px 18px;border-radius:14px;border:1px solid var(--line-2);background:var(--ink-4);color:var(--text);font:500 19px/1.3 var(--f-body)}
+.metric-box input:focus{outline:2px solid var(--accent);border-color:transparent}
+.metric-box input::placeholder{color:#7A766F}
+.metric-box p{font-size:15px;line-height:1.45;color:var(--fg-3)}
+.decide{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.decide div{padding:14px 16px;border-radius:14px;border:1px solid var(--ln);font-size:16px;line-height:1.4;color:var(--fg-2)}
+.decide b{display:block;font:650 18px/1.2 var(--f-display);color:var(--fg);margin-bottom:4px}
+
+/* 14 навыки */
+.s-skills2 .frame{display:grid;grid-template-rows:auto minmax(0,1fr);gap:26px}
+.sk-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:18px;min-height:0}
+.skc{padding:20px 24px;border-radius:22px;border:1px solid var(--ln-2);background:var(--panel);display:flex;flex-direction:column;gap:8px}
+.skc .top{display:flex;justify-content:space-between;align-items:center}
+.skc .top .n{font:800 34px/1 var(--f-display);color:var(--em);letter-spacing:-.03em}
+.skc .top .label{color:var(--fg-3)}
+.skc h3{font:700 25px/1.1 var(--f-display);letter-spacing:-.02em}
+.skc p{font-size:16px;line-height:1.4;color:var(--fg-2)}
+.skc .path{font:500 14.5px/1 var(--f-mono);color:var(--fg-3);text-decoration:none}
+.skc .path:hover{color:var(--em)}
+.skc .acts{margin-top:auto;display:flex;gap:10px;flex-wrap:wrap}
+.skc .io{display:grid;grid-template-columns:92px 1fr;gap:6px 12px;padding-top:12px;border-top:1px solid var(--ln)}
+.skc .io dt{font:600 12.5px/1.5 var(--f-display);letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3)}
+.skc .io dd{font-size:15px;line-height:1.38;color:var(--fg)}
+
+/* 15 промпты */
+.s-prompts .frame{display:grid;grid-template-rows:auto 1fr;gap:30px}
+.pl-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:56px;align-content:start}
+.pl-row{display:grid;grid-template-columns:44px 1fr auto auto;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid var(--ln)}
+.pl-row .n{font:700 19px/1 var(--f-display);color:var(--em);font-variant-numeric:tabular-nums}
+.pl-row strong{font:600 21px/1.2 var(--f-display);color:var(--fg)}
+.pl-row .t{font:600 12.5px/1 var(--f-display);letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3)}
+.pl-row .btn{padding:8px 13px;font-size:15px}
+.pl-row .btn .ic{width:16px;height:16px}
+
+/* 16 ссылки */
+.s-links .frame{display:grid;grid-template-rows:auto auto 1fr;gap:34px}
+.what{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid var(--ln);align-self:end}
+.what div{padding:22px 24px 0 0}
+.what div+div{padding-left:24px;border-left:1px solid var(--ln)}
+.what .label{display:block;margin-bottom:10px;color:var(--em)}
+.what b{display:block;font:700 26px/1.1 var(--f-display);letter-spacing:-.015em;color:var(--fg);margin-bottom:8px}
+.what p{font-size:16.5px;line-height:1.42;color:var(--fg-2)}
+.lk-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;align-content:start}
+.lk-col .label{display:block;margin-bottom:12px;color:var(--em)}
+.lk-col .svc{grid-template-columns:38px 1fr 18px;gap:12px;padding:10px 12px 10px 10px}
+.lk-col .svc .si{width:38px;height:38px}
+.lk-col .svc .si .ic{width:19px;height:19px}
+.lk-col .svc b{font-size:17px}
+.lk-col .svc small{font-size:13px}
+
+/* 17 файлы */
+.s-files .frame{display:grid;grid-template-columns:1fr 600px;grid-template-rows:auto 1fr;column-gap:64px;row-gap:30px}
+.s-files .head{grid-column:1 / -1}
+.ftable{border-top:1px solid var(--ln);align-self:start}
+.ftable a{display:grid;grid-template-columns:330px 1fr 230px;gap:20px;align-items:center;padding:13px 0;border-bottom:1px solid var(--ln);color:var(--fg);text-decoration:none}
+.ftable a:hover .fn{color:var(--em)}
+.ftable .fn{display:flex;align-items:center;gap:10px;font:500 17px/1.2 var(--f-mono);color:var(--fg)}
+.ftable .fn .ic{width:18px;height:18px;color:var(--fg-3)}
+.ftable .fd{font-size:16.5px;line-height:1.4;color:var(--fg-2)}
+.ftable .fh{font:600 13px/1.3 var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--fg-3)}
+.ftable a.key .fh{color:var(--em)}
+.kit{padding:28px 30px;display:flex;flex-direction:column;gap:16px;align-self:start}
+.kit h3{font:700 32px/1.05 var(--f-display);letter-spacing:-.02em;color:var(--text)}
+.kit p{font-size:18px;line-height:1.45;color:var(--muted)}
+.kit ol{counter-reset:kk;display:grid;gap:10px}
+.kit ol li{display:grid;grid-template-columns:30px 1fr;gap:12px;font-size:17px;line-height:1.42;color:var(--text);counter-increment:kk}
+.kit ol li::before{content:counter(kk);font:700 16px/1.45 var(--f-display);color:var(--accent)}
+.kit .row{display:flex;gap:10px;flex-wrap:wrap}
+
+/* модальное окно навыка */
+.modal{position:fixed;inset:0;z-index:65;display:grid;place-items:center;background:rgba(10,10,9,.84);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);opacity:0;visibility:hidden;transition:opacity .25s,visibility 0s linear .25s}
+.modal.open{opacity:1;visibility:visible;transition:opacity .25s,visibility 0s}
+.modal-in{width:min(980px,94vw);max-height:90vh;display:flex;flex-direction:column;border-radius:24px;background:#141412;border:1px solid rgba(255,255,255,.1);color:var(--text);overflow:hidden}
+.m-top{display:flex;gap:18px;align-items:flex-start;justify-content:space-between;padding:26px 30px 18px;border-bottom:1px solid rgba(255,255,255,.08)}
+.m-top .label{color:var(--accent);display:block;margin-bottom:10px}
+.m-top h3{font:700 32px/1.05 var(--f-display);letter-spacing:-.02em}
+.m-top .path{margin-top:8px;font:500 14px/1 var(--f-mono);color:#75716A}
+.m-top .x{flex:none;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.14);background:none;color:var(--text);display:grid;place-items:center;cursor:pointer}
+.m-top .x .ic{width:20px;height:20px}
+.m-body{overflow:auto;padding:20px 30px 24px;display:grid;gap:18px}
+.m-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.m-grid div{padding:14px 16px;border-radius:14px;border:1px solid rgba(255,255,255,.08)}
+.m-grid .label{display:block;margin-bottom:6px;font-size:12px}
+.m-grid p{font-size:15.5px;line-height:1.45;color:#D9D3C8}
+.m-grid div.chk .label{color:var(--amber)}
+.m-code{padding:18px 20px;border-radius:14px;background:#0F0F0E;border:1px solid rgba(255,255,255,.07);font:400 14.5px/1.6 var(--f-mono);color:#E9E3D8;white-space:pre-wrap}
+.m-foot{display:flex;gap:12px;flex-wrap:wrap;align-items:center;padding:16px 30px;border-top:1px solid rgba(255,255,255,.08)}
+.m-foot .btn{--fg:var(--text);--ln-2:rgba(255,255,255,.2)}
+.m-foot .note{margin-left:auto;font-size:14px;color:#8A857C}
+
+/* ───────── Мобильный режим ───────── */
+@media screen{
+  html.reflow{--fs-hero:50px;--fs-h1:36px;--fs-h2:30px;--fs-h3:20px;--fs-lead:17px;--fs-body:16px;--fs-small:15px;--fs-micro:11px;--fs-code:13px;--px:20px}
+  html.reflow .deck{left:0;top:0;width:100%;height:100%;transform:none}
+  html.reflow .slide{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  html.reflow .chrome{position:static;padding:18px 20px 0;font-size:10px;letter-spacing:.12em;gap:12px}
+  html.reflow .chrome .mod{display:none}
+  html.reflow .chrome .num{margin-left:auto}
+  html.reflow .frame{position:static;display:flex!important;flex-direction:column;gap:22px;padding:24px 20px 110px}
+  html.reflow .frame > *{min-width:0}
+  html.reflow .kicker{margin-bottom:12px}
+  html.reflow .btn{padding:11px 16px;font-size:14px}
+  html.reflow .s-ititle .hero,html.reflow .st-left .h1,html.reflow .pick-head .h1{font-size:var(--fs-h1)}
+  html.reflow .s-ititle .hero{font-size:44px}
+  html.reflow .route3,html.reflow .st-tools,html.reflow .picks,html.reflow .gem-opts,html.reflow .sk-grid,html.reflow .pl-grid,html.reflow .lk-grid,html.reflow .m-grid,html.reflow .decide,html.reflow .pick-head,html.reflow .pick-foot{display:flex;flex-direction:column;gap:14px}
+  html.reflow .r3{padding:18px}
+  html.reflow .r3 .n{font-size:32px}
+  html.reflow .r3 strong{font-size:22px}
+  html.reflow .r3 span.d{font-size:14px}
+  html.reflow .ititle-foot{flex-wrap:wrap}
+  html.reflow .ititle-foot .hint{display:none}
+  html.reflow .st-why{font-size:16px;margin-top:14px}
+  html.reflow .st-done{margin-top:18px;padding:16px}
+  html.reflow .st-done p{font-size:15px}
+  html.reflow .actions li{grid-template-columns:38px 1fr;gap:10px;font-size:15px;padding:11px 0}
+  html.reflow .actions li::before{width:30px;height:30px;font-size:13px}
+  html.reflow .actions .k,html.reflow .actions code{font-size:13px}
+  html.reflow .svc b,html.reflow .skchip b{font-size:16px}
+  html.reflow .svc small{font-size:12px}
+  html.reflow .pc-prev{font-size:12.5px}
+  html.reflow .anatomy b{font-size:16px}
+  html.reflow .anatomy span{font-size:13px}
+  html.reflow .route a{grid-template-columns:36px 1fr 30px;gap:10px}
+  html.reflow .route .rd,html.reflow .route .rm{display:none}
+  html.reflow .route .rt{font-size:16px}
+  html.reflow .route .rt small{font-size:13px}
+  html.reflow .pk h3{font-size:21px}
+  html.reflow .pk .fit,html.reflow .pk .data ul li{font-size:14px}
+  html.reflow .pick-foot .st-done{flex-direction:column;align-items:flex-start}
+  html.reflow .gopt h4{font-size:19px}
+  html.reflow .gopt p{font-size:14px}
+  html.reflow .redlist label{font-size:14px}
+  html.reflow .skc h3{font-size:20px}
+  html.reflow .skc p{font-size:14px}
+  html.reflow .pl-row{grid-template-columns:30px 1fr auto;gap:10px}
+  html.reflow .pl-row .t{display:none}
+  html.reflow .pl-row strong{font-size:15px}
+  html.reflow .ftable a{grid-template-columns:1fr;gap:4px}
+  html.reflow .ftable .fd{font-size:14px}
+  html.reflow .kit{padding:20px}
+  html.reflow .kit h3{font-size:22px}
+  html.reflow .kit p,html.reflow .kit ol li{font-size:14px}
+  html.reflow .metric-box input{font-size:15px}
+  html.reflow .controls{right:12px;bottom:12px}
+  html.reflow .what{display:flex;flex-direction:column}
+  html.reflow .what div,html.reflow .what div+div{padding:12px 0 0;border-left:0}
+  html.reflow .what b{font-size:18px}
+  html.reflow .what p{font-size:14px}
+  html.reflow .col.fill .pc-prev{max-height:180px!important}
+  html.reflow .gprev{max-height:160px}
+  html.reflow .skc .io dd{font-size:13px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  html.js .slide .a{opacity:1}
+}
+
+/* ───────── Печать ───────── */
+@page{size:1920px 1080px;margin:0}
+@media print{
+  html,body{height:auto;overflow:visible;background:#0F0F0E}
+  .viewport{position:static;overflow:visible}
+  .deck{position:static;transform:none!important;width:1920px;height:auto;overflow:visible}
+  .slide{position:relative;inset:auto;width:1920px;height:1080px;opacity:1!important;visibility:visible!important;break-after:page;page-break-after:always;overflow:hidden;transition:none!important}
+  .slide:last-child{break-after:auto;page-break-after:auto}
+  .controls,.progress,.toc,.toast,.modal{display:none!important}
+  html.js .slide .a{opacity:1!important;animation:none!important;transform:none!important}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;animation:none!important}
+  [data-copy],.done-btn,.ititle-foot .btn{display:none!important}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M8 16L16 8M9.5 8H16v6.5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M15 9V6.5A2.5 2.5 0 0 0 12.5 4h-6A2.5 2.5 0 0 0 4 6.5v6A2.5 2.5 0 0 0 6.5 15H9"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V4h10v5"/><rect x="3.5" y="9" width="17" height="8" rx="2"/><path d="M7 14h10v6H7z"/></symbol>
+  <symbol id="i-full" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M11 3l1.9 5.3L18 10l-5.1 1.8L11 17l-1.9-5.2L4 10l5.1-1.7z"/><path d="M18.5 15l.8 2.1 2.2.8-2.2.8-.8 2.3-.8-2.3-2.2-.8 2.2-.8z"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h4"/></symbol>
+  <symbol id="i-sheet" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M4 15h16M10 4v16"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></symbol>
+  <symbol id="i-form" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="9" cy="9" r="1"/><circle cx="9" cy="13" r="1"/><circle cx="9" cy="17" r="1"/><path d="M12 9h4M12 13h4M12 17h4"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M12 21s-6.5-6.2-6.5-11.2a6.5 6.5 0 0 1 13 0C18.5 14.8 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r=".6"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.5a2.5 2.5 0 0 1 4.8 1c0 1.7-2.4 2.1-2.4 3.6M12 17v.3"/></symbol>
+  <symbol id="i-git" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="9" r="2"/><path d="M6 8v8M18 11c0 4-6 3-12 5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".6"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/></symbol>
+  <symbol id="i-mega" viewBox="0 0 24 24"><path d="M4 10v4a1 1 0 0 0 1 1h3l7 4V5L8 9H5a1 1 0 0 0-1 1z"/><path d="M18.5 9.5a4 4 0 0 1 0 5"/></symbol>
+  <symbol id="i-review" viewBox="0 0 24 24"><path d="M4 5h16v11H10l-5 4v-4H4z"/><path d="M12 7.6l1 2.1 2.3.3-1.7 1.6.4 2.3-2-1.1-2 1.1.4-2.3-1.7-1.6 2.3-.3z"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H10l-5 4v-4H4z"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5"/><path d="M4 18v2h16v-2"/></symbol>
+  <symbol id="i-gem" viewBox="0 0 24 24"><path d="M6 4h12l3 5-9 11L3 9z"/><path d="M3 9h18M9 4l3 16M15 4l-3 16"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2.5v3M15 2.5v3M9 18.5v3M15 18.5v3M2.5 9h3M2.5 15h3M18.5 9h3M18.5 15h3"/></symbol>
+</svg>
+
+<div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+<div class="viewport" id="viewport">
+<main class="deck" id="deck">
+
+<!-- ═════════ 01 · ТИТУЛ ═════════ -->
+<section class="slide s-ititle" data-module="00" data-title="Инструкция: первая неделя с AI">
+  <div class="frame">
+    <p class="kicker a">Пошаговая инструкция · для Абаса</p>
+    <div>
+      <h1 class="hero a" style="--d:1">Что делать<br><span class="em">после презентации</span></h1>
+      <p class="hero-sub a" style="--d:2">11 шагов на 7 дней. В каждом шаге — ссылки, промпт и навык в один клик.</p>
+    </div>
+    <div class="route3 a" style="--d:3">
+      <a class="r3" href="index.html"><span class="n">1</span><strong>Презентация</strong><span class="d">Понять, как работает AI и что он может сделать для заведения.</span><span class="file">index.html</span></a>
+      <div class="r3 here"><span class="pin">Вы здесь</span><span class="n">2</span><strong>Инструкция</strong><span class="d">Пройти шаги по порядку и получить первый результат на своих данных.</span><span class="file">instructions.html</span></div>
+      <a class="r3" href="#slide-17"><span class="n">3</span><strong>Файлы для нейросети</strong><span class="d">Отдать Gemini навыки и промпты одним файлом — он будет работать по ним.</span><span class="file">for-gemini/ · skills/ · *.md</span></a>
+    </div>
+    <div class="ititle-foot a" style="--d:4">
+      <a class="btn primary" href="#slide-3"><span>Начать с шага 1</span><svg class="ic"><use href="#i-arrow-r"/></svg></a>
+      <a class="btn" href="#slide-2"><svg class="ic"><use href="#i-map"/></svg>Карта маршрута</a>
+      <a class="btn" href="index.html"><svg class="ic"><use href="#i-play"/></svg>Открыть презентацию</a>
+      <a class="btn" href="https://github.com/pirajoke/abbas-ai-fastfood/tree/gh-pages/skills" target="_blank" rel="noopener"><svg class="ic"><use href="#i-git"/></svg>Навыки на GitHub</a>
+      <span class="hint">Листать: <span class="kbd">←</span> <span class="kbd">→</span> · содержание: <span class="kbd">M</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 02 · КАРТА ═════════ -->
+<section class="slide s-route" data-module="00" data-title="Карта маршрута">
+  <div class="frame">
+    <div>
+      <p class="kicker a">Маршрут</p>
+      <h2 class="h1 a" style="--d:1">11 шагов<br>за 7 дней</h2>
+      <p class="st-why a" style="--d:2">Идите по порядку. Нажмите на шаг, чтобы открыть его. Отмеченные шаги сохраняются в этом браузере.</p>
+      <div class="anatomy a" style="--d:3">
+        <div><svg class="ic"><use href="#i-out"/></svg><span><b>Ссылки</b><span>кнопки — сразу в нужный сервис</span></span></div>
+        <div><svg class="ic"><use href="#i-clip"/></svg><span><b>Действия</b><span>что нажать и в каком порядке</span></span></div>
+        <div><svg class="ic"><use href="#i-copy"/></svg><span><b>Промпт</b><span>кнопка «Копировать» → вставить в Gemini</span></span></div>
+        <div><svg class="ic"><use href="#i-layers"/></svg><span><b>Навык</b><span>открыть инструкцию навыка в один клик</span></span></div>
+        <div><svg class="ic"><use href="#i-check"/></svg><span><b>Готово, когда</b><span>понятный признак, что шаг завершён</span></span></div>
+      </div>
+    </div>
+    <div class="a" style="--d:2">
+      <nav class="route" id="route" aria-label="Шаги"></nav>
+      <div class="route-prog"><span>Пройдено</span><span class="bar"><i id="routeBar"></i></span><span><b id="routeDone">0</b> из 11</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 03 · ШАГ 1 ═════════ -->
+<section class="slide step" data-module="01" data-title="Шаг 1 — аккаунт и приложения" data-step="1" data-day="Подготовка" data-time="10 мин" data-short="Аккаунт и приложения">
+  <div class="frame">
+    <div class="st-left">
+      <p class="kicker a">Шаг 01 · Подготовка</p>
+      <h2 class="h1 a" style="--d:1">Аккаунт и<br>приложения</h2>
+      <p class="st-why a" style="--d:2"><b>Зачем:</b> один Google-аккаунт для Gemini и Google Drive. Так AI сможет брать ваши файлы, а результаты будут лежать в одном месте.</p>
+      <div class="st-meta a" style="--d:2"><span><svg class="ic"><use href="#i-clock"/></svg>10 минут</span><span><svg class="ic"><use href="#i-phone"/></svg>компьютер + телефон</span></div>
+      <div class="st-done a" style="--d:3"><span class="label">Готово, когда</span><p>Gemini открывается на компьютере и на телефоне под одним аккаунтом.</p><button class="btn done-btn" data-done="1"><svg class="ic"><use href="#i-check"/></svg><span>Отметить шаг</span></button></div>
+    </div>
+    <div class="st-right">
+      <ol class="actions a" style="--d:2">
+        <li><span>Откройте <b>Gemini</b> на компьютере и нажмите <span class="k">Войти</span>. Используйте аккаунт, где будут лежать рабочие файлы.</span></li>
+        <li><span>Установите приложение <b>Gemini</b> на телефон и войдите в тот же аккаунт.</span></li>
+        <li><span>Включите <b>двухэтапную проверку</b> Google-аккаунта — защита от взлома.</span></li>
+        <li><span>Откройте <b>«Активность в приложениях Gemini»</b> и решите, хранить ли историю чатов. Не вводите в чаты то, что не готовы показать постороннему.</span></li>
+      </ol>
+      <div class="st-tools a" style="--d:3">
+        <div class="col"><span class="label col-label">Ссылки</span>
+          <a class="svc" href="https://gemini.google.com" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-spark"/></svg></span><span><b>Gemini</b><small>gemini.google.com</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+          <a class="svc" href="https://apps.apple.com/app/google-gemini/id6477489729" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-phone"/></svg></span><span><b>Gemini для iPhone</b><small>App Store</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+          <a class="svc" href="https://play.google.com/store/apps/details?id=com.google.android.apps.bard" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-phone"/></svg></span><span><b>Gemini для Android</b><small>Google Play</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+        </div>
+        <div class="col"><span class="label col-label">Безопасность</span>
+          <a class="svc" href="https://myaccount.google.com/security" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-lock"/></svg></span><span><b>Двухэтапная проверка</b><small>myaccount.google.com/security</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+          <a class="svc" href="https://myactivity.google.com/product/gemini" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-eye"/></svg></span><span><b>Активность Gemini</b><small>myactivity.google.com</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+          <a class="svc" href="https://support.google.com/gemini" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-help"/></svg></span><span><b>Справка Gemini</b><small>support.google.com/gemini</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 04 · ШАГ 2 ═════════ -->
+<section class="slide step" data-module="01" data-title="Шаг 2 — папка в Google Drive" data-step="2" data-day="Подготовка" data-time="5 мин" data-short="Папка в Google Drive">
+  <div class="frame">
+    <div class="st-left">
+      <p class="kicker a">Шаг 02 · Подготовка</p>
+      <h2 class="h1 a" style="--d:1">Папка<br>в Google Drive</h2>
+      <p class="st-why a" style="--d:2"><b>Зачем:</b> история чатов — не архив. Всё полезное, что сделает AI, будет храниться здесь — с датой в названии.</p>
+      <div class="st-meta a" style="--d:2"><span><svg class="ic"><use href="#i-clock"/></svg>5 минут</span><span><svg class="ic"><use href="#i-folder"/></svg>8 папок</span></div>
+      <div class="st-done a" style="--d:3"><span class="label">Готово, когда</span><p>В Drive есть папка <b>AI-Фастфуд</b> и в ней 7 папок из списка.</p><button class="btn done-btn" data-done="2"><svg class="ic"><use href="#i-check"/></svg><span>Отметить шаг</span></button></div>
+    </div>
+    <div class="st-right">
+      <ol class="actions a" style="--d:2">
+        <li><span>Откройте <b>Google Drive</b> → <span class="k">+ Создать</span> → <span class="k">Новая папка</span> → назовите <code>AI-Фастфуд</code>.</span></li>
+        <li><span>Внутри создайте 7 папок по списку ниже. Список можно скопировать.</span></li>
+        <li><span>Договоритесь о названиях файлов: <code>ГГГГ-ММ-ДД_тема</code>, например <code>2026-10-23_сводка</code>.</span></li>
+        <li><span>Доступ к папкам — только тем, кому они нужны. Финансы и контекст — только владельцу.</span></li>
+      </ol>
+      <div class="st-tools a" style="--d:3">
+        <div class="col"><span class="label col-label">Ссылки</span>
+          <a class="svc" href="https://drive.google.com" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-folder"/></svg></span><span><b>Google Drive</b><small>drive.google.com</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+          <a class="slink" href="index.html#slide-16"><svg class="ic"><use href="#i-play"/></svg>Слайд 16: как связать Drive, Gemini и Таблицы</a>
+        </div>
+        <div class="col fill">
+          <div class="pcard"><div class="pc-top"><span class="label">Структура папок</span><button class="btn primary sm" data-copy="tpl-folders"><svg class="ic"><use href="#i-copy"/></svg><span>Копировать</span></button></div><p class="pc-prev" data-prev="tpl-folders" style="max-height:none"></p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 05 · ШАГ 3 ═════════ -->
+<section class="slide step" data-module="02" data-title="Шаг 3 — первый разговор с Gemini" data-step="3" data-day="День 1" data-time="5 мин" data-short="Первый разговор">
+  <div class="frame">
+    <div class="st-left">
+      <p class="kicker a">Шаг 03 · День 1</p>
+      <h2 class="h1 a" style="--d:1">Первый<br>разговор</h2>
+      <p class="st-why a" style="--d:2"><b>Зачем:</b> увидеть, как AI отвечает про ваш формат, и выбрать одну идею, с которой начать.</p>
+      <div class="st-meta a" style="--d:2"><span><svg class="ic"><use href="#i-clock"/></svg>5 минут</span><span><svg class="ic"><use href="#i-copy"/></svg>промпт №1</span></div>
+      <div class="st-done a" style="--d:3"><span class="label">Готово, когда</span><p>Вы выписали <b>одну</b> идею из пяти, которая нужна именно вам.</p><button class="btn done-btn" data-done="3"><svg class="ic"><use href="#i-check"/></svg><span>Отметить шаг</span></button></div>
+    </div>
+    <div class="st-right">
+      <ol class="actions a" style="--d:2">
+        <li><span>Откройте <b>Gemini</b> → <span class="k">Новый чат</span>.</span></li>
+        <li><span>Нажмите <b>«Копировать»</b> на карточке промпта ниже и вставьте в поле запроса (<span class="k">Cmd</span> + <span class="k">V</span>).</span></li>
+        <li><span>Замените текст в <code>[квадратных скобках]</code> на свой формат заведения и отправьте.</span></li>
+        <li><span>Прочитайте ответ. Ответьте на вопросы AI, если он их задал.</span></li>
+      </ol>
+      <div class="st-tools a" style="--d:3">
+        <div class="col"><span class="label col-label">Ссылки</span>
+          <a class="svc" href="https://gemini.google.com" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-spark"/></svg></span><span><b>Открыть Gemini</b><small>gemini.google.com</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+          <a class="slink" href="index.html#slide-5"><svg class="ic"><use href="#i-play"/></svg>Слайд 5: интерфейс Gemini</a>
+          <a class="slink" href="index.html#slide-6"><svg class="ic"><use href="#i-play"/></svg>Слайд 6: формула хорошего запроса</a>
+        </div>
+        <div class="col fill">
+          <div class="pcard"><div class="pc-top"><span class="label">Промпт №1</span><button class="btn primary sm" data-copy="p1"><svg class="ic"><use href="#i-copy"/></svg><span>Копировать</span></button></div><p class="pc-prev" data-prev="p1"></p><p class="pc-foot">Полный текст — PROMPT_LIBRARY.md, №1</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 06 · ШАГ 4 ═════════ -->
+<section class="slide step" data-module="02" data-title="Шаг 4 — фото в таблицу" data-step="4" data-day="День 1" data-time="10 мин" data-short="Фото → таблица">
+  <div class="frame">
+    <div class="st-left">
+      <p class="kicker a">Шаг 04 · День 1</p>
+      <h2 class="h1 a" style="--d:1">Фото<br>→ таблица</h2>
+      <p class="st-why a" style="--d:2"><b>Зачем:</b> бумажное меню или накладная превращаются в данные, с которыми AI потом считает маржу.</p>
+      <div class="st-meta a" style="--d:2"><span><svg class="ic"><use href="#i-clock"/></svg>10 минут</span><span><svg class="ic"><use href="#i-copy"/></svg>промпт №2</span></div>
+      <div class="st-done a" style="--d:3"><span class="label">Готово, когда</span><p>Таблица лежит в <b>01_Меню_и_цены</b>, три строки сверены с оригиналом.</p><button class="btn done-btn" data-done="4"><svg class="ic"><use href="#i-check"/></svg><span>Отметить шаг</span></button></div>
+    </div>
+    <div class="st-right">
+      <ol class="actions a" style="--d:2">
+        <li><span>Сфотографируйте меню или накладную при хорошем свете. Уберите из кадра реквизиты и личные данные.</span></li>
+        <li><span>В Gemini нажмите <span class="k">+</span> → прикрепите фото → вставьте промпт №2 → отправьте.</span></li>
+        <li><span>Создайте новую Google Таблицу (кнопка ниже) и вставьте результат.</span></li>
+        <li><span>Сверьте <b>3 строки</b> с оригиналом: AI путает 3 и 8, 1 и 7. Сохраните как <code>ГГГГ-ММ-ДД_меню</code>.</span></li>
+      </ol>
+      <div class="st-tools a" style="--d:3">
+        <div class="col"><span class="label col-label">Ссылки</span>
+          <a class="svc" href="https://gemini.google.com" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-spark"/></svg></span><span><b>Открыть Gemini</b><small>gemini.google.com</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+          <a class="svc" href="https://sheets.new" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-sheet"/></svg></span><span><b>Новая Google Таблица</b><small>sheets.new</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+        </div>
+        <div class="col fill">
+          <div class="pcard"><div class="pc-top"><span class="label">Промпт №2</span><button class="btn primary sm" data-copy="p2"><svg class="ic"><use href="#i-copy"/></svg><span>Копировать</span></button></div><p class="pc-prev" data-prev="p2"></p><p class="pc-foot">Полный текст — PROMPT_LIBRARY.md, №2</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 07 · ШАГ 5 ═════════ -->
+<section class="slide step" data-module="03" data-title="Шаг 5 — бизнес-контекст" data-step="5" data-day="День 1" data-time="30 мин" data-short="Бизнес-контекст">
+  <div class="frame">
+    <div class="st-left">
+      <p class="kicker a">Шаг 05 · День 1</p>
+      <h2 class="h1 a" style="--d:1">Бизнес-<br>контекст</h2>
+      <p class="st-why a" style="--d:2"><b>Зачем:</b> AI перестаёт отвечать «как для всех» и начинает отвечать про ваше заведение.</p>
+      <div class="st-meta a" style="--d:2"><span><svg class="ic"><use href="#i-clock"/></svg>30 минут</span><span><svg class="ic"><use href="#i-layers"/></svg>навык</span><span><svg class="ic"><use href="#i-copy"/></svg>промпт №3</span></div>
+      <div class="st-done a" style="--d:3"><span class="label">Готово, когда</span><p>Google Документ <b>BUSINESS_CONTEXT</b> лежит в <b>00_Контекст</b>, в нём нет личных и платёжных данных.</p><button class="btn done-btn" data-done="5"><svg class="ic"><use href="#i-check"/></svg><span>Отметить шаг</span></button></div>
+    </div>
+    <div class="st-right">
+      <ol class="actions a" style="--d:2">
+        <li><span>Новый чат в Gemini → скопируйте промпт №3 → отправьте. AI будет задавать по 3–4 вопроса.</span></li>
+        <li><span>Отвечайте простыми словами, можно голосом. «Не знаю» — нормальный ответ.</span></li>
+        <li><span>В конце AI соберёт профиль. Создайте Google Документ (кнопка ниже), вставьте, назовите <code>BUSINESS_CONTEXT</code>.</span></li>
+        <li><span>Проверьте: нет паролей, номеров карт, телефонов и личных данных людей. Положите в <code>00_Контекст</code>.</span></li>
+      </ol>
+      <div class="st-tools a" style="--d:3">
+        <div class="col"><span class="label col-label">Навык и ссылки</span>
+          <button class="skchip" data-skill="business-context-builder"><span class="si"><svg class="ic"><use href="#i-layers"/></svg></span><span><small>Навык</small><b>Business Context Builder</b></span><svg class="ic go"><use href="#i-arrow-r"/></svg></button>
+          <a class="svc" href="https://docs.new" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-doc"/></svg></span><span><b>Новый Google Документ</b><small>docs.new</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+          <button class="btn sm" data-copy="tpl-context"><svg class="ic"><use href="#i-copy"/></svg><span>Или скопировать пустой шаблон</span></button>
+        </div>
+        <div class="col fill">
+          <div class="pcard"><div class="pc-top"><span class="label">Промпт №3 · интервью</span><button class="btn primary sm" data-copy="p3"><svg class="ic"><use href="#i-copy"/></svg><span>Копировать</span></button></div><p class="pc-prev" data-prev="p3"></p><p class="pc-foot">Слайды 8–9 в презентации — зачем нужен контекст</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 08 · ШАГ 6 ═════════ -->
+<section class="slide step" data-module="03" data-title="Шаг 6 — grill-me интервью" data-step="6" data-day="День 2" data-time="30 мин" data-short="Grill-me интервью">
+  <div class="frame">
+    <div class="st-left">
+      <p class="kicker a">Шаг 06 · День 2</p>
+      <h2 class="h1 a" style="--d:1">Grill-me:<br>одна задача</h2>
+      <p class="st-why a" style="--d:2"><b>Зачем:</b> не распыляться. AI задаёт вопросы раундами и помогает выбрать <b>одну</b> задачу и <b>одну</b> метрику на неделю.</p>
+      <div class="st-meta a" style="--d:2"><span><svg class="ic"><use href="#i-clock"/></svg>20–30 минут</span><span><svg class="ic"><use href="#i-layers"/></svg>навык</span><span><svg class="ic"><use href="#i-copy"/></svg>промпт №4</span></div>
+      <div class="st-done a" style="--d:3"><span class="label">Готово, когда</span><p>Есть итог: задача, почему она, метрика на 7 дней, «пока не делаем». Итог сохранён в <b>00_Контекст</b>.</p><button class="btn done-btn" data-done="6"><svg class="ic"><use href="#i-check"/></svg><span>Отметить шаг</span></button></div>
+    </div>
+    <div class="st-right">
+      <ol class="actions a" style="--d:2">
+        <li><span>Новый чат → <span class="k">+</span> → прикрепите <code>BUSINESS_CONTEXT</code> из Drive.</span></li>
+        <li><span>Скопируйте промпт №4, впишите тему: «что улучшить в первую очередь» → отправьте.</span></li>
+        <li><span>Отвечайте по номерам: <code>В1 — да, В2 — нет, потому что…</code> Спорьте, если не согласны.</span></li>
+        <li><span>Получите итог и напишите «подтверждаю» или что изменить. Сохраните итог (промпт №17).</span></li>
+      </ol>
+      <div class="st-tools a" style="--d:3">
+        <div class="col"><span class="label col-label">Навык и ссылки</span>
+          <button class="skchip" data-skill="grill-me"><span class="si"><svg class="ic"><use href="#i-layers"/></svg></span><span><small>Навык</small><b>Grill-me</b></span><svg class="ic go"><use href="#i-arrow-r"/></svg></button>
+          <a class="svc" href="https://gemini.google.com" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-spark"/></svg></span><span><b>Открыть Gemini</b><small>gemini.google.com</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+          <a class="slink" href="index.html#slide-10"><svg class="ic"><use href="#i-play"/></svg>Слайд 10: пример интервью по раундам</a>
+        </div>
+        <div class="col fill">
+          <div class="pcard"><div class="pc-top"><span class="label">Промпт №4 · grill-me</span><button class="btn primary sm" data-copy="p4"><svg class="ic"><use href="#i-copy"/></svg><span>Копировать</span></button></div><p class="pc-prev" data-prev="p4"></p><p class="pc-foot">Метод: mattpocock/skills (MIT)</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 09 · ШАГ 7 · ВЫБОР ПРОЦЕССА ═════════ -->
+<section class="slide s-pick" data-module="04" data-title="Шаг 7 — первый результат на своих данных" data-step="7" data-day="День 3" data-time="45 мин" data-short="Первый результат на данных">
+  <div class="frame">
+    <div class="pick-head a">
+      <div><p class="kicker">Шаг 07 · День 3 · 45 минут</p><h2 class="h1">Первый результат<br>на своих данных</h2></div>
+      <p class="st-why" style="margin:0">Возьмите процесс, который выбрали в grill-me. Подготовьте данные из карточки — реальные или обезличенные — и запустите промпт.</p>
+    </div>
+    <div class="picks">
+      <article class="pk a" style="--d:1"><div class="pk-top"><span class="si"><svg class="ic"><use href="#i-receipt"/></svg></span><span class="label">Практика 1</span></div><h3>Меню и маржа</h3><p class="fit">Пересматриваете цены, поставщик поднял стоимость, хотите комбо.</p><div class="data"><span class="label">Подготовить</span><ul><li>позиции и цены</li><li>себестоимость по техкартам</li><li>продажи за неделю из кассы</li></ul></div><div class="acts"><button class="skchip" data-skill="menu-economics-analyst"><span class="si"><svg class="ic"><use href="#i-layers"/></svg></span><span><b>Menu Economics</b></span><svg class="ic go"><use href="#i-arrow-r"/></svg></button><button class="btn primary sm" data-copy="p5"><svg class="ic"><use href="#i-copy"/></svg><span>Промпт №5</span></button><a class="slink" href="index.html#slide-12"><svg class="ic"><use href="#i-play"/></svg>Слайд 12</a></div></article>
+      <article class="pk a" style="--d:2"><div class="pk-top"><span class="si"><svg class="ic"><use href="#i-mega"/></svg></span><span class="label">Практика 2</span></div><h3>Контент и акции</h3><p class="fit">Нужен план постов, акция или обновление Google Maps.</p><div class="data"><span class="label">Подготовить</span><ul><li>поводы недели</li><li>бюджет или «без бюджета»</li><li>тон общения с гостями</li></ul></div><div class="acts"><button class="skchip" data-skill="content-marketing-assistant"><span class="si"><svg class="ic"><use href="#i-layers"/></svg></span><span><b>Content &amp; Marketing</b></span><svg class="ic go"><use href="#i-arrow-r"/></svg></button><button class="btn primary sm" data-copy="p7"><svg class="ic"><use href="#i-copy"/></svg><span>Промпт №7</span></button><a class="slink" href="index.html#slide-13"><svg class="ic"><use href="#i-play"/></svg>Слайд 13</a></div></article>
+      <article class="pk a" style="--d:3"><div class="pk-top"><span class="si"><svg class="ic"><use href="#i-review"/></svg></span><span class="label">Практика 3</span></div><h3>Отзывы и сервис</h3><p class="fit">Есть жалобы и хочется понять, что исправлять первым.</p><div class="data"><span class="label">Подготовить</span><ul><li>отзывы за неделю</li><li>оценки, если есть</li><li>удалить имена и телефоны</li></ul></div><div class="acts"><button class="skchip" data-skill="customer-feedback-analyst"><span class="si"><svg class="ic"><use href="#i-layers"/></svg></span><span><b>Feedback Analyst</b></span><svg class="ic go"><use href="#i-arrow-r"/></svg></button><button class="btn primary sm" data-copy="p10"><svg class="ic"><use href="#i-copy"/></svg><span>Промпт №10</span></button><a class="slink" href="index.html#slide-14"><svg class="ic"><use href="#i-play"/></svg>Слайд 14</a></div></article>
+      <article class="pk a" style="--d:4"><div class="pk-top"><span class="si"><svg class="ic"><use href="#i-clip"/></svg></span><span class="label">Практика 4</span></div><h3>Сводка смены</h3><p class="fit">Проблемы повторяются каждый день, а вы узнаёте о них поздно.</p><div class="data"><span class="label">Подготовить</span><ul><li>заметки управляющего</li><li>или голосовое → текст</li><li>итоги кассы за день</li></ul></div><div class="acts"><button class="skchip" data-skill="daily-operations-manager"><span class="si"><svg class="ic"><use href="#i-layers"/></svg></span><span><b>Daily Operations</b></span><svg class="ic go"><use href="#i-arrow-r"/></svg></button><button class="btn primary sm" data-copy="p14"><svg class="ic"><use href="#i-copy"/></svg><span>Промпт №14</span></button><a class="slink" href="index.html#slide-15"><svg class="ic"><use href="#i-play"/></svg>Слайд 15</a></div></article>
+    </div>
+    <div class="pick-foot a" style="--d:5">
+      <div class="st-done"><span class="label">Готово, когда</span><p>Есть первый результат на ваших данных: таблица, план, анализ отзывов или сводка.</p><button class="btn done-btn" data-done="7"><svg class="ic"><use href="#i-check"/></svg><span>Отметить шаг</span></button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 10 · ШАГ 8 · GEM ═════════ -->
+<section class="slide step step-gem" data-module="05" data-title="Шаг 8 — свой Gem" data-step="8" data-day="День 4" data-time="20 мин" data-short="Свой Gem">
+  <div class="frame">
+    <div class="st-left">
+      <p class="kicker a">Шаг 08 · День 4</p>
+      <h2 class="h1 a" style="--d:1">Свой Gem —<br>помощник</h2>
+      <p class="st-why a" style="--d:2"><b>Зачем:</b> не копировать инструкцию каждый раз. Gem помнит навык и ваш BUSINESS_CONTEXT — вы просто пишете задачу.</p>
+      <div class="st-meta a" style="--d:2"><span><svg class="ic"><use href="#i-clock"/></svg>20 минут</span><span><svg class="ic"><use href="#i-gem"/></svg>Gems — на компьютере</span></div>
+      <div class="st-done a" style="--d:3"><span class="label">Готово, когда</span><p>Gem дал хороший результат на <b>новых</b> данных без копирования промпта.</p><button class="btn done-btn" data-done="8"><svg class="ic"><use href="#i-check"/></svg><span>Отметить шаг</span></button></div>
+    </div>
+    <div class="st-right">
+      <ol class="actions a" style="--d:2">
+        <li><span>Откройте <b>менеджер Gems</b> (кнопка ниже) → <span class="k">Создать Gem</span>.</span></li>
+        <li><span><b>Название:</b> например, «Сводка смены» или «Помощник Абаса».</span></li>
+        <li><span><b>Инструкции:</b> вставьте текст — вариант А или Б ниже, кнопка «Копировать».</span></li>
+        <li><span><b>Знания:</b> добавьте <code>BUSINESS_CONTEXT</code> из Drive. Для варианта Б — ещё <code>AI_KIT_ABBAS.md</code>.</span></li>
+        <li><span><span class="k">Сохранить</span> → откройте Gem → дайте ему новые данные → проверьте результат.</span></li>
+      </ol>
+      <div class="gem-opts a" style="--d:3">
+        <div class="gopt"><span class="label">Вариант А · точнее</span><h4>Gem под один навык</h4><div class="gchips" id="gemChips"><button class="gchip" data-g="daily-operations-manager">Сводка</button><button class="gchip" data-g="menu-economics-analyst">Меню</button><button class="gchip" data-g="customer-feedback-analyst">Отзывы</button><button class="gchip" data-g="content-marketing-assistant">Контент</button><button class="gchip" data-g="grill-me">Grill-me</button><button class="gchip" data-g="business-context-builder">Контекст</button></div><p class="pc-prev gprev" id="gemPrev" data-prev="sk-daily-operations-manager"></p><button class="btn primary sm" id="gemCopy" data-copy="sk-daily-operations-manager"><svg class="ic"><use href="#i-copy"/></svg><span>Копировать инструкцию</span></button></div>
+        <div class="gopt"><span class="label">Вариант Б · всё в одном</span><h4>Универсальный «Помощник Абаса»</h4><p>Понимает команды <code class="mono-in" style="font-size:15px">навык: сводка</code>, <code class="mono-in" style="font-size:15px">навык: меню</code> и другие. Нужен файл <b>AI_KIT_ABBAS.md</b> в «Знаниях».</p><p class="pc-prev gprev" data-prev="tpl-master"></p><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary sm" data-copy="tpl-master"><svg class="ic"><use href="#i-copy"/></svg><span>Копировать инструкцию</span></button><a class="btn sm" href="https://gemini.google.com/gems/view" target="_blank" rel="noopener"><svg class="ic"><use href="#i-gem"/></svg>Менеджер Gems</a></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 11 · ШАГ 9 · ПРОВЕРКА ═════════ -->
+<section class="slide step" data-module="05" data-title="Шаг 9 — проверка и правка" data-step="9" data-day="День 5" data-time="20 мин" data-short="Проверка и правка">
+  <div class="frame">
+    <div class="st-left">
+      <p class="kicker a">Шаг 09 · День 5</p>
+      <h2 class="h1 a" style="--d:1">Проверка<br>и правка</h2>
+      <p class="st-why a" style="--d:2"><b>Зачем:</b> AI готовит — человек проверяет и решает. Найденные ошибки исправляем в инструкции Gem, чтобы они не повторялись.</p>
+      <div class="st-meta a" style="--d:2"><span><svg class="ic"><use href="#i-clock"/></svg>20 минут</span><span><svg class="ic"><use href="#i-copy"/></svg>промпт №16</span></div>
+      <div class="st-done a" style="--d:3"><span class="label">Готово, когда</span><p>Все пункты красной зоны отмечены, а инструкция Gem поправлена хотя бы один раз.</p><button class="btn done-btn" data-done="9"><svg class="ic"><use href="#i-check"/></svg><span>Отметить шаг</span></button></div>
+    </div>
+    <div class="st-right">
+      <div class="a" style="--d:2">
+        <span class="label col-label" style="display:block;margin-bottom:12px;color:var(--accent)">Красная зона — проверить перед использованием</span>
+        <div class="redlist">
+          <label><input type="checkbox" class="chkbox" data-rz="0"><span><b>Цифры:</b> пересчитал 2 строки на калькуляторе</span></label>
+          <label><input type="checkbox" class="chkbox" data-rz="1"><span><b>Цены и условия:</b> решение владельца, а не AI</span></label>
+          <label><input type="checkbox" class="chkbox" data-rz="2"><span><b>Состав и аллергены:</b> только из техкарт и спецификаций поставщика</span></label>
+          <label><input type="checkbox" class="chkbox" data-rz="3"><span><b>Пищевая безопасность:</b> по действующим правилам, а не по ответу AI</span></label>
+          <label><input type="checkbox" class="chkbox" data-rz="4"><span><b>Платежи и заказы:</b> делает человек</span></label>
+          <label><input type="checkbox" class="chkbox" data-rz="5"><span><b>Публикации:</b> текст прочитан целиком, в нём нет <code class="mono-in" style="font-size:15px">[скобок]</code></span></label>
+        </div>
+      </div>
+      <div class="st-tools a" style="--d:3">
+        <div class="col fill">
+          <div class="pcard"><div class="pc-top"><span class="label">Промпт №16 · самопроверка</span><button class="btn primary sm" data-copy="p16"><svg class="ic"><use href="#i-copy"/></svg><span>Копировать</span></button></div><p class="pc-prev" data-prev="p16"></p></div>
+        </div>
+        <div class="col"><span class="label col-label">Как исправить Gem</span>
+          <p class="st-why" style="margin:0;font-size:18px">Gems → ваш Gem → <b>Изменить</b> → допишите в «Инструкции» правило, например: «Не указывай объём закупки — пиши “уточнить по остаткам”» → Сохранить.</p>
+          <a class="svc" href="https://gemini.google.com/gems/view" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-gem"/></svg></span><span><b>Менеджер Gems</b><small>gemini.google.com/gems</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 12 · ШАГ 10 · СОХРАНИТЬ ═════════ -->
+<section class="slide step" data-module="05" data-title="Шаг 10 — сохранить и показать команде" data-step="10" data-day="День 6" data-time="20 мин" data-short="Сохранить и показать команде">
+  <div class="frame">
+    <div class="st-left">
+      <p class="kicker a">Шаг 10 · День 6</p>
+      <h2 class="h1 a" style="--d:1">Сохранить<br>и показать</h2>
+      <p class="st-why a" style="--d:2"><b>Зачем:</b> результат должен жить в Drive, а не в чате. Управляющий должен знать, что и когда присылать.</p>
+      <div class="st-meta a" style="--d:2"><span><svg class="ic"><use href="#i-clock"/></svg>20 минут</span><span><svg class="ic"><use href="#i-copy"/></svg>промпт №17</span></div>
+      <div class="st-done a" style="--d:3"><span class="label">Готово, когда</span><p>Результаты недели лежат в Drive с датами, а управляющий знает свою роль в процессе.</p><button class="btn done-btn" data-done="10"><svg class="ic"><use href="#i-check"/></svg><span>Отметить шаг</span></button></div>
+    </div>
+    <div class="st-right">
+      <ol class="actions a" style="--d:2">
+        <li><span>В конце каждого рабочего чата вставьте промпт №17 — получите итог одним документом.</span></li>
+        <li><span>Скопируйте итог в Google Документ и сохраните в нужную папку: <code>ГГГГ-ММ-ДД_тема</code>.</span></li>
+        <li><span>Покажите управляющему: что он присылает, когда, в каком виде (например, голосовое на 2 минуты после закрытия).</span></li>
+        <li><span>По желанию: <b>Google Форма «Отчёт смены»</b> — ответы сами попадают в таблицу, а AI делает из неё сводку.</span></li>
+      </ol>
+      <div class="st-tools a" style="--d:3">
+        <div class="col"><span class="label col-label">Ссылки</span>
+          <a class="svc" href="https://docs.new" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-doc"/></svg></span><span><b>Новый Google Документ</b><small>docs.new</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+          <a class="svc" href="https://forms.new" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-form"/></svg></span><span><b>Новая Google Форма</b><small>forms.new</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+          <a class="svc" href="https://drive.google.com" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-folder"/></svg></span><span><b>Google Drive</b><small>drive.google.com</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+        </div>
+        <div class="col fill">
+          <div class="pcard"><div class="pc-top"><span class="label">Промпт №17 · итог в документ</span><button class="btn primary sm" data-copy="p17"><svg class="ic"><use href="#i-copy"/></svg><span>Копировать</span></button></div><p class="pc-prev" data-prev="p17"></p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 13 · ШАГ 11 · ИТОГ НЕДЕЛИ ═════════ -->
+<section class="slide step" data-module="05" data-title="Шаг 11 — итог недели и метрика" data-step="11" data-day="День 7" data-time="20 мин" data-short="Итог недели и метрика">
+  <div class="frame">
+    <div class="st-left">
+      <p class="kicker a">Шаг 11 · День 7</p>
+      <h2 class="h1 a" style="--d:1">Итог недели<br>и метрика</h2>
+      <p class="st-why a" style="--d:2"><b>Зачем:</b> решить по цифрам, а не по ощущениям: продолжаем, меняем или берём следующий процесс.</p>
+      <div class="st-meta a" style="--d:2"><span><svg class="ic"><use href="#i-clock"/></svg>20 минут</span><span><svg class="ic"><use href="#i-target"/></svg>одна метрика</span></div>
+      <div class="st-done a" style="--d:3"><span class="label">Готово, когда</span><p>Метрика сравнена, решение записано в <b>00_Контекст</b>.</p><button class="btn done-btn" data-done="11"><svg class="ic"><use href="#i-check"/></svg><span>Отметить шаг</span></button></div>
+    </div>
+    <div class="st-right">
+      <div class="metric-box a" style="--d:2">
+        <label class="label" for="metricIn">Мой показатель успеха на 7 дней</label>
+        <input id="metricIn" type="text" placeholder="Например: сводка смены к 09:00 — 7 дней из 7">
+        <p>Примеры: «ответ на каждый отзыв за 24 часа», «контент-план за 40 минут вместо 3 часов», «0 стоп-позиций из-за поздней закупки». Сохраняется только в этом браузере.</p>
+      </div>
+      <div class="st-tools a" style="--d:3">
+        <div class="col fill">
+          <div class="pcard"><div class="pc-top"><span class="label">Промпт · итог недели</span><button class="btn primary sm" data-copy="tpl-week"><svg class="ic"><use href="#i-copy"/></svg><span>Копировать</span></button></div><p class="pc-prev" data-prev="tpl-week"></p></div>
+        </div>
+        <div class="col"><span class="label col-label">Три варианта решения</span>
+          <div class="decide" style="grid-template-columns:1fr">
+            <div><b>Метрика достигнута</b>Закрепить ещё 2–3 недели и взять второй процесс (снова grill-me).</div>
+            <div><b>Почти</b>Поправить инструкцию Gem или данные. Ещё неделя.</div>
+            <div><b>Не сработало</b>Вернуться к grill-me: возможно, выбрана не та задача.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 14 · НАВЫКИ ═════════ -->
+<section class="slide s-skills2" data-module="06" data-title="Навыки — все шесть">
+  <div class="frame">
+    <div class="pick-head a"><div><p class="kicker">Справочник</p><h2 class="h1 h84">Шесть навыков</h2></div><p class="st-why" style="margin:0">«Открыть» — описание и полный текст для Gemini. «Копировать» — сразу в буфер, вставить в чат или в Gem. Все навыки — на GitHub: <a class="slink" href="https://github.com/pirajoke/abbas-ai-fastfood/tree/gh-pages/skills" target="_blank" rel="noopener">github.com/pirajoke/abbas-ai-fastfood</a></p></div>
+    <div class="sk-grid" id="skGrid"></div>
+  </div>
+</section>
+
+<!-- ═════════ 15 · ПРОМПТЫ ═════════ -->
+<section class="slide s-prompts" data-module="06" data-title="Промпты — все 17">
+  <div class="frame">
+    <div class="pick-head a"><div><p class="kicker">Справочник</p><h2 class="h1 h84">17 промптов</h2></div><p class="st-why" style="margin:0">Нажмите «Копировать» и вставьте в Gemini. Что подготовить и что проверить — в файле <code class="mono-in">PROMPT_LIBRARY.md</code>.</p></div>
+    <div class="pl-grid a" style="--d:1" id="plGrid"></div>
+  </div>
+</section>
+
+<!-- ═════════ 16 · ССЫЛКИ ═════════ -->
+<section class="slide s-links" data-module="06" data-title="Все сервисы и ссылки">
+  <div class="frame">
+    <div class="pick-head a"><div><p class="kicker">Справочник</p><h2 class="h1 h84">Все ссылки</h2></div><p class="st-why" style="margin:0">Каждая ссылка открывается в новой вкладке. Входите везде одним Google-аккаунтом.</p></div>
+    <div class="lk-grid a" style="--d:1">
+      <div class="lk-col"><span class="label">Gemini</span><div class="svc-list">
+        <a class="svc" href="https://gemini.google.com" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-spark"/></svg></span><span><b>Gemini</b><small>gemini.google.com</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+        <a class="svc" href="https://gemini.google.com/gems/view" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-gem"/></svg></span><span><b>Менеджер Gems</b><small>gemini.google.com/gems</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+        <a class="svc" href="https://apps.apple.com/app/google-gemini/id6477489729" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-phone"/></svg></span><span><b>iPhone</b><small>App Store</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+        <a class="svc" href="https://play.google.com/store/apps/details?id=com.google.android.apps.bard" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-phone"/></svg></span><span><b>Android</b><small>Google Play</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+        <a class="svc" href="https://support.google.com/gemini" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-help"/></svg></span><span><b>Справка</b><small>support.google.com/gemini</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+      </div></div>
+      <div class="lk-col"><span class="label">Google Workspace</span><div class="svc-list">
+        <a class="svc" href="https://drive.google.com" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-folder"/></svg></span><span><b>Drive</b><small>drive.google.com</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+        <a class="svc" href="https://sheets.new" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-sheet"/></svg></span><span><b>Новая таблица</b><small>sheets.new</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+        <a class="svc" href="https://docs.new" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-doc"/></svg></span><span><b>Новый документ</b><small>docs.new</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+        <a class="svc" href="https://forms.new" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-form"/></svg></span><span><b>Новая форма</b><small>forms.new</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+        <a class="svc" href="https://calendar.google.com" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-cal"/></svg></span><span><b>Календарь</b><small>calendar.google.com</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+      </div></div>
+      <div class="lk-col"><span class="label">Гости и маркетинг</span><div class="svc-list">
+        <a class="svc" href="https://business.google.com" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-map"/></svg></span><span><b>Профиль в Google Maps</b><small>business.google.com</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+        <a class="svc" href="https://www.instagram.com" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-cam"/></svg></span><span><b>Instagram</b><small>instagram.com</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+      </div></div>
+      <div class="lk-col"><span class="label">Безопасность и источники</span><div class="svc-list">
+        <a class="svc" href="https://myaccount.google.com/security" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-lock"/></svg></span><span><b>Безопасность аккаунта</b><small>myaccount.google.com</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+        <a class="svc" href="https://myactivity.google.com/product/gemini" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-eye"/></svg></span><span><b>Активность Gemini</b><small>myactivity.google.com</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+        <a class="svc" href="https://github.com/pirajoke/abbas-ai-fastfood/tree/gh-pages/skills" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-git"/></svg></span><span><b>Навыки на GitHub</b><small>github.com/pirajoke/abbas-ai-fastfood</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+        <a class="svc" href="https://github.com/mattpocock/skills" target="_blank" rel="noopener"><span class="si"><svg class="ic"><use href="#i-git"/></svg></span><span><b>Оригинал grill-me</b><small>github.com/mattpocock/skills</small></span><svg class="ic go"><use href="#i-out"/></svg></a>
+        <a class="svc" href="index.html"><span class="si"><svg class="ic"><use href="#i-play"/></svg></span><span><b>Презентация</b><small>index.html</small></span><svg class="ic go"><use href="#i-arrow-r"/></svg></a>
+      </div></div>
+    </div>
+    <div class="what a" style="--d:2">
+      <div><span class="label">Думает</span><b>Gemini</b><p>Читает данные, считает, пишет черновики. Gems — ваши помощники.</p></div>
+      <div><span class="label">Хранит</span><b>Drive</b><p>Все результаты с датой в названии. Контекст и навыки — тоже здесь.</p></div>
+      <div><span class="label">Цифры</span><b>Таблицы</b><p>Меню, себестоимость, продажи, журнал отзывов. Одна строка — одна запись.</p></div>
+      <div><span class="label">Собирает</span><b>Формы</b><p>Отчёт смены от управляющего — ответы сами попадают в таблицу.</p></div>
+      <div><span class="label">Гости</span><b>Maps и Instagram</b><p>Здесь вас находят. Публикует только человек.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 17 · ФАЙЛЫ ДЛЯ НЕЙРОСЕТИ ═════════ -->
+<section class="slide s-files" data-module="06" data-title="Файлы для нейросети">
+  <div class="frame">
+    <header class="head a"><p class="kicker">Этап 3 · для нейросети</p><h2 class="h1 h84">Файлы, которые <em>читает AI</em></h2></header>
+    <nav class="ftable a" style="--d:1" aria-label="Файлы комплекта">
+      <a class="key" href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/for-gemini/AI_KIT_ABBAS.md" target="_blank" rel="noopener"><span class="fn"><svg class="ic"><use href="#i-cpu"/></svg>for-gemini/AI_KIT_ABBAS.md</span><span class="fd">Всё в одном файле: 6 навыков, 17 промптов, шаблон, правила</span><span class="fh">→ в «Знания» Gem</span></a>
+      <a class="key" href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/for-gemini/GEM_INSTRUCTION.md" target="_blank" rel="noopener"><span class="fn"><svg class="ic"><use href="#i-cpu"/></svg>for-gemini/GEM_INSTRUCTION.md</span><span class="fd">Инструкция для универсального Gem «Помощник Абаса»</span><span class="fh">→ в «Инструкции» Gem</span></a>
+      <a href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/BUSINESS_CONTEXT_TEMPLATE.md" target="_blank" rel="noopener"><span class="fn"><svg class="ic"><use href="#i-file"/></svg>BUSINESS_CONTEXT_TEMPLATE.md</span><span class="fd">Шаблон профиля заведения + вымышленный пример</span><span class="fh">заполнить → в «Знания»</span></a>
+      <a href="https://github.com/pirajoke/abbas-ai-fastfood/tree/gh-pages/skills" target="_blank" rel="noopener"><span class="fn"><svg class="ic"><use href="#i-git"/></svg>skills/*/SKILL.md</span><span class="fd">6 навыков по отдельности, формат Agent Skills</span><span class="fh">в Gem или в чат</span></a>
+      <a href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/PROMPT_LIBRARY.md" target="_blank" rel="noopener"><span class="fn"><svg class="ic"><use href="#i-file"/></svg>PROMPT_LIBRARY.md</span><span class="fd">17 промптов: что подготовить, текст, что проверить</span><span class="fh">прикрепить «+»</span></a>
+      <a href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/GUIDE.md" target="_blank" rel="noopener"><span class="fn"><svg class="ic"><use href="#i-file"/></svg>GUIDE.md</span><span class="fd">Подробная инструкция — для человека и для AI</span><span class="fh">читать / прикрепить</span></a>
+      <a href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/START_HERE.md" target="_blank" rel="noopener"><span class="fn"><svg class="ic"><use href="#i-file"/></svg>START_HERE.md</span><span class="fd">Старт за 10 минут</span><span class="fh">читать</span></a>
+    </nav>
+    <div class="device kit a" style="--d:2">
+      <span class="label" style="color:var(--accent)">Самый быстрый путь</span>
+      <h3>Один файл — и Gemini знает всё</h3>
+      <ol>
+        <li><span>Gems → <b>Создать Gem</b> → название «Помощник Абаса».</span></li>
+        <li><span>В «Инструкции» вставьте текст (кнопка ниже).</span></li>
+        <li><span>В «Знания» добавьте <b>AI_KIT_ABBAS.md</b> и свой <b>BUSINESS_CONTEXT</b>.</span></li>
+        <li><span>Пишите: <code class="mono-in" style="font-size:15px">навык: сводка</code> + заметки за смену.</span></li>
+      </ol>
+      <p>Без Gem: в любом чате нажмите «+», прикрепите AI_KIT_ABBAS.md и напишите задачу.</p>
+      <div class="row"><button class="btn primary sm" data-copy="tpl-master"><svg class="ic"><use href="#i-copy"/></svg><span>Копировать инструкцию Gem</span></button><a class="btn sm" href="https://gemini.google.com/gems/view" target="_blank" rel="noopener"><svg class="ic"><use href="#i-gem"/></svg>Менеджер Gems</a></div>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<nav class="controls" id="controls" aria-label="Навигация по слайдам">
+  <button id="tocBtn" aria-label="Содержание (M)" title="Содержание (M)"><svg class="ic"><use href="#i-menu"/></svg></button>
+  <button id="prevBtn" aria-label="Предыдущий слайд" title="Назад (←)"><svg class="ic"><use href="#i-arrow-l"/></svg></button>
+  <span class="ctr" id="ctr">01 / 17</span>
+  <button id="nextBtn" aria-label="Следующий слайд" title="Вперёд (→)"><svg class="ic"><use href="#i-arrow-r"/></svg></button>
+</nav>
+
+<div class="toc" id="toc" role="dialog" aria-modal="true" aria-labelledby="tocTitle">
+  <div class="toc-in">
+    <div class="toc-top"><h2 id="tocTitle">Содержание инструкции</h2><button class="x" id="tocClose" aria-label="Закрыть"><svg class="ic"><use href="#i-x"/></svg></button></div>
+    <div class="toc-grid" id="tocGrid"></div>
+    <div class="toc-foot">
+      <a class="btn" href="index.html"><svg class="ic"><use href="#i-play"/></svg>Презентация</a>
+      <button class="btn" id="printBtn"><svg class="ic"><use href="#i-print"/></svg>Печать / PDF</button>
+      <button class="btn" id="fullBtn"><svg class="ic"><use href="#i-full"/></svg>Полный экран</button>
+      <span class="keys"><b>← →</b> или пробел — листать · <b>M</b> — содержание · <b>F</b> — полный экран</span>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="skModal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="modal-in">
+    <div class="m-top"><div><span class="label">Навык</span><h3 id="mTitle"></h3><p class="path" id="mPath"></p></div><button class="x" id="mClose" aria-label="Закрыть"><svg class="ic"><use href="#i-x"/></svg></button></div>
+    <div class="m-body">
+      <div class="m-grid"><div><span class="label">Когда использовать</span><p id="mWhen"></p></div><div><span class="label">Что дать на входе</span><p id="mIn"></p></div><div><span class="label">Что получите</span><p id="mOut"></p></div><div class="chk"><span class="label">Что проверяет человек</span><p id="mChk"></p></div></div>
+      <span class="label" style="color:var(--accent)">Версия для Gemini — вставить в чат или в «Инструкции» Gem</span>
+      <p class="m-code" id="mCode"></p>
+    </div>
+    <div class="m-foot"><button class="btn primary" id="mCopy" data-copy=""><svg class="ic"><use href="#i-copy"/></svg><span>Копировать для Gemini</span></button><a class="btn" id="mFile" href="#" target="_blank" rel="noopener"><svg class="ic"><use href="#i-git"/></svg>SKILL.md на GitHub</a><span class="note">Esc — закрыть</span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<template id="tpl-folders">AI-Фастфуд/
+├─ 00_Контекст
+├─ 01_Меню_и_цены
+├─ 02_Маркетинг
+├─ 03_Отзывы
+├─ 04_Операции/Сводки
+├─ 05_Навыки
+└─ 99_Архив</template>
+<template id="tpl-week">Вот сводки и результаты моей работы с AI за неделю: [прикрепите файлы или вставьте текст].
+Моя метрика на неделю была: [метрика].
+
+Сделай итог недели:
+1. Достигнута ли метрика — да / нет / частично, с цифрами из данных.
+2. Что улучшилось и что ухудшилось — только по данным.
+3. Повторяющиеся проблемы — сколько раз встречались.
+4. Что AI делал плохо и какое правило добавить в инструкцию Gem.
+5. Рекомендация: продолжаем, меняем или берём следующий процесс — и почему.
+Не придумывай цифры. Решение приму я.</template>
+<!-- Полные тексты: собраны дословно из PROMPT_LIBRARY.md, skills/*/SKILL.md и for-gemini/GEM_INSTRUCTION.md -->
+<template id="p1">Я владелец фастфуд-заведения: [формат — например, точка с бургерами и шаурмой у метро]. С нейросетями почти не работал.
+Объясни простыми словами, чем ты можешь помочь мне в первую неделю.
+Дай 5 конкретных идей. Для каждой: что я тебе даю, что ты возвращаешь, сколько времени это экономит, что я обязан проверить сам.
+Не придумывай факты о моём бизнесе. Если чего-то не хватает — задай до 3 вопросов в конце.</template>
+<template id="p2">Вот [фото меню / PDF накладной]. Перепиши данные в таблицу.
+Для меню: категория, позиция, размер или вес порции, цена.
+Для накладной: товар, единица измерения, количество, цена за единицу, сумма.
+Правила:
+- Если что-то не читается — напиши «не читается», не угадывай.
+- Ничего не добавляй от себя.
+- В конце посчитай итоговую сумму и сравни с итогом в документе, если он есть.
+- Дай таблицу в формате, который можно вставить в Google Таблицы.</template>
+<template id="p3">Ты — консультант, который помогает владельцу фастфуд-заведения описать свой бизнес для работы с AI.
+Проведи со мной интервью и заполни профиль по разделам: 1) кто мы, 2) меню и продукт, 3) гости, 4) процессы, 5) цели на 3–6 месяцев, 6) ограничения, 7) показатели, 8) тон общения, 9) правила для AI.
+
+Правила интервью:
+- Задавай по 3–4 вопроса за раз, по одному разделу. Пиши просто, без терминов.
+- Если я не знаю ответ, запиши «не знаю» и иди дальше.
+- Не придумывай ничего за меня.
+- Не спрашивай пароли, номера карт и счетов, паспортные данные, телефоны и личные данные сотрудников и гостей. Если я сам их напишу — не включай их в профиль.
+- В конце собери весь профиль одним документом в формате Markdown с заголовками разделов. Отметь пункты, которые стоит уточнить, словом «Уточнить».
+
+Начни с раздела «Кто мы».</template>
+<template id="p4">Проведи со мной интервью в стиле grill-me, прежде чем давать советы.
+Тема: [например: «что улучшить в моём фастфуд-заведении в первую очередь»].
+Если я прикрепил файл BUSINESS_CONTEXT — сначала прочитай его.
+
+Правила:
+1. Задавай вопросы раундами. В раунде — только те вопросы, на которые я могу ответить сейчас, не зная ответов на другие. Нумеруй вопросы: В1, В2, В3…
+2. К каждому вопросу дай свой рекомендуемый ответ и коротко объясни почему. Формулируй вопрос так, чтобы ответ «да» означал согласие с рекомендацией.
+3. Проверяй мои предположения и ищи противоречия. Если я называю симптом, спроси о причине.
+4. Не придумывай факты о моём бизнесе. То, что есть в прикреплённых файлах, ищи сам, а не спрашивай.
+5. Решения принимаю я. Не отвечай за меня.
+6. Когда все важные вопросы закрыты, дай итог: одна приоритетная задача, почему именно она, один измеримый показатель успеха на 7 дней и что мы пока НЕ делаем. Ничего не начинай делать, пока я не подтвержу итог.
+
+Начни с первого раунда.</template>
+<template id="p5">Ты — аналитик экономики меню для фастфуд-заведения.
+Контекст: [прикрепите BUSINESS_CONTEXT или опишите заведение в 2–3 предложениях].
+Данные: ниже (или в прикреплённой таблице) — позиции меню: название, цена продажи, себестоимость порции, продажи за период.
+[вставьте таблицу]
+
+Задача:
+1. Посчитай для каждой позиции: фудкост % (себестоимость / цена × 100), маржу на порцию (цена − себестоимость), маржу за период (маржа × продажи).
+2. Покажи расчёты в таблице. Если в данных есть пропуски или странные значения — перечисли их и не заполняй сам.
+3. Разложи позиции по матрице меню: «Звёзды» (популярные и маржинальные), «Рабочие лошадки» (популярные, низкая маржа), «Загадки» (маржинальные, мало продаж), «Собаки» (мало продаж и низкая маржа). Порог — средние значения по меню.
+4. Предложи 3 гипотезы (цена, порция, комбо, место в меню). Для каждой: что меняем, ожидаемый эффект, риск, как проверить за 2 недели.
+
+Ограничения: используй только мои цифры. Ничего не выдумывай. Не утверждай, что гипотеза точно сработает. Цены не меняются без решения владельца.
+Формат: таблица расчётов → матрица → 3 гипотезы → список «что проверить человеку».</template>
+<template id="p6">Ты — аналитик меню. Помоги оценить изменение до запуска.
+Сейчас: [позиция — цена, себестоимость, продажи за неделю].
+Предложение: [например: поднять цену бургера с 450 до 490 / комбо «бургер + фри + напиток» за 690].
+
+Задача:
+1. Посчитай маржу на порцию и за неделю: сейчас и после изменения.
+2. Найди точку безубыточности: на сколько процентов могут упасть продажи, чтобы общая маржа за неделю не уменьшилась.
+3. Покажи 3 сценария: продажи не изменились, упали на 10%, выросли на 10%.
+4. Назови риски для гостей и для работы кухни.
+5. Предложи, как проверить изменение за 2 недели и какую цифру смотреть.
+
+Показывай расчёт по шагам. Используй только мои цифры. Если данных не хватает — спроси.</template>
+<template id="p7">Ты — маркетолог фастфуд-заведения, который пишет просто и по делу.
+Контекст: [прикрепите BUSINESS_CONTEXT или опишите: формат, район, гости, тон общения].
+Каналы: Instagram (посты, Stories, Reels), Google Maps (профиль компании), акции в заведении.
+Поводы на неделю: [например: новое комбо, футбол в субботу, сезонный напиток — или «предложи сам»].
+Бюджет на продвижение: [сумма или «без бюджета»].
+
+Задача: составь контент-план на 7 дней.
+Для каждого дня: канал, формат, тема, цель (охват / визит / средний чек / отзывы), текст-черновик до 400 знаков, призыв к действию, идея для фото или видео, как измерить результат.
+
+Ограничения:
+- Не указывай цены, сроки и условия акций — оставь поля [ЦЕНА], [СРОК], [УСЛОВИЯ] для проверки.
+- Не пиши о составе и аллергенах, если я их не дал.
+- Без слов «самый вкусный», «лучший в городе» и выдуманных фактов.
+- Ничего не публикуй — это черновики для меня.
+Формат: таблица на 7 дней → затем полные тексты постов → в конце список «что проверить перед публикацией».</template>
+<template id="p8">Ты — маркетолог фастфуд-заведения.
+Акция: [что получает гость, при каком условии]. Срок: [даты и часы]. Ограничения: [например: не суммируется с другими акциями, только в зале].
+Как отмечаем на кассе: [кнопка / промокод / «покажите пост»].
+
+Подготовь:
+1. Короткий текст для поста (до 300 знаков) и для Stories (до 100 знаков).
+2. Текст для таблички на кассе (до 15 слов).
+3. Полные условия акции простым языком: что, когда, для кого, исключения.
+4. Список вопросов, которые гости могут задать кассиру, и короткие ответы.
+5. Найди в моих условиях двусмысленности и риски конфликтов с гостями.
+
+Цены и сроки бери только из моего описания. Ничего не добавляй от себя.</template>
+<template id="p9">Ты — специалист по локальному маркетингу.
+Данные о заведении: [формат, адрес-ориентир, часы работы, способы оплаты, доставка, парковка, особенности].
+Подготовь для профиля компании в Google Maps:
+1. Описание до 750 знаков: просто, без преувеличений, с главными фактами для гостя.
+2. 10 частых вопросов гостей и короткие ответы — только на основе моих данных. Если данных нет, напиши «уточнить».
+3. 4 идеи для публикаций в профиле на месяц.
+4. Список фото, которые стоит обновить.
+Не придумывай часы работы, цены и услуги.</template>
+<template id="p10">Ты — аналитик клиентского опыта фастфуд-заведения.
+Ниже — отзывы гостей за период [даты]. Имена, телефоны и ссылки на профили я удалил.
+[вставьте отзывы, по одному в строке, с оценкой, если есть]
+
+Задача:
+1. Сгруппируй отзывы по темам (например: скорость, температура и качество еды, комплектность заказа, чистота, персонал, цены, доставка). Для каждой темы: сколько отзывов, номера отзывов, короткая цитата.
+2. Найди повторяющиеся проблемы и предложи вероятные причины — помечай их как «гипотеза».
+3. Для трёх главных проблем предложи по одному первому действию, которое можно проверить за неделю.
+4. Подготовь черновики ответов на негативные отзывы: вежливо, коротко, без оправданий и шаблонов, на «вы».
+
+Ограничения: не обещай скидки, компенсации и бесплатную еду — это решение владельца. Не придумывай детали, которых нет в отзыве. Не используй персональные данные.
+Формат: таблица тем → 3 проблемы с действиями → черновики ответов → что проверить человеку.</template>
+<template id="p11">Ты — управляющий фастфуд-заведения, который отвечает гостям от имени команды.
+Тон: [например: дружелюбно, на «вы», коротко, без канцелярита].
+Отзыв: «[текст отзыва]»
+Что мы знаем о ситуации: [факты или «пока не знаем»].
+
+Напиши 2 варианта ответа до 500 знаков:
+- поблагодари за отзыв;
+- признай проблему без оправданий, если она есть;
+- скажи, что мы делаем, только если это правда;
+- пригласи вернуться без обещаний скидок.
+Не обещай компенсации и не придумывай факты. Не упоминай персональные данные.</template>
+<template id="p12">Ты — операционный менеджер фастфуд-заведения.
+Вот как мы открываем и закрываем смену (своими словами): [опишите или вставьте расшифровку голосового].
+
+Сделай два чек-листа на одну страницу каждый: «Открытие смены» и «Закрытие смены».
+- Группируй по зонам: кухня, зал, касса, склад.
+- Каждый пункт — одно действие, начинается с глагола, можно проверить «да / нет».
+- Отметь пункты, связанные с безопасностью и санитарией, пометкой [ВАЖНО].
+- В конце — строка для подписи и времени.
+Не добавляй санитарные нормы от себя. Если тебе кажется, что какого-то шага не хватает, вынеси это в отдельный список «Предложения — проверить».</template>
+<template id="p13">Ты — тренер персонала фастфуд-заведения.
+Должность: [кассир / повар / сборщик заказов].
+Как мы работаем (своими словами): [опишите шаги, частые ошибки, правила].
+
+Подготовь:
+1. Инструкцию на одну страницу: 7–10 шагов простыми словами.
+2. Раздел «Частые ошибки и как их избежать» (по моим словам, ничего не выдумывай).
+3. Мини-тест из 8 вопросов с вариантами ответов и правильными ответами отдельно.
+4. План первого дня: что сотрудник делает в первые 2 часа.
+Пиши для человека без опыта работы.</template>
+<template id="p14">Ты — операционный помощник владельца фастфуд-заведения.
+Ниже — заметки управляющего после смены [дата] и данные кассы (если есть).
+[вставьте заметки или расшифровку голосового сообщения]
+[вставьте итоги кассы: выручка, число чеков — если есть]
+
+Задача: сделай сводку смены, которую владелец прочитает за 2 минуты.
+Разделы:
+1. Продажи — только цифры из данных; если цифр нет, напиши «нет данных».
+2. Закупки и остатки — что закончилось, что заказать (объём — «уточнить по остаткам»).
+3. Проблемы смены — люди, оборудование, гости.
+4. Решения на завтра — не больше 3 пунктов, по одному действию на пункт.
+5. Вопросы владельцу — что требует его решения.
+6. Отзывы и жалобы за день — если упоминались.
+
+Ограничения: не выдумывай цифры и события. Отделяй факты от предположений («Допущение:»). Закупки и платежи только предлагай — подтверждает человек.
+Формат: короткие пункты, без воды. В конце — одна строка «Главное на завтра».</template>
+<template id="p15">Ты — помощник по закупкам фастфуд-заведения.
+Остатки сейчас: [продукт — количество — единица].
+Средний расход в день: [продукт — количество] (если не знаю — напишу «не знаю»).
+Следующая поставка через: [N дней]. События: [например: футбол в субботу вечером].
+
+Задача:
+1. Посчитай, на сколько дней хватит каждого продукта.
+2. Отметь продукты, которые закончатся до следующей поставки.
+3. Предложи черновик заказа с запасом [например, 15%] и покажи расчёт.
+4. Отдельно — продукты, по которым не хватает данных.
+Это только черновик: ничего не заказывай и не отправляй.</template>
+<template id="p16">Теперь выступи строгим проверяющим своего предыдущего ответа.
+1. Перечисли все утверждения, которые не основаны на моих данных, — то есть допущения и общие знания.
+2. Пересчитай все цифры заново и покажи, где были ошибки.
+3. Отметь, что относится к «красной зоне»: цены, состав и аллергены, пищевая безопасность, платежи, публикации.
+4. Назови 3 вопроса, которые мне стоит проверить у людей или в документах.
+5. Дай исправленную версию ответа.</template>
+<template id="p17">Сделай итог нашего разговора в виде документа для Google Drive.
+Название файла: [ГГГГ-ММ-ДД]_[тема].
+Структура:
+1. Задача — 1–2 предложения.
+2. Что сделали.
+3. Результат — таблица или список.
+4. Решения, которые принял владелец.
+5. Что нужно проверить человеку.
+6. Следующий шаг — одно действие и срок.
+Пиши коротко. Не добавляй ничего, чего не было в разговоре.</template>
+<template id="sk-grill-me">Проведи со мной интервью в стиле grill-me, прежде чем давать советы.
+Тема: [например: «что улучшить в моём фастфуд-заведении в первую очередь»].
+Если я прикрепил файл BUSINESS_CONTEXT — сначала прочитай его.
+
+Правила:
+1. Задавай вопросы раундами. В раунде — только те вопросы, на которые я могу ответить сейчас, не зная ответов на другие. Нумеруй вопросы: В1, В2, В3…
+2. К каждому вопросу дай свой рекомендуемый ответ и коротко объясни почему. Формулируй вопрос так, чтобы ответ «да» означал согласие с рекомендацией.
+3. Проверяй мои предположения и ищи противоречия. Если я называю симптом, спроси о причине.
+4. Не придумывай факты о моём бизнесе. То, что есть в прикреплённых файлах, ищи сам, а не спрашивай.
+5. Решения принимаю я. Не отвечай за меня.
+6. Когда все важные вопросы закрыты, дай итог: одна приоритетная задача, почему именно она, один измеримый показатель успеха на 7 дней и что мы пока НЕ делаем. Ничего не начинай делать, пока я не подтвержу итог.
+
+Начни с первого раунда.</template>
+<template id="sk-business-context-builder">Ты — консультант, который помогает владельцу фастфуд-заведения описать свой бизнес для работы с AI.
+Проведи со мной интервью и заполни профиль по разделам: 1) кто мы, 2) меню и продукт, 3) гости, 4) процессы, 5) цели на 3–6 месяцев, 6) ограничения, 7) показатели, 8) тон общения, 9) правила для AI.
+
+Правила интервью:
+- Задавай по 3–4 вопроса за раз, по одному разделу. Пиши просто, без терминов.
+- Если я не знаю ответ, запиши «не знаю» и иди дальше.
+- Не придумывай ничего за меня.
+- Не спрашивай пароли, номера карт и счетов, паспортные данные, телефоны и личные данные сотрудников и гостей. Если я сам их напишу — не включай их в профиль.
+- В конце собери весь профиль одним документом в формате Markdown с заголовками разделов. Отметь пункты, которые стоит уточнить, словом «Уточнить».
+
+Начни с раздела «Кто мы».</template>
+<template id="sk-menu-economics-analyst">Ты — аналитик экономики меню для фастфуд-заведения.
+Контекст: [прикрепите BUSINESS_CONTEXT или опишите заведение в 2–3 предложениях].
+Данные: ниже (или в прикреплённой таблице) — позиции меню: название, цена продажи, себестоимость порции, продажи за период.
+[вставьте таблицу]
+
+Задача:
+1. Посчитай для каждой позиции: фудкост % (себестоимость / цена × 100), маржу на порцию (цена − себестоимость), маржу за период (маржа × продажи).
+2. Покажи расчёты в таблице. Если в данных есть пропуски или странные значения — перечисли их и не заполняй сам.
+3. Разложи позиции по матрице меню: «Звёзды» (популярные и маржинальные), «Рабочие лошадки» (популярные, низкая маржа), «Загадки» (маржинальные, мало продаж), «Собаки» (мало продаж и низкая маржа). Порог — средние значения по меню.
+4. Предложи 3 гипотезы (цена, порция, комбо, место в меню). Для каждой: что меняем, ожидаемый эффект, риск, как проверить за 2 недели.
+
+Ограничения: используй только мои цифры. Ничего не выдумывай. Не утверждай, что гипотеза точно сработает. Цены не меняются без решения владельца.
+Формат: таблица расчётов → матрица → 3 гипотезы → список «что проверить человеку».</template>
+<template id="sk-content-marketing-assistant">Ты — маркетолог фастфуд-заведения, который пишет просто и по делу.
+Контекст: [прикрепите BUSINESS_CONTEXT или опишите: формат, район, гости, тон общения].
+Каналы: Instagram (посты, Stories, Reels), Google Maps (профиль компании), акции в заведении.
+Поводы на неделю: [например: новое комбо, футбол в субботу, сезонный напиток — или «предложи сам»].
+Бюджет на продвижение: [сумма или «без бюджета»].
+
+Задача: составь контент-план на 7 дней.
+Для каждого дня: канал, формат, тема, цель (охват / визит / средний чек / отзывы), текст-черновик до 400 знаков, призыв к действию, идея для фото или видео, как измерить результат.
+
+Ограничения:
+- Не указывай цены, сроки и условия акций — оставь поля [ЦЕНА], [СРОК], [УСЛОВИЯ] для проверки.
+- Не пиши о составе и аллергенах, если я их не дал.
+- Без слов «самый вкусный», «лучший в городе» и выдуманных фактов.
+- Ничего не публикуй — это черновики для меня.
+Формат: таблица на 7 дней → затем полные тексты постов → в конце список «что проверить перед публикацией».</template>
+<template id="sk-customer-feedback-analyst">Ты — аналитик клиентского опыта фастфуд-заведения.
+Ниже — отзывы гостей за период [даты]. Имена, телефоны и ссылки на профили я удалил.
+[вставьте отзывы, по одному в строке, с оценкой, если есть]
+
+Задача:
+1. Сгруппируй отзывы по темам (например: скорость, температура и качество еды, комплектность заказа, чистота, персонал, цены, доставка). Для каждой темы: сколько отзывов, номера отзывов, короткая цитата.
+2. Найди повторяющиеся проблемы и предложи вероятные причины — помечай их как «гипотеза».
+3. Для трёх главных проблем предложи по одному первому действию, которое можно проверить за неделю.
+4. Подготовь черновики ответов на негативные отзывы: вежливо, коротко, без оправданий и шаблонов, на «вы».
+
+Ограничения: не обещай скидки, компенсации и бесплатную еду — это решение владельца. Не придумывай детали, которых нет в отзыве. Не используй персональные данные.
+Формат: таблица тем → 3 проблемы с действиями → черновики ответов → что проверить человеку.</template>
+<template id="sk-daily-operations-manager">Ты — операционный помощник владельца фастфуд-заведения.
+Ниже — заметки управляющего после смены [дата] и данные кассы (если есть).
+[вставьте заметки или расшифровку голосового сообщения]
+[вставьте итоги кассы: выручка, число чеков — если есть]
+
+Задача: сделай сводку смены, которую владелец прочитает за 2 минуты.
+Разделы:
+1. Продажи — только цифры из данных; если цифр нет, напиши «нет данных».
+2. Закупки и остатки — что закончилось, что заказать (объём — «уточнить по остаткам»).
+3. Проблемы смены — люди, оборудование, гости.
+4. Решения на завтра — не больше 3 пунктов, по одному действию на пункт.
+5. Вопросы владельцу — что требует его решения.
+6. Отзывы и жалобы за день — если упоминались.
+
+Ограничения: не выдумывай цифры и события. Отделяй факты от предположений («Допущение:»). Закупки и платежи только предлагай — подтверждает человек.
+Формат: короткие пункты, без воды. В конце — одна строка «Главное на завтра».</template>
+<template id="tpl-context"># BUSINESS_CONTEXT — [название заведения]
+Обновлено: [дата] · Заполнил: [имя или роль]
+
+> Правило: не вписывайте пароли, номера карт и счетов, паспортные данные, телефоны и личные данные сотрудников и гостей. Если не знаете ответ — напишите «не знаю».
+
+## 1. Кто мы
+- Название:
+- Формат (кафе / точка выдачи / фудкорт / доставка / несколько форматов):
+- Город и район, что рядом (метро, офисы, учебные заведения):
+- Часы работы:
+- Количество точек:
+- Команда (роли и сколько человек — по желанию):
+
+## 2. Меню и продукт
+- Основные категории:
+- Топ-5 позиций по продажам (если известно):
+- Комбо и их состав:
+- Ценовой диапазон:
+- Чем мы отличаемся от соседей:
+- Где лежит актуальное меню с ценами (файл):
+
+## 3. Гости
+- Кто приходит (студенты, офисы, семьи, туристы, доставка):
+- Когда пик и когда пусто:
+- Средний чек (если известен):
+- Каналы заказа (зал, навынос, доставка, агрегаторы):
+- За что гости хвалят:
+- На что жалуются:
+
+## 4. Процессы
+- Открытие и закрытие смены:
+- Закупки (как часто, кто заказывает; без контактов поставщиков):
+- Касса и учёт (какая система — по желанию):
+- Кто ведёт соцсети и карты:
+- Что сейчас занимает больше всего времени:
+
+## 5. Цели на 3–6 месяцев
+-
+
+## 6. Ограничения
+- Бюджет на маркетинг:
+- Оборудование и площадь:
+- Персонал:
+- Что нельзя делать (тон, бренд, правила):
+
+## 7. Показатели
+- Что измеряем сейчас (чеки в день, средний чек, фудкост %, рейтинг на картах, число отзывов, время ожидания):
+- Где лежат данные:
+
+## 8. Тон общения
+- Как мы говорим с гостями (на «ты» / на «вы», дружелюбно, коротко):
+
+## 9. Правила для AI
+- Не придумывай цифры и факты. Если данных нет — задай вопрос.
+- Отмечай допущения словом «Допущение:».
+- Цены, состав и аллергены, пищевая безопасность, платежи и публикации — только черновик для проверки человеком.
+- Отвечай на русском, коротко, с таблицами, где это уместно.
+- В конце ответа — один следующий шаг.</template>
+<template id="tpl-master">Ты — AI-помощник владельца фастфуд-заведения. Отвечай на русском, просто и коротко.
+В «Знаниях» у тебя файлы BUSINESS_CONTEXT (профиль заведения) и AI_KIT_ABBAS (навыки, промпты и правила).
+
+Как работать:
+1. Перед каждым ответом учитывай BUSINESS_CONTEXT. Не придумывай факты о заведении: если данных нет — спроси.
+2. Если я пишу «навык: &lt;название&gt;» или задача явно подходит к одному из навыков в AI_KIT_ABBAS (grill-me, бизнес-контекст, меню, контент, отзывы, сводка смены) — работай строго по инструкции этого навыка: вход, шаги, формат результата, границы.
+3. Если непонятно, какой навык нужен, — предложи 1–2 подходящих и спроси.
+4. Красная зона: цены, состав и аллергены, пищевая безопасность, платежи и публикации — только черновик и список того, что проверить человеку.
+5. Не принимай и не повторяй пароли, номера карт и счетов, паспортные данные, телефоны и личные данные гостей и сотрудников.
+6. Отделяй факты от допущений: помечай допущения словом «Допущение:».
+7. В конце каждого ответа — один следующий шаг.</template>
+
+<script>
+(function () {
+  "use strict";
+  document.documentElement.classList.add("js");
+  var deck = document.getElementById("deck");
+  var slides = Array.prototype.slice.call(deck.querySelectorAll(".slide"));
+  var total = slides.length, current = 0;
+  var modules = { "00": "Старт", "01": "Подготовка", "02": "День 1", "03": "Дни 1–2", "04": "День 3", "05": "Дни 4–7", "06": "Справочник" };
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function $(s, r) { return (r || document).querySelector(s); }
+  function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+  var store = { get: function (k, d) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } }, set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
+
+  slides.forEach(function (s, i) {
+    var h = document.createElement("header");
+    h.className = "chrome"; h.setAttribute("aria-hidden", "true");
+    h.innerHTML = '<span class="brand"><i></i>Инструкция · AI для фастфуда</span><span class="mod">' + modules[s.dataset.module] + '</span><span class="num">' + pad(i + 1) + "<em> / " + pad(total) + "</em></span>";
+    s.insertBefore(h, s.firstChild);
+    s.id = "slide-" + (i + 1);
+    s.setAttribute("role", "group"); s.setAttribute("aria-roledescription", "слайд");
+    s.setAttribute("aria-label", (i + 1) + " из " + total + ": " + s.dataset.title);
+  });
+
+  function fit() {
+    var k = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    document.documentElement.classList.toggle("reflow", k < 0.5);
+    deck.style.setProperty("--scale", k);
+  }
+  window.addEventListener("resize", fit); fit();
+
+  /* содержание */
+  var tocGrid = $("#tocGrid"), toc = $("#toc");
+  var groups = [["Старт", ["00"]], ["Шаги 1–11", ["01", "02", "03", "04", "05"]], ["Справочник", ["06"]]];
+  groups.forEach(function (g) {
+    var col = document.createElement("div"); col.className = "toc-mod";
+    col.innerHTML = '<span class="label">' + g[0] + "</span>";
+    slides.forEach(function (s, i) {
+      if (g[1].indexOf(s.dataset.module) < 0) return;
+      var a = document.createElement("a"); a.href = "#slide-" + (i + 1); a.dataset.i = i;
+      a.innerHTML = "<span>" + pad(i + 1) + "</span>" + s.dataset.title;
+      a.addEventListener("click", function (e) { e.preventDefault(); closeToc(); go(i); });
+      col.appendChild(a);
+    });
+    tocGrid.appendChild(col);
+  });
+  function openToc() { toc.classList.add("open"); $$(".toc-mod a").forEach(function (a) { a.classList.toggle("cur", +a.dataset.i === current); }); setTimeout(function () { $("#tocClose").focus(); }, 50); }
+  function closeToc() { toc.classList.remove("open"); }
+  $("#tocBtn").addEventListener("click", function () { toc.classList.contains("open") ? closeToc() : openToc(); });
+  $("#tocClose").addEventListener("click", closeToc);
+  toc.addEventListener("click", function (e) { if (e.target === toc) closeToc(); });
+  $("#printBtn").addEventListener("click", function () { closeToc(); setTimeout(function () { window.print(); }, 250); });
+  function toggleFull() { var d = document, el = d.documentElement; if (d.fullscreenElement || d.webkitFullscreenElement) { (d.exitFullscreen || d.webkitExitFullscreen).call(d); } else if (el.requestFullscreen) { el.requestFullscreen(); } else if (el.webkitRequestFullscreen) { el.webkitRequestFullscreen(); } }
+  $("#fullBtn").addEventListener("click", function () { closeToc(); toggleFull(); });
+
+  /* навигация */
+  var bar = $("#progressBar"), ctr = $("#ctr");
+  function go(i) {
+    if (i < 0 || i >= total) return;
+    slides[current].classList.remove("is-active"); current = i;
+    slides.forEach(function (s, k) { if (k === i) { s.removeAttribute("inert"); s.removeAttribute("aria-hidden"); } else { s.setAttribute("inert", ""); s.setAttribute("aria-hidden", "true"); } });
+    var s = slides[i]; s.classList.add("is-active"); s.scrollTop = 0;
+    bar.style.width = ((i + 1) / total * 100) + "%";
+    ctr.textContent = pad(i + 1) + " / " + pad(total);
+    var hash = "#slide-" + (i + 1);
+    if (location.hash !== hash) { try { history.replaceState(null, "", hash); } catch (e) {} }
+    document.title = s.dataset.title + " — инструкция";
+  }
+  function fromHash() { var m = location.hash.match(/^#slide-(\d+)$/); return m ? Math.max(0, Math.min(total - 1, parseInt(m[1], 10) - 1)) : 0; }
+  $("#nextBtn").addEventListener("click", function () { go(current + 1); });
+  $("#prevBtn").addEventListener("click", function () { go(current - 1); });
+  window.addEventListener("hashchange", function () { go(fromHash()); });
+  var modal = $("#skModal");
+  document.addEventListener("keydown", function (e) {
+    var t = e.target, tag = t && t.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || (t && t.isContentEditable)) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (modal.classList.contains("open")) { if (e.key === "Escape") { e.preventDefault(); closeModal(); } return; }
+    if (toc.classList.contains("open")) { if (e.key === "Escape" || e.code === "KeyM") { e.preventDefault(); closeToc(); } return; }
+    if (e.key === "ArrowRight" || e.key === "PageDown" || (e.key === " " && tag !== "BUTTON" && tag !== "A")) { e.preventDefault(); go(current + 1); }
+    else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(current - 1); }
+    else if (e.key === "Home") { e.preventDefault(); go(0); }
+    else if (e.key === "End") { e.preventDefault(); go(total - 1); }
+    else if (e.code === "KeyM") { e.preventDefault(); openToc(); }
+    else if (e.code === "KeyF") { e.preventDefault(); toggleFull(); }
+  });
+  var tx = 0, ty = 0;
+  document.addEventListener("touchstart", function (e) { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+  document.addEventListener("touchend", function (e) { if (modal.classList.contains("open")) return; var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6) go(current + (dx < 0 ? 1 : -1)); }, { passive: true });
+  var idleT;
+  function wake() { document.body.classList.remove("idle"); clearTimeout(idleT); idleT = setTimeout(function () { if (!toc.classList.contains("open") && !modal.classList.contains("open") && !document.documentElement.classList.contains("reflow")) document.body.classList.add("idle"); }, 2800); }
+  document.addEventListener("mousemove", wake); document.addEventListener("keydown", wake); wake();
+  window.addEventListener("beforeprint", function () { document.documentElement.classList.remove("reflow"); });
+  window.addEventListener("afterprint", fit);
+
+  /* тексты */
+  function tplText(id) { var t = document.getElementById(id); return t ? (t.content ? t.content.textContent : t.textContent).trim() : ""; }
+  $$("[data-prev]").forEach(function (el) {
+    var txt = tplText(el.dataset.prev);
+    el.textContent = txt;
+  });
+
+  /* копирование */
+  var toastEl = $("#toast"), toastT;
+  function toast(m) { toastEl.textContent = m; toastEl.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(function () { toastEl.classList.remove("on"); }, 2200); }
+  function fallbackCopy(text) { var ta = document.createElement("textarea"); ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0"; ta.style.top = "0"; (modal.classList.contains("open") ? modal : document.body).appendChild(ta); ta.select(); ta.setSelectionRange(0, text.length); var ok = false; try { ok = document.execCommand("copy"); } catch (e) {} ta.parentNode.removeChild(ta); return ok; }
+  function copyText(text) { if (navigator.clipboard && window.isSecureContext) { return navigator.clipboard.writeText(text).then(function () { return true; }, function () { return fallbackCopy(text); }); } return Promise.resolve(fallbackCopy(text)); }
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-copy]"); if (!btn || !btn.dataset.copy) return;
+    var text = tplText(btn.dataset.copy); if (!text) return;
+    var label = btn.querySelector("span"), old = label ? label.textContent : "";
+    copyText(text).then(function (ok) {
+      if (!ok) { toast("Не удалось скопировать — текст есть в файлах .md"); return; }
+      btn.classList.add("copied"); if (label) label.textContent = "Скопировано";
+      toast("Скопировано — вставьте в Gemini (Cmd+V)");
+      setTimeout(function () { btn.classList.remove("copied"); if (label) label.textContent = old; }, 1800);
+    });
+  });
+
+  /* навыки */
+  var SK = [
+    ["grill-me", "Grill-me", "Интервью перед решением", "Есть идея или проблема, но неясно, с чего начать и что важнее.", "Тема разговора; файл BUSINESS_CONTEXT, если он уже есть.", "Одна приоритетная задача, причина выбора, метрика на 7 дней, список «пока не делаем».", "Решение принимаете вы. AI только спрашивает и рекомендует."],
+    ["business-context-builder", "Business Context Builder", "Профиль заведения", "Первый день работы с AI; затем раз в месяц — обновить профиль.", "Ваши ответы на вопросы. Без паролей и личных данных.", "Заполненный BUSINESS_CONTEXT по шаблону с пометками «Уточнить».", "Всё ли верно; нет ли личных и платёжных данных."],
+    ["menu-economics-analyst", "Menu Economics Analyst", "Меню, цены, маржа", "Пересмотр меню, цен и комбо; рост себестоимости.", "Позиции, цены, себестоимость порций, продажи за период.", "Таблица фудкоста и маржи, матрица меню, 3 гипотезы с планом проверки.", "Себестоимость — по техкартам и накладным. Цены меняет только владелец."],
+    ["content-marketing-assistant", "Content & Marketing Assistant", "Контент и акции", "План на неделю, запуск акции, обновление Google Maps.", "Поводы, аудитория, тон, бюджет, ограничения.", "Контент-план на 7 дней, тексты постов, черновик условий акции.", "Цены, сроки, условия, состав. Публикует только человек."],
+    ["customer-feedback-analyst", "Customer Feedback Analyst", "Отзывы и сервис", "Раз в неделю или после всплеска жалоб.", "Отзывы без имён, телефонов и ссылок на профили.", "Темы и частота, вероятные причины, 3 действия, черновики ответов.", "Никаких обещаний компенсации без владельца. Ответ публикует человек."],
+    ["daily-operations-manager", "Daily Operations Manager", "Сводка смены", "Каждый вечер после смены или утром до открытия.", "Заметки или голосовое управляющего, итоги кассы.", "Сводка: продажи, закупки, проблемы, решения, вопросы владельцу.", "Цифры — по отчёту кассы. Закупки и платежи подтверждает человек."]
+  ];
+  var skById = {}; SK.forEach(function (s) { skById[s[0]] = s; });
+  var lastFocus = null;
+  function openModal(id) {
+    var s = skById[id]; if (!s) return;
+    lastFocus = document.activeElement;
+    $("#mTitle").textContent = s[1]; $("#mPath").textContent = "skills/" + s[0] + "/SKILL.md";
+    $("#mWhen").textContent = s[3]; $("#mIn").textContent = s[4]; $("#mOut").textContent = s[5]; $("#mChk").textContent = s[6];
+    $("#mCode").textContent = tplText("sk-" + s[0]);
+    $("#mCopy").dataset.copy = "sk-" + s[0];
+    $("#mFile").href = "https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/" + s[0] + "/SKILL.md";
+    modal.classList.add("open"); $(".m-body", modal).scrollTop = 0;
+    setTimeout(function () { $("#mClose").focus(); }, 50);
+  }
+  function closeModal() { modal.classList.remove("open"); if (lastFocus) lastFocus.focus(); }
+  $("#mClose").addEventListener("click", closeModal);
+  modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
+  document.addEventListener("click", function (e) { var b = e.target.closest("[data-skill]"); if (b) openModal(b.dataset.skill); });
+
+  var skGrid = $("#skGrid");
+  skGrid.innerHTML = SK.map(function (s, i) {
+    return '<article class="skc a" style="--d:' + (i + 1) + '"><div class="top"><span class="n">' + pad(i + 1) + '</span><span class="label">' + s[2] + "</span></div><h3>" + s[1] + "</h3><p>" + s[3] + '</p><dl class="io"><dt>Вход</dt><dd>' + s[4] + "</dd><dt>Результат</dt><dd>" + s[5] + '</dd></dl><a class="path" href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/' + s[0] + '/SKILL.md" target="_blank" rel="noopener">github.com/…/skills/' + s[0] + '</a><div class="acts"><button class="btn sm" data-skill="' + s[0] + '"><svg class="ic"><use href="#i-layers"/></svg>Открыть</button><button class="btn primary sm" data-copy="sk-' + s[0] + '"><svg class="ic"><use href="#i-copy"/></svg><span>Копировать</span></button><a class="btn sm" href="https://github.com/pirajoke/abbas-ai-fastfood/blob/gh-pages/skills/' + s[0] + '/SKILL.md" target="_blank" rel="noopener"><svg class="ic"><use href="#i-git"/></svg>GitHub</a></div></article>';
+  }).join("");
+
+  /* промпты */
+  var PL = [["Первый разговор с Gemini", "старт"], ["Фото меню или накладной → таблица", "данные"], ["Business Context Builder: интервью", "контекст"], ["Grill-me: одна приоритетная задача", "решения"], ["Анализ меню, цен и маржи", "меню"], ["Что будет, если изменить цену или комбо", "меню"], ["Контент-план на неделю", "маркетинг"], ["Текст и условия акции", "маркетинг"], ["Профиль в Google Maps", "маркетинг"], ["Анализ отзывов", "сервис"], ["Ответы на отзывы", "сервис"], ["Чек-лист открытия и закрытия смены", "стандарты"], ["Инструкция и тест для нового сотрудника", "обучение"], ["Ежедневная сводка смены", "операции"], ["Черновик заказа поставщику", "закупки"], ["Самопроверка ответа AI", "качество"], ["Итог чата → документ для Drive", "сохранение"]];
+  var plGrid = $("#plGrid"), colA = document.createElement("div"), colB = document.createElement("div");
+  PL.forEach(function (p, i) {
+    var row = document.createElement("div"); row.className = "pl-row";
+    row.innerHTML = '<span class="n">' + pad(i + 1) + "</span><strong>" + p[0] + '</strong><span class="t">' + p[1] + '</span><button class="btn sm" data-copy="p' + (i + 1) + '"><svg class="ic"><use href="#i-copy"/></svg><span>Копировать</span></button>';
+    (i < 9 ? colA : colB).appendChild(row);
+  });
+  plGrid.appendChild(colA); plGrid.appendChild(colB);
+
+  /* Gem: выбор навыка */
+  var gemCopy = $("#gemCopy");
+  $$(".gchip").forEach(function (c, i) {
+    if (i === 0) c.classList.add("on");
+    c.addEventListener("click", function () { $$(".gchip").forEach(function (x) { x.classList.toggle("on", x === c); }); gemCopy.dataset.copy = "sk-" + c.dataset.g; $("#gemPrev").textContent = tplText("sk-" + c.dataset.g); });
+  });
+
+  /* прогресс шагов */
+  var KEY = "abbas-ai-fastfood:steps", done = store.get(KEY, {});
+  var stepSlides = slides.filter(function (s) { return s.dataset.step; });
+  var route = $("#route");
+  route.innerHTML = stepSlides.map(function (s) {
+    var idx = slides.indexOf(s);
+    return '<a href="#slide-' + (idx + 1) + '" data-r="' + s.dataset.step + '"><span class="rn">' + pad(+s.dataset.step) + '</span><span class="rd">' + s.dataset.day + '</span><span class="rt">' + s.dataset.short + '</span><span class="rm">' + s.dataset.time + '</span><span class="rc"><svg class="ic"><use href="#i-check"/></svg></span></a>';
+  }).join("");
+  function syncSteps() {
+    var n = 0;
+    $$(".done-btn").forEach(function (b) { var on = !!done[b.dataset.done]; b.classList.toggle("is-done", on); $("span", b).textContent = on ? "Шаг выполнен" : "Отметить шаг"; });
+    $$("#route a").forEach(function (a) { var on = !!done[a.dataset.r]; a.classList.toggle("ok", on); if (on) n++; });
+    $("#routeDone").textContent = n; $("#routeBar").style.width = (n / 11 * 100) + "%";
+  }
+  $$(".done-btn").forEach(function (b) { b.addEventListener("click", function () { done[b.dataset.done] = !done[b.dataset.done]; store.set(KEY, done); syncSteps(); }); });
+  syncSteps();
+
+  /* красная зона + метрика */
+  var rz = store.get("abbas-ai-fastfood:rz", []);
+  $$("[data-rz]").forEach(function (c, i) { c.checked = !!rz[i]; c.addEventListener("change", function () { rz = $$("[data-rz]").map(function (x) { return x.checked; }); store.set("abbas-ai-fastfood:rz", rz); }); });
+  var main = store.get("abbas-ai-fastfood:v1", { c: [], m: "" }), metric = $("#metricIn");
+  metric.value = main.m || "";
+  metric.addEventListener("input", function () { main = store.get("abbas-ai-fastfood:v1", { c: [], m: "" }); main.m = metric.value; store.set("abbas-ai-fastfood:v1", main); });
+
+  go(fromHash());
+})();
+</script>
+</body>
+</html>
